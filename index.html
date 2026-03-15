@@ -7,7 +7,6 @@
 <link rel="icon" type="image/png" href="shielder.png">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-/* ══ ROOT ══ */
 :root{
   --body-bg:#f4f4f4;
   --bk:#000;
@@ -16,14 +15,12 @@
   --g3:#1c1c1c;
   --border:#2a2a2a;
   --gbb:#333;
-  /* white-bg */
   --wb:#fff;
   --wb-bg:#f4f4f4;
   --wb-border:#dedede;
   --wb-text:#111;
   --wb-sub:#555;
   --wb-muted:#999;
-  /* grade colours */
   --green-bg:#1a4731;
   --green-border:#2d6a4f;
   --green-text:#d4edda;
@@ -33,6 +30,9 @@
   --grey-grade-bg:#f0f0f0;
   --grey-grade-border:#bbb;
   --grey-grade-text:#555;
+  --gold:#ffd700;
+  --gold2:#ffb300;
+  --gold3:#fff8dc;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -44,343 +44,126 @@ body{
   cursor:none;
 }
 
-/* ── CURSOR ── */
-#cur{
-  position:fixed;width:9px;height:9px;background:#111;border-radius:50%;
-  pointer-events:none;z-index:99999;transform:translate(-50%,-50%);
-}
-#cur2{
-  position:fixed;width:32px;height:32px;
-  border:1.5px solid rgba(0,0,0,.22);border-radius:50%;
-  pointer-events:none;z-index:99998;transform:translate(-50%,-50%);
-  transition:width .3s,height .3s;
-}
-
-/* ── PARTICLE CANVAS ── */
+#cur{position:fixed;width:9px;height:9px;background:#111;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);}
+#cur2{position:fixed;width:32px;height:32px;border:1.5px solid rgba(0,0,0,.22);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
 #bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.45;}
 
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;width:100%;z-index:1000;
-  padding:16px 48px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:rgba(255,255,255,.92);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--wb-border);
-}
-.brand{
-  font-family:'Orbitron',monospace;font-weight:900;
-  font-size:clamp(16px,2.2vw,22px);
-  letter-spacing:.22em;text-transform:uppercase;
-  color:#000;
-}
+nav{position:fixed;top:0;width:100%;z-index:1000;padding:16px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--wb-border);}
+.brand{font-family:'Orbitron',monospace;font-weight:900;font-size:clamp(16px,2.2vw,22px);letter-spacing:.22em;text-transform:uppercase;color:#000;}
 .nav-links{display:flex;gap:28px;list-style:none;}
-.nav-links a{
-  color:#777;text-decoration:none;font-size:11px;
-  letter-spacing:.15em;text-transform:uppercase;
-  transition:color .3s;position:relative;padding-bottom:3px;
-}
-.nav-links a::after{
-  content:'';position:absolute;bottom:0;left:0;
-  width:0;height:1px;background:#000;transition:width .35s;
-}
+.nav-links a{color:#777;text-decoration:none;font-size:11px;letter-spacing:.15em;text-transform:uppercase;transition:color .3s;position:relative;padding-bottom:3px;}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:#000;transition:width .35s;}
 .nav-links a:hover{color:#000;}
 .nav-links a:hover::after{width:100%;}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1001;}
 .hamburger span{width:22px;height:1.5px;background:#000;display:block;transition:.3s;}
-.nav-mobile{
-  display:none;flex-direction:column;
-  position:fixed;top:0;right:0;width:240px;height:100vh;
-  background:#fff;border-left:1px solid var(--wb-border);
-  padding:80px 28px;gap:22px;list-style:none;
-  transform:translateX(100%);transition:transform .4s;z-index:999;
-}
+.nav-mobile{display:none;flex-direction:column;position:fixed;top:0;right:0;width:240px;height:100vh;background:#fff;border-left:1px solid var(--wb-border);padding:80px 28px;gap:22px;list-style:none;transform:translateX(100%);transition:transform .4s;z-index:999;}
 .nav-mobile.open{transform:translateX(0);display:flex;}
 .nav-mobile a{color:#666;text-decoration:none;font-size:13px;letter-spacing:.12em;text-transform:uppercase;transition:color .3s;}
 .nav-mobile a:hover{color:#000;}
 
-/* ── HERO (dark) ── */
-.hero{
-  position:relative;z-index:2;min-height:100vh;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:120px 24px 100px;
-  overflow:hidden;background:var(--bk);
-}
-.orb-wrap{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:820px;height:820px;pointer-events:none;
-}
-.orb{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  border-radius:50%;border:1px solid rgba(255,255,255,.05);
-}
-.orb::before{
-  content:'';position:absolute;width:5px;height:5px;background:#fff;border-radius:50%;
-  box-shadow:0 0 10px #fff,0 0 22px rgba(255,255,255,.3);
-  top:-2.5px;left:50%;transform:translateX(-50%);
-}
-.orb::after{
-  content:'';position:absolute;width:3px;height:3px;background:#fff;border-radius:50%;
-  box-shadow:0 0 8px rgba(255,255,255,.5);
-  bottom:-1.5px;left:50%;transform:translateX(-50%);
-}
+.hero{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 100px;overflow:hidden;background:var(--bk);}
+.orb-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:820px;height:820px;pointer-events:none;}
+.orb{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(255,255,255,.05);}
+.orb::before{content:'';position:absolute;width:5px;height:5px;background:#fff;border-radius:50%;box-shadow:0 0 10px #fff,0 0 22px rgba(255,255,255,.3);top:-2.5px;left:50%;transform:translateX(-50%);}
+.orb::after{content:'';position:absolute;width:3px;height:3px;background:#fff;border-radius:50%;box-shadow:0 0 8px rgba(255,255,255,.5);bottom:-1.5px;left:50%;transform:translateX(-50%);}
 .orb:nth-child(1){width:240px;height:240px;animation:orbs 14s linear infinite;}
 .orb:nth-child(2){width:400px;height:400px;animation:orbs 22s linear infinite reverse;}
 .orb:nth-child(3){width:560px;height:560px;animation:orbs 32s linear infinite;}
 .orb:nth-child(4){width:720px;height:720px;animation:orbs 44s linear infinite reverse;}
 @keyframes orbs{to{transform:translate(-50%,-50%) rotate(360deg);}}
 
-.hero-tag{
-  font-size:10px;letter-spacing:.5em;text-transform:uppercase;
-  color:#555;margin-bottom:22px;animation:fu .8s .2s both;
-}
-.hero-h1{
-  font-family:'Orbitron',monospace;font-weight:900;
-  font-size:clamp(52px,13vw,136px);line-height:.85;
-  letter-spacing:-.02em;text-transform:uppercase;
-  background:linear-gradient(180deg,#ffffff 35%,#383838 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  animation:fu .8s .4s both;position:relative;z-index:2;
-}
-.hero-h1::before,.hero-h1::after{
-  content:attr(data-t);position:absolute;top:0;left:0;width:100%;
-  background:linear-gradient(180deg,#ffffff 35%,#383838 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
+.hero-tag{font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:#555;margin-bottom:22px;animation:fu .8s .2s both;}
+.hero-h1{font-family:'Orbitron',monospace;font-weight:900;font-size:clamp(52px,13vw,136px);line-height:.85;letter-spacing:-.02em;text-transform:uppercase;background:linear-gradient(180deg,#ffffff 35%,#383838 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fu .8s .4s both;position:relative;z-index:2;}
+.hero-h1::before,.hero-h1::after{content:attr(data-t);position:absolute;top:0;left:0;width:100%;background:linear-gradient(180deg,#ffffff 35%,#383838 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .hero-h1::before{animation:glA 7s 3s infinite;clip-path:polygon(0 15%,100% 15%,100% 38%,0 38%);}
 .hero-h1::after{animation:glB 7s 3s infinite;clip-path:polygon(0 62%,100% 62%,100% 82%,0 82%);}
 @keyframes glA{0%,91%,100%{transform:translate(0);opacity:0;}92%{transform:translate(-4px,1px);opacity:1;}94%{transform:translate(4px,-1px);opacity:1;}96%{opacity:0;}}
 @keyframes glB{0%,91%,100%{transform:translate(0);opacity:0;}93%{transform:translate(4px,2px);opacity:1;}95%{transform:translate(-4px,-2px);opacity:1;}97%{opacity:0;}}
-.hero-by{
-  font-size:clamp(11px,1.8vw,14px);letter-spacing:.42em;
-  color:#666;text-transform:uppercase;margin-top:16px;
-  animation:fu .8s .6s both;
-}
-.hero-desc{
-  max-width:460px;color:#666;font-size:15px;line-height:1.9;
-  margin-top:28px;animation:fu .8s .8s both;
-}
-.hero-btns{
-  display:flex;gap:14px;margin-top:44px;flex-wrap:wrap;justify-content:center;
-  animation:fu .8s 1s both;
-}
-.btn{
-  padding:13px 34px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
-  cursor:pointer;border:none;transition:all .3s;text-decoration:none;
-  display:inline-block;font-family:inherit;
-}
+.hero-by{font-size:clamp(11px,1.8vw,14px);letter-spacing:.42em;color:#666;text-transform:uppercase;margin-top:16px;animation:fu .8s .6s both;}
+.hero-desc{max-width:460px;color:#666;font-size:15px;line-height:1.9;margin-top:28px;animation:fu .8s .8s both;}
+.hero-btns{display:flex;gap:14px;margin-top:44px;flex-wrap:wrap;justify-content:center;animation:fu .8s 1s both;}
+.btn{padding:13px 34px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;border:none;transition:all .3s;text-decoration:none;display:inline-block;font-family:inherit;}
 .btn-w{background:#fff;color:#000;font-weight:700;}
 .btn-w:hover{background:#e8e8e8;transform:translateY(-2px);box-shadow:0 14px 36px rgba(255,255,255,.1);}
 .btn-o{background:transparent;color:#fff;border:1px solid #3a3a3a;}
 .btn-o:hover{border-color:#666;transform:translateY(-2px);}
-
-/* scroll hint — centred */
-.scroll-hint{
-  position:absolute;bottom:36px;left:0;right:0;
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  animation:fu .8s 1.4s both;
-}
+.scroll-hint{position:absolute;bottom:36px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:8px;animation:fu .8s 1.4s both;}
 .sh-line{width:1px;height:48px;background:linear-gradient(#fff,transparent);animation:shp 2s infinite;}
 @keyframes shp{0%,100%{opacity:.15;transform:scaleY(1);}50%{opacity:.7;transform:scaleY(1.3);}}
-.sh-txt{
-  font-size:9px;letter-spacing:.5em;color:#555;text-transform:uppercase;
-  text-align:center;width:100%;
-}
+.sh-txt{font-size:9px;letter-spacing:.5em;color:#555;text-transform:uppercase;text-align:center;width:100%;}
 @keyframes fu{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
 
-/* ── STATS BAR (dark) ── */
-.statsbar{
-  position:relative;z-index:2;
-  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
-  background:var(--g1);
-}
+.statsbar{position:relative;z-index:2;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--g1);}
 .sb-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);}
-.sbi{
-  text-align:center;padding:48px 16px;
-  border-right:1px solid var(--border);
-  position:relative;overflow:hidden;
-}
+.sbi{text-align:center;padding:48px 16px;border-right:1px solid var(--border);position:relative;overflow:hidden;}
 .sbi:last-child{border-right:none;}
-.sbi::after{
-  content:'';position:absolute;bottom:0;left:0;
-  width:0;height:1px;background:#fff;transition:width .6s;
-}
+.sbi::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:#fff;transition:width .6s;}
 .sbi:hover::after{width:100%;}
-.sbi-n{
-  font-family:'Orbitron',monospace;
-  font-size:clamp(34px,5.5vw,58px);font-weight:900;
-  color:#fff;line-height:1;
-}
+.sbi-n{font-family:'Orbitron',monospace;font-size:clamp(34px,5.5vw,58px);font-weight:900;color:#fff;line-height:1;}
 .sbi-l{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#555;margin-top:10px;}
 
-/* ── SECTIONS ── */
 section{position:relative;z-index:2;padding:88px 40px;background:var(--wb-bg);}
 section.dark{background:var(--g1);}
-
 .sec-hd{text-align:center;margin-bottom:56px;}
-.sec-tag{
-  display:inline-block;font-size:9px;letter-spacing:.5em;text-transform:uppercase;
-  color:var(--wb-muted);border:1px solid var(--wb-border);
-  padding:5px 16px;margin-bottom:16px;
-}
+.sec-tag{display:inline-block;font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:var(--wb-muted);border:1px solid var(--wb-border);padding:5px 16px;margin-bottom:16px;}
 section.dark .sec-tag{color:#444;border-color:var(--border);}
-.sec-title{
-  font-family:'Orbitron',monospace;
-  font-size:clamp(26px,5vw,52px);font-weight:900;
-  text-transform:uppercase;letter-spacing:-.01em;
-  color:var(--wb-text);
-}
-section.dark .sec-title{
-  background:linear-gradient(180deg,#fff 0%,#555 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
+.sec-title{font-family:'Orbitron',monospace;font-size:clamp(26px,5vw,52px);font-weight:900;text-transform:uppercase;letter-spacing:-.01em;color:var(--wb-text);}
+section.dark .sec-title{background:linear-gradient(180deg,#fff 0%,#555 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 
-/* ── STUDENT TABS ── */
 .student-tabs{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:44px;}
-.stab{
-  padding:11px 26px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;
-  background:transparent;color:#666;
-  border:1.5px solid var(--wb-border);
-  cursor:pointer;transition:all .3s;font-family:inherit;position:relative;overflow:hidden;
-}
-.stab::before{
-  content:'';position:absolute;inset:0;background:#111;
-  transform:translateX(-100%);transition:transform .3s;z-index:0;
-}
+.stab{padding:11px 26px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;background:transparent;color:#666;border:1.5px solid var(--wb-border);cursor:pointer;transition:all .3s;font-family:inherit;position:relative;overflow:hidden;}
+.stab::before{content:'';position:absolute;inset:0;background:#111;transform:translateX(-100%);transition:transform .3s;z-index:0;}
 .stab span{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;}
 .stab.active,.stab:hover{color:#fff;border-color:#111;}
 .stab.active::before,.stab:hover::before{transform:translateX(0);}
 .stab-sub{font-size:9px;letter-spacing:.1em;color:#aaa;margin-top:2px;}
 .stab.active .stab-sub,.stab:hover .stab-sub{color:#999;}
 
-/* ── STUDENT PANEL ── */
 .student-panel{display:none;animation:panIn .45s both;}
 .student-panel.active{display:block;}
 @keyframes panIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
 
-/* student header card (dark strip) */
-.shcard{
-  background:var(--g1);border:1px solid var(--border);
-  padding:28px 36px;margin-bottom:24px;
-  display:flex;align-items:center;gap:28px;flex-wrap:wrap;
-}
-.shcard-av{
-  width:66px;height:66px;border:1px solid var(--gbb);
-  font-family:'Orbitron',monospace;font-size:20px;font-weight:900;
-  display:flex;align-items:center;justify-content:center;
-  color:#fff;flex-shrink:0;background:var(--g2);
-}
+.shcard{background:var(--g1);border:1px solid var(--border);padding:28px 36px;margin-bottom:24px;display:flex;align-items:center;gap:28px;flex-wrap:wrap;}
+.shcard-av{width:66px;height:66px;border:1px solid var(--gbb);font-family:'Orbitron',monospace;font-size:20px;font-weight:900;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;background:var(--g2);}
 .shcard-info{flex:1;}
-.shcard-name{
-  font-family:'Orbitron',monospace;
-  font-size:clamp(18px,3.5vw,28px);font-weight:900;color:#fff;
-}
+.shcard-name{font-family:'Orbitron',monospace;font-size:clamp(18px,3.5vw,28px);font-weight:900;color:#fff;}
 .shcard-class{font-size:10px;letter-spacing:.35em;color:#555;text-transform:uppercase;margin-top:5px;}
 .shcard-badges{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
-.badge{
-  padding:5px 12px;border:1px solid var(--border);
-  font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#888;
-}
+.badge{padding:5px 12px;border:1px solid var(--border);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#888;}
 
-/* ── WEEK TABS ── */
 .week-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
-.wtab{
-  padding:8px 18px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;
-  background:transparent;color:#777;
-  border:1.5px solid var(--wb-border);
-  cursor:pointer;transition:all .3s;font-family:inherit;
-}
+.wtab{padding:8px 18px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;background:transparent;color:#777;border:1.5px solid var(--wb-border);cursor:pointer;transition:all .3s;font-family:inherit;}
 .wtab.active{background:#111;color:#fff;border-color:#111;}
 .wtab:hover:not(.active){border-color:#888;color:#333;}
 
-/* ── SUMMARY BOXES ── */
-.sum-row{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
-  gap:12px;margin-bottom:24px;
-}
-.sum-box{
-  background:var(--wb);border:1.5px solid var(--wb-border);
-  padding:18px;text-align:center;
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
-}
+.sum-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-bottom:24px;}
+.sum-box{background:var(--wb);border:1.5px solid var(--wb-border);padding:18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);}
 .sum-n{font-family:'Orbitron',monospace;font-size:26px;font-weight:900;color:#111;}
 .sum-l{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#999;margin-top:6px;}
 
-/* ── RESULT CARDS ── */
-.res-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  gap:14px;margin-bottom:24px;
-}
-.rc{
-  background:var(--wb);border:1.5px solid var(--wb-border);
-  padding:22px;position:relative;overflow:hidden;transition:all .35s;
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
-}
-.rc::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,rgba(0,0,0,.12),transparent);
-  transform:translateX(-100%);transition:transform .5s;
-}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:24px;}
+.rc{background:var(--wb);border:1.5px solid var(--wb-border);padding:22px;position:relative;overflow:hidden;transition:all .35s;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.rc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,0,0,.12),transparent);transform:translateX(-100%);transition:transform .5s;}
 .rc:hover::before{transform:translateX(100%);}
 .rc:hover{transform:translateY(-4px);border-color:#bbb;box-shadow:0 12px 32px rgba(0,0,0,.11);}
-.rc-subj-label{
-  font-size:10px;letter-spacing:.25em;text-transform:uppercase;
-  color:#777;margin-bottom:12px;display:block;font-weight:600;
-}
-.rc-score{
-  font-family:'Orbitron',monospace;font-size:40px;font-weight:900;
-  line-height:1;color:#111;
-}
+.rc-subj-label{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#777;margin-bottom:12px;display:block;font-weight:600;}
+.rc-score{font-family:'Orbitron',monospace;font-size:40px;font-weight:900;line-height:1;color:#111;}
 .rc-of{font-size:12px;color:#aaa;margin-left:4px;vertical-align:bottom;}
 .rc-bar{height:3px;background:#ebebeb;margin:14px 0 11px;overflow:hidden;border-radius:2px;}
 .rc-fill{height:100%;background:linear-gradient(90deg,#ccc,#111);transition:width 1.4s cubic-bezier(.16,1,.3,1);border-radius:2px;}
 .rc-row{display:flex;align-items:center;justify-content:space-between;}
 .rc-pct{font-family:'Orbitron',monospace;font-size:12px;color:#aaa;}
 
-/* ── GRADE BADGE ── */
-.rc-grade,.td-g{
-  display:inline-block;padding:4px 11px;
-  font-size:10px;font-weight:700;letter-spacing:.1em;
-  border:1px solid;border-radius:2px;
-}
-/* A / A+ → dark green */
-.ga{
-  color:var(--green-text) !important;
-  background:var(--green-bg) !important;
-  border-color:var(--green-border) !important;
-}
-/* B / B+ → dark blue */
-.gb2{
-  color:var(--blue-text) !important;
-  background:var(--blue-bg) !important;
-  border-color:var(--blue-border) !important;
-}
-/* C → grey */
-.gc{
-  color:var(--grey-grade-text) !important;
-  background:var(--grey-grade-bg) !important;
-  border-color:var(--grey-grade-border) !important;
-}
+.rc-grade,.td-g{display:inline-block;padding:4px 11px;font-size:10px;font-weight:700;letter-spacing:.1em;border:1px solid;border-radius:2px;}
+.ga{color:var(--green-text) !important;background:var(--green-bg) !important;border-color:var(--green-border) !important;}
+.gb2{color:var(--blue-text) !important;background:var(--blue-bg) !important;border-color:var(--blue-border) !important;}
+.gc{color:var(--grey-grade-text) !important;background:var(--grey-grade-bg) !important;border-color:var(--grey-grade-border) !important;}
 
-/* ── TABLE ── */
-.rtable-wrap{
-  background:var(--wb);border:1.5px solid var(--wb-border);
-  overflow:hidden;margin-top:36px;
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
-}
-.rtable-hd{
-  padding:16px 22px;border-bottom:1px solid var(--wb-border);
-  font-size:10px;letter-spacing:.35em;text-transform:uppercase;
-  color:#888;font-weight:600;
-}
+.rtable-wrap{background:var(--wb);border:1.5px solid var(--wb-border);overflow:hidden;margin-top:36px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.rtable-hd{padding:16px 22px;border-bottom:1px solid var(--wb-border);font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:#888;font-weight:600;}
 table{width:100%;border-collapse:collapse;}
-thead th{
-  padding:12px 20px;text-align:left;
-  font-size:10px;letter-spacing:.25em;text-transform:uppercase;
-  color:#999;border-bottom:1px solid var(--wb-border);font-weight:500;
-}
+thead th{padding:12px 20px;text-align:left;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#999;border-bottom:1px solid var(--wb-border);font-weight:500;}
 tbody tr{border-bottom:1px solid #f0f0f0;transition:background .2s;}
 tbody tr:hover{background:#fafafa;}
 tbody tr:last-child{border-bottom:none;}
@@ -389,8 +172,8 @@ td{padding:14px 20px;font-size:13px;color:#444;}
 .td-n{font-weight:700;color:#111;font-size:14px;}
 .td-s{font-family:'Orbitron',monospace;font-size:13px;color:#333;font-weight:600;}
 
-/* Rankings dark overrides */
-#ranks .rtable-wrap{background:var(--g2);border-color:var(--border);box-shadow:none;}
+/* ══ RANKINGS SECTION ══ */
+#ranks .rtable-wrap{background:var(--g2);border-color:var(--border);box-shadow:none;position:relative;overflow:visible;}
 #ranks .rtable-hd{border-color:var(--border);color:#666;}
 #ranks thead th{color:#444;border-color:var(--border);}
 #ranks tbody tr{border-color:rgba(255,255,255,.04);}
@@ -400,49 +183,118 @@ td{padding:14px 20px;font-size:13px;color:#444;}
 #ranks .td-r{color:#444;}
 #ranks .td-s{color:#ccc;}
 
-/* ── NOTES ── */
-.notes-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:18px;max-width:1100px;margin:0 auto;
+/* ══ #1 RANK CHAMPION ROW ══ */
+.rank-champion {
+  position: relative;
+  background: linear-gradient(90deg,
+    rgba(255,215,0,0.07) 0%,
+    rgba(255,215,0,0.13) 30%,
+    rgba(255,215,0,0.07) 100%) !important;
+  border-bottom: 1px solid rgba(255,215,0,0.2) !important;
+  overflow: visible;
 }
-.nc{
-  background:var(--wb);border:1.5px solid var(--wb-border);
-  padding:26px;transition:all .35s;cursor:pointer;
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
+.rank-champion td { color: #e8d88a !important; }
+.rank-champion .td-n { color: #ffd700 !important; text-shadow: 0 0 18px rgba(255,215,0,.45); }
+.rank-champion .td-s {
+  color: #ffc200 !important;
+  text-shadow: 0 0 12px rgba(255,194,0,.4);
 }
+.rank-champion .td-r {
+  color: var(--gold) !important;
+  text-shadow: 0 0 14px rgba(255,215,0,.6);
+}
+
+/* Gold shimmer sweep on champion row */
+.rank-champion::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg,
+    transparent 20%,
+    rgba(255,215,0,0.09) 45%,
+    rgba(255,255,255,0.13) 50%,
+    rgba(255,215,0,0.09) 55%,
+    transparent 80%);
+  background-size: 300% 100%;
+  animation: goldSweep 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes goldSweep {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* Rank #01 pulsing badge */
+.rank-num-badge {
+  font-family:'Orbitron',monospace;
+  font-size: 11px;
+  font-weight: 900;
+  color: #1a1000;
+  background: linear-gradient(135deg, #ffd700, #ffb300, #ffd700);
+  background-size: 200% 200%;
+  animation: goldPulse 2s ease-in-out infinite;
+  padding: 3px 8px;
+  border-radius: 2px;
+  letter-spacing: .08em;
+  display: inline-block;
+}
+@keyframes goldPulse {
+  0%,100% { background-position: 0% 50%; box-shadow: 0 0 8px rgba(255,215,0,.5); }
+  50%     { background-position: 100% 50%; box-shadow: 0 0 18px rgba(255,215,0,.9), 0 0 32px rgba(255,180,0,.4); }
+}
+
+/* Stars floating around champion row */
+.star-burst {
+  position: absolute;
+  pointer-events: none;
+  font-size: 11px;
+  animation: starFloat var(--dur) var(--delay) ease-in-out infinite;
+  opacity: 0;
+  z-index: 10;
+}
+@keyframes starFloat {
+  0%   { opacity: 0; transform: translateY(0) scale(.6) rotate(0deg); }
+  20%  { opacity: .9; }
+  80%  { opacity: .7; }
+  100% { opacity: 0; transform: translateY(-38px) scale(1.1) rotate(180deg); }
+}
+
+/* Confetti canvas overlay on ranks table */
+#confettiCanvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 20;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* Rank table mobile fix — allow horizontal scroll, tighter cells */
+@media(max-width:700px){
+  #ranks .rtable-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  #ranks table { min-width: 480px; }
+  #ranks thead th,
+  #ranks tbody td { padding: 10px 10px; font-size: 11px; white-space: nowrap; }
+  #ranks .td-n { font-size: 12px !important; }
+  #ranks .td-s { font-size: 11px !important; }
+  #ranks .td-g { font-size: 9px; padding: 3px 7px; }
+}
+
+.notes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;max-width:1100px;margin:0 auto;}
+.nc{background:var(--wb);border:1.5px solid var(--wb-border);padding:26px;transition:all .35s;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.06);}
 .nc:hover{transform:translateY(-5px);border-color:#bbb;box-shadow:0 14px 36px rgba(0,0,0,.1);}
-.nc-sub{
-  font-size:10px;letter-spacing:.35em;text-transform:uppercase;
-  color:#999;margin-bottom:8px;font-weight:600;
-}
+.nc-sub{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:#999;margin-bottom:8px;font-weight:600;}
 .nc-title{font-size:16px;font-weight:700;margin-bottom:10px;color:#111;}
 .nc-prev{font-size:13px;color:#666;line-height:1.75;margin-bottom:18px;}
 .nc-meta{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#aaa;}
-.nc-tag{
-  padding:3px 10px;border:1px solid var(--wb-border);
-  font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#888;
-}
+.nc-tag{padding:3px 10px;border:1px solid var(--wb-border);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#888;}
 
-/* ── MODAL ── */
-.moverlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.65);
-  z-index:10000;display:flex;align-items:center;justify-content:center;
-  padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;
-  backdrop-filter:blur(12px);
-}
+.moverlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(12px);}
 .moverlay.open{opacity:1;pointer-events:all;}
-.modal{
-  background:#fff;border:1px solid var(--wb-border);
-  padding:44px;max-width:520px;width:100%;position:relative;
-  transform:translateY(16px);transition:transform .3s;
-  box-shadow:0 24px 80px rgba(0,0,0,.16);
-}
+.modal{background:#fff;border:1px solid var(--wb-border);padding:44px;max-width:520px;width:100%;position:relative;transform:translateY(16px);transition:transform .3s;box-shadow:0 24px 80px rgba(0,0,0,.16);}
 .moverlay.open .modal{transform:translateY(0);}
-.mcls{
-  position:absolute;top:16px;right:16px;background:none;border:none;
-  color:#333;font-size:22px;cursor:pointer;line-height:1;
-  opacity:.4;transition:opacity .2s;
-}
+.mcls{position:absolute;top:16px;right:16px;background:none;border:none;color:#333;font-size:22px;cursor:pointer;line-height:1;opacity:.4;transition:opacity .2s;}
 .mcls:hover{opacity:.9;}
 .mtag{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#aaa;margin-bottom:10px;}
 .mtitle{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;margin-bottom:20px;color:#111;}
@@ -450,24 +302,17 @@ td{padding:14px 20px;font-size:13px;color:#444;}
 .mcont p{margin-bottom:12px;}
 .mcont strong{color:#111;}
 
-/* ── DIVIDER ── */
 .div-line{max-width:1100px;margin:0 auto;height:1px;background:linear-gradient(90deg,transparent,var(--wb-border),transparent);}
 .div-line.dark{background:linear-gradient(90deg,transparent,var(--border),transparent);}
 
-/* ── FOOTER ── */
-footer{
-  position:relative;z-index:2;padding:52px 40px;
-  background:var(--g1);border-top:1px solid var(--border);text-align:center;
-}
+footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border-top:1px solid var(--border);text-align:center;}
 .ft-brand{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;letter-spacing:.25em;margin-bottom:10px;color:#fff;}
 .ft-txt{font-size:12px;color:#444;line-height:1.9;}
 
-/* ── SCROLL REVEAL ── */
 .rv{opacity:0;transform:translateY(28px);transition:opacity .65s,transform .65s;}
 .rv.vis{opacity:1;transform:translateY(0);}
 .rv.d1{transition-delay:.1s;}.rv.d2{transition-delay:.2s;}.rv.d3{transition-delay:.3s;}
 
-/* ── RESPONSIVE ── */
 @media(max-width:900px){
   nav{padding:14px 20px;}
   section{padding:60px 20px;}
@@ -493,7 +338,6 @@ footer{
 <div id="cur"></div>
 <div id="cur2"></div>
 
-<!-- MODAL -->
 <div class="moverlay" id="modal">
   <div class="modal">
     <button class="mcls" onclick="closeModal()">×</button>
@@ -503,7 +347,6 @@ footer{
   </div>
 </div>
 
-<!-- NAV -->
 <nav>
   <div class="brand">SHIELDER</div>
   <ul class="nav-links">
@@ -523,7 +366,6 @@ footer{
   <li><a href="#about" onclick="closeNav()">About</a></li>
 </ul>
 
-<!-- HERO -->
 <section class="hero" id="home">
   <div class="orb-wrap">
     <div class="orb"></div><div class="orb"></div>
@@ -543,7 +385,6 @@ footer{
   </div>
 </section>
 
-<!-- STATS BAR -->
 <div class="statsbar">
   <div class="sb-inner">
     <div class="sbi rv"><div class="sbi-n" data-target="5">0</div><div class="sbi-l">Students</div></div>
@@ -553,7 +394,6 @@ footer{
   </div>
 </div>
 
-<!-- STUDENTS -->
 <section id="students">
   <div class="sec-hd">
     <div class="sec-tag rv">Individual Weekly Results</div>
@@ -565,13 +405,13 @@ footer{
 
 <div class="div-line"></div>
 
-<!-- RANKINGS -->
 <section id="ranks" class="dark">
   <div class="sec-hd">
     <div class="sec-tag rv">Overall Standing</div>
     <h2 class="sec-title rv d1">Rankings</h2>
   </div>
-  <div class="rtable-wrap rv d2" style="max-width:900px;margin:0 auto;">
+  <div class="rtable-wrap rv d2" id="rankTable" style="max-width:900px;margin:0 auto;position:relative;">
+    <canvas id="confettiCanvas"></canvas>
     <div class="rtable-hd">Overall Average · All 4 Weeks · All 6 Subjects · Out of 50</div>
     <table>
       <thead>
@@ -587,7 +427,6 @@ footer{
 
 <div class="div-line dark"></div>
 
-<!-- NOTES -->
 <section id="notes">
   <div class="sec-hd">
     <div class="sec-tag rv">Study Materials</div>
@@ -596,7 +435,6 @@ footer{
   <div class="notes-grid" id="notesGrid"></div>
 </section>
 
-<!-- ABOUT -->
 <section id="about" style="border-top:1px solid var(--wb-border);">
   <div style="max-width:620px;margin:0 auto;text-align:center;">
     <div class="sec-tag rv" style="display:inline-block;margin-bottom:20px;">The Educator</div>
@@ -610,7 +448,6 @@ footer{
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="ft-brand">SHIELDER</div>
   <div class="ft-txt">
@@ -620,260 +457,137 @@ footer{
 </footer>
 
 <script>
-/* ══════════════════════════════════════
-   PARTICLES — Hex grid + Shapes + Sparks + Rings
-══════════════════════════════════════ */
+/* ══ PARTICLES ══ */
 const canvas = document.getElementById('bgCanvas');
 const ctx    = canvas.getContext('2d');
 let W, H;
 function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
 resize(); window.addEventListener('resize', resize);
 
-/* Hex dot grid */
 const hexPts = [];
 (function(){
   const gx = 88, gy = 76;
   for(let r = 0; r * gy < H + gy * 2; r++){
     for(let c = 0; c * gx < W + gx * 2; c++){
-      hexPts.push({
-        ox: c * gx + (r%2) * gx * .5, oy: r * gy,
-        pulse: Math.random() * Math.PI * 2,
-        sp: .003 + Math.random() * .009,
-        sz: .4 + Math.random() * .85,
-        al: .04 + Math.random() * .09
-      });
+      hexPts.push({ ox:c*gx+(r%2)*gx*.5, oy:r*gy, pulse:Math.random()*Math.PI*2, sp:.003+Math.random()*.009, sz:.4+Math.random()*.85, al:.04+Math.random()*.09 });
     }
   }
 })();
 
-/* Geometric shapes */
 class GeoShape {
-  constructor(){
-    this.x = Math.random()*W; this.y = Math.random()*H;
-    this.sz = 7 + Math.random()*20;
-    this.vx = (Math.random()-.5)*.13; this.vy = (Math.random()-.5)*.13;
-    this.rot = Math.random()*Math.PI*2; this.rv = (Math.random()-.5)*.003;
-    this.al = .018 + Math.random()*.04;
-    this.sides = Math.random() > .5 ? 4 : 3;
-  }
-  update(){
-    this.x += this.vx; this.y += this.vy; this.rot += this.rv;
-    if(this.x < -60) this.x = W+60; if(this.x > W+60) this.x = -60;
-    if(this.y < -60) this.y = H+60; if(this.y > H+60) this.y = -60;
-  }
-  draw(){
-    ctx.save(); ctx.globalAlpha = this.al; ctx.strokeStyle = '#000'; ctx.lineWidth = .4;
-    ctx.translate(this.x, this.y); ctx.rotate(this.rot); ctx.beginPath();
-    if(this.sides === 4){
-      ctx.rect(-this.sz/2, -this.sz/2, this.sz, this.sz);
-    } else {
-      for(let i=0;i<3;i++){
-        const a = i*Math.PI*2/3 - Math.PI/2;
-        i===0 ? ctx.moveTo(Math.cos(a)*this.sz, Math.sin(a)*this.sz)
-              : ctx.lineTo(Math.cos(a)*this.sz, Math.sin(a)*this.sz);
-      } ctx.closePath();
-    }
-    ctx.stroke(); ctx.restore();
-  }
+  constructor(){ this.x=Math.random()*W;this.y=Math.random()*H;this.sz=7+Math.random()*20;this.vx=(Math.random()-.5)*.13;this.vy=(Math.random()-.5)*.13;this.rot=Math.random()*Math.PI*2;this.rv=(Math.random()-.5)*.003;this.al=.018+Math.random()*.04;this.sides=Math.random()>.5?4:3; }
+  update(){ this.x+=this.vx;this.y+=this.vy;this.rot+=this.rv;if(this.x<-60)this.x=W+60;if(this.x>W+60)this.x=-60;if(this.y<-60)this.y=H+60;if(this.y>H+60)this.y=-60; }
+  draw(){ ctx.save();ctx.globalAlpha=this.al;ctx.strokeStyle='#000';ctx.lineWidth=.4;ctx.translate(this.x,this.y);ctx.rotate(this.rot);ctx.beginPath();if(this.sides===4){ctx.rect(-this.sz/2,-this.sz/2,this.sz,this.sz);}else{for(let i=0;i<3;i++){const a=i*Math.PI*2/3-Math.PI/2;i===0?ctx.moveTo(Math.cos(a)*this.sz,Math.sin(a)*this.sz):ctx.lineTo(Math.cos(a)*this.sz,Math.sin(a)*this.sz);}ctx.closePath();}ctx.stroke();ctx.restore(); }
 }
-const shapes = [];
-for(let i=0;i<55;i++) shapes.push(new GeoShape());
+const shapes=[];for(let i=0;i<55;i++)shapes.push(new GeoShape());
 
-/* Cross sparks */
 class Spark {
-  constructor(){ this.reset(); }
-  reset(){
-    this.x = Math.random()*W; this.y = Math.random()*H;
-    this.sz = 2.5 + Math.random()*5;
-    this.al = 0; this.maxAl = .06 + Math.random()*.13;
-    this.life = 0; this.maxLife = 100 + Math.random()*200; this.fi = 30;
-  }
-  update(){
-    this.life++;
-    const t = this.life / this.maxLife;
-    this.al = this.maxAl * (t < this.fi/this.maxLife ? t/(this.fi/this.maxLife) : 1-t);
-    if(this.life >= this.maxLife) this.reset();
-  }
-  draw(){
-    ctx.save(); ctx.globalAlpha = this.al; ctx.strokeStyle = '#000'; ctx.lineWidth = .5;
-    ctx.beginPath();
-    ctx.moveTo(this.x-this.sz, this.y); ctx.lineTo(this.x+this.sz, this.y);
-    ctx.moveTo(this.x, this.y-this.sz); ctx.lineTo(this.x, this.y+this.sz);
-    ctx.stroke(); ctx.restore();
-  }
+  constructor(){this.reset();}
+  reset(){ this.x=Math.random()*W;this.y=Math.random()*H;this.sz=2.5+Math.random()*5;this.al=0;this.maxAl=.06+Math.random()*.13;this.life=0;this.maxLife=100+Math.random()*200;this.fi=30; }
+  update(){ this.life++;const t=this.life/this.maxLife;this.al=this.maxAl*(t<this.fi/this.maxLife?t/(this.fi/this.maxLife):1-t);if(this.life>=this.maxLife)this.reset(); }
+  draw(){ ctx.save();ctx.globalAlpha=this.al;ctx.strokeStyle='#000';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(this.x-this.sz,this.y);ctx.lineTo(this.x+this.sz,this.y);ctx.moveTo(this.x,this.y-this.sz);ctx.lineTo(this.x,this.y+this.sz);ctx.stroke();ctx.restore(); }
 }
-const sparks = [];
-for(let i=0;i<70;i++){ const s=new Spark(); s.life=Math.random()*s.maxLife; sparks.push(s); }
+const sparks=[];for(let i=0;i<70;i++){const s=new Spark();s.life=Math.random()*s.maxLife;sparks.push(s);}
 
-/* Pulse rings */
 class Ring {
-  constructor(){ this.reset(); }
-  reset(){
-    this.x = Math.random()*W; this.y = Math.random()*H;
-    this.r = 5; this.maxR = 50 + Math.random()*70;
-    this.life = 0; this.maxLife = 130 + Math.random()*100;
-  }
-  update(){
-    this.life++;
-    const t = this.life/this.maxLife;
-    this.r = 5 + (this.maxR-5)*t;
-    this.al = .08*(1-t);
-    if(this.life >= this.maxLife) this.reset();
-  }
-  draw(){
-    ctx.save(); ctx.globalAlpha = this.al; ctx.strokeStyle = '#000'; ctx.lineWidth = .5;
-    ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
-    ctx.stroke(); ctx.restore();
-  }
+  constructor(){this.reset();}
+  reset(){ this.x=Math.random()*W;this.y=Math.random()*H;this.r=5;this.maxR=50+Math.random()*70;this.life=0;this.maxLife=130+Math.random()*100; }
+  update(){ this.life++;const t=this.life/this.maxLife;this.r=5+(this.maxR-5)*t;this.al=.08*(1-t);if(this.life>=this.maxLife)this.reset(); }
+  draw(){ ctx.save();ctx.globalAlpha=this.al;ctx.strokeStyle='#000';ctx.lineWidth=.5;ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.stroke();ctx.restore(); }
 }
-const rings = [];
-for(let i=0;i<18;i++){ const r=new Ring(); r.life=Math.random()*r.maxLife; rings.push(r); }
+const rings=[];for(let i=0;i<18;i++){const r=new Ring();r.life=Math.random()*r.maxLife;rings.push(r);}
 
-let mpx = W/2, mpy = H/2;
-document.addEventListener('mousemove', e=>{ mpx=e.clientX; mpy=e.clientY; });
+let mpx=W/2,mpy=H/2;
+document.addEventListener('mousemove',e=>{mpx=e.clientX;mpy=e.clientY;});
 
 function animate(){
   ctx.clearRect(0,0,W,H);
   hexPts.forEach(p=>{
-    p.pulse += p.sp;
-    const pulse = .5+.5*Math.sin(p.pulse);
-    const dx = p.ox-mpx, dy = p.oy-mpy, d = Math.sqrt(dx*dx+dy*dy);
-    const push = d<110 ? ((110-d)/110)*8 : 0;
-    const px = p.ox+(push>0?dx/d*push:0), py = p.oy+(push>0?dy/d*push:0);
-    ctx.save(); ctx.globalAlpha = p.al*pulse + push*.02;
-    ctx.fillStyle='#000';
-    ctx.beginPath(); ctx.arc(px,py, p.sz*(1+push*.07), 0, Math.PI*2);
-    ctx.fill(); ctx.restore();
+    p.pulse+=p.sp;
+    const pulse=.5+.5*Math.sin(p.pulse);
+    const dx=p.ox-mpx,dy=p.oy-mpy,d=Math.sqrt(dx*dx+dy*dy);
+    const push=d<110?((110-d)/110)*8:0;
+    const px=p.ox+(push>0?dx/d*push:0),py=p.oy+(push>0?dy/d*push:0);
+    ctx.save();ctx.globalAlpha=p.al*pulse+push*.02;ctx.fillStyle='#000';
+    ctx.beginPath();ctx.arc(px,py,p.sz*(1+push*.07),0,Math.PI*2);ctx.fill();ctx.restore();
   });
-  shapes.forEach(s=>{ s.update(); s.draw(); });
-  sparks.forEach(s=>{ s.update(); s.draw(); });
-  rings.forEach(r=>{ r.update(); r.draw(); });
-  /* proximity lines */
-  const near = hexPts.filter(p=>{ const dx=p.ox-mpx,dy=p.oy-mpy; return dx*dx+dy*dy<9000; }).slice(0,10);
-  for(let i=0;i<near.length;i++) for(let j=i+1;j<near.length;j++){
-    const dx=near[i].ox-near[j].ox, dy=near[i].oy-near[j].oy, d=Math.sqrt(dx*dx+dy*dy);
-    if(d<110){
-      ctx.save(); ctx.globalAlpha=(1-d/110)*.07;
-      ctx.strokeStyle='#000'; ctx.lineWidth=.35;
-      ctx.beginPath(); ctx.moveTo(near[i].ox,near[i].oy); ctx.lineTo(near[j].ox,near[j].oy);
-      ctx.stroke(); ctx.restore();
-    }
+  shapes.forEach(s=>{s.update();s.draw();});
+  sparks.forEach(s=>{s.update();s.draw();});
+  rings.forEach(r=>{r.update();r.draw();});
+  const near=hexPts.filter(p=>{const dx=p.ox-mpx,dy=p.oy-mpy;return dx*dx+dy*dy<9000;}).slice(0,10);
+  for(let i=0;i<near.length;i++)for(let j=i+1;j<near.length;j++){
+    const dx=near[i].ox-near[j].ox,dy=near[i].oy-near[j].oy,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<110){ctx.save();ctx.globalAlpha=(1-d/110)*.07;ctx.strokeStyle='#000';ctx.lineWidth=.35;ctx.beginPath();ctx.moveTo(near[i].ox,near[i].oy);ctx.lineTo(near[j].ox,near[j].oy);ctx.stroke();ctx.restore();}
   }
   requestAnimationFrame(animate);
 }
 animate();
 
 /* ══ CURSOR ══ */
-const cur = document.getElementById('cur'), cur2 = document.getElementById('cur2');
+const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
 let cx=W/2,cy=H/2,rx=cx,ry=cy;
-document.addEventListener('mousemove',e=>{ cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px'; });
-(function lag(){ rx+=(cx-rx)*.1;ry+=(cy-ry)*.1;cur2.style.left=rx+'px';cur2.style.top=ry+'px';requestAnimationFrame(lag); })();
+document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px';});
+(function lag(){rx+=(cx-rx)*.1;ry+=(cy-ry)*.1;cur2.style.left=rx+'px';cur2.style.top=ry+'px';requestAnimationFrame(lag);})();
 document.querySelectorAll('a,button,.stab,.wtab,.nc,.rc').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{ cur.style.transform='translate(-50%,-50%) scale(2.5)'; cur2.style.width='46px'; cur2.style.height='46px'; });
-  el.addEventListener('mouseleave',()=>{ cur.style.transform='translate(-50%,-50%) scale(1)'; cur2.style.width='32px'; cur2.style.height='32px'; });
+  el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.5)';cur2.style.width='46px';cur2.style.height='46px';});
+  el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';cur2.style.width='32px';cur2.style.height='32px';});
 });
 
 /* ══ NAV ══ */
-function toggleNav(){ document.getElementById('navMob').classList.toggle('open'); }
-function closeNav(){ document.getElementById('navMob').classList.remove('open'); }
+function toggleNav(){document.getElementById('navMob').classList.toggle('open');}
+function closeNav(){document.getElementById('navMob').classList.remove('open');}
 
 /* ══ SCROLL REVEAL ══ */
-const rvObs = new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('vis'); }); },{ threshold:.08 });
+const rvObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:.08});
 document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
 
 /* ══ COUNTERS ══ */
 document.querySelectorAll('.sbi-n[data-target]').forEach(el=>{
-  const obs = new IntersectionObserver(es=>{
-    if(!es[0].isIntersecting) return;
-    const tgt = +el.dataset.target; let c=0;
-    const t = setInterval(()=>{ c=Math.min(c+tgt/50,tgt); el.textContent=Math.floor(c); if(c>=tgt)clearInterval(t); },28);
+  const obs=new IntersectionObserver(es=>{
+    if(!es[0].isIntersecting)return;
+    const tgt=+el.dataset.target;let c=0;
+    const t=setInterval(()=>{c=Math.min(c+tgt/50,tgt);el.textContent=Math.floor(c);if(c>=tgt)clearInterval(t);},28);
     obs.disconnect();
-  },{ threshold:.3 });
+  },{threshold:.3});
   obs.observe(el);
 });
 
-/* ══ DATA ══
-   All scores are out of 50.
-   Grade thresholds (out of 50):
-     A+  ≥ 45   A  ≥ 40   B+ ≥ 35   B ≥ 30   C < 30
-══ */
-const MAX = 50;
-const SUBJECTS = ['English Grammar','Hindi Grammar','Math','Science','Computer','Social Science'];
-const WEEKS    = ['Week 1','Week 2','Week 3','Week 4'];
+/* ══ DATA ══ */
+const MAX=50;
+const SUBJECTS=['English Grammar','Hindi Grammar','Math','Science','Computer','Social Science'];
+const WEEKS=['Week 1','Week 2','Week 3','Week 4'];
 
-const students = [
-  { id:'aarisha', name:'Aarisha', cls:'Class 8', init:'A',
-    weeks:[
-      {scores:[44,43,46,48,42,45]},
-      {scores:[45,43,47,44,46,41]},
-      {scores:[42,40,44,42,44,39]},
-      {scores:[46,44,48,45,47,43]}
-    ]},
-  { id:'aarifa', name:'Aarifa', cls:'Class 7', init:'Aa',
-    weeks:[
-      {scores:[40,44,42,42,41,46]},
-      {scores:[41,39,43,41,42,38]},
-      {scores:[39,37,41,38,40,35]},
-      {scores:[43,40,44,41,43,39]}
-    ]},
-  { id:'aayu', name:'Aayu', cls:'Class 6', init:'Au',
-    weeks:[
-      {scores:[38,35,40,37,49,34]},
-      {scores:[39,36,41,38,40,35]},
-      {scores:[37,34,39,36,48,33]},
-      {scores:[41,37,43,40,42,37]}
-    ]},
-  { id:'ayan', name:'Ayan', cls:'Class 4', init:'Ay',
-    weeks:[
-      {scores:[35,32,37,34,36,31]},
-      {scores:[36,34,38,36,37,33]},
-      {scores:[34,31,36,33,35,31]},
-      {scores:[38,35,40,37,39,34]}
-    ]},
-  { id:'shanvi', name:'Shanvi', cls:'Class 1', init:'S',
-    weeks:[
-      {scores:[46,44,45,43,42,44]},
-      {scores:[47,45,46,44,44,45]},
-      {scores:[45,43,44,43,42,44]},
-      {scores:[48,46,47,45,45,46]}
-    ]}
+const students=[
+  {id:'aarisha',name:'Aarisha',cls:'Class 8',init:'A',weeks:[{scores:[44,43,46,48,42,45]},{scores:[45,43,47,44,46,41]},{scores:[42,40,44,42,44,39]},{scores:[46,44,48,45,47,43]}]},
+  {id:'aarifa',name:'Aarifa',cls:'Class 7',init:'Aa',weeks:[{scores:[40,44,42,42,41,46]},{scores:[41,39,43,41,42,38]},{scores:[39,37,41,38,40,35]},{scores:[43,40,44,41,43,39]}]},
+  {id:'aayu',name:'Aayu',cls:'Class 6',init:'Au',weeks:[{scores:[38,35,40,37,49,34]},{scores:[39,36,41,38,40,35]},{scores:[37,34,39,36,48,33]},{scores:[41,37,43,40,42,37]}]},
+  {id:'ayan',name:'Ayan',cls:'Class 4',init:'Ay',weeks:[{scores:[35,32,37,34,36,31]},{scores:[36,34,38,36,37,33]},{scores:[34,31,36,33,35,31]},{scores:[38,35,40,37,39,34]}]},
+  {id:'shanvi',name:'Shanvi',cls:'Class 1',init:'S',weeks:[{scores:[46,44,45,43,42,44]},{scores:[47,45,46,44,44,45]},{scores:[45,43,44,43,42,44]},{scores:[48,46,47,45,45,46]}]}
 ];
 
-/* Grade thresholds out of 50 */
-function grade(score){
-  const pct = score / MAX * 100;
-  if(pct >= 90) return { g:'A+', c:'ga' };
-  if(pct >= 80) return { g:'A',  c:'ga' };
-  if(pct >= 70) return { g:'B+', c:'gb2' };
-  if(pct >= 60) return { g:'B',  c:'gb2' };
-  return          { g:'C',  c:'gc' };
-}
-function avg(arr){ return Math.round(arr.reduce((a,b)=>a+b,0)/arr.length); }
-function pct(score){ return Math.round(score/MAX*100); }
+function grade(score){const pct=score/MAX*100;if(pct>=90)return{g:'A+',c:'ga'};if(pct>=80)return{g:'A',c:'ga'};if(pct>=70)return{g:'B+',c:'gb2'};if(pct>=60)return{g:'B',c:'gb2'};return{g:'C',c:'gc'};}
+function avg(arr){return Math.round(arr.reduce((a,b)=>a+b,0)/arr.length);}
+function pct(score){return Math.round(score/MAX*100);}
 
 /* ══ BUILD TABS & PANELS ══ */
-const tabsEl   = document.getElementById('studentTabs');
-const panelsEl = document.getElementById('studentPanels');
+const tabsEl=document.getElementById('studentTabs');
+const panelsEl=document.getElementById('studentPanels');
 
-students.forEach((st, si)=>{
-  /* tab */
-  const tab = document.createElement('button');
-  tab.className = 'stab' + (si===0?' active':'');
-  tab.innerHTML = `<span>${st.name}<span class="stab-sub">${st.cls}</span></span>`;
-  tab.onclick = ()=> switchStudent(st.id);
+students.forEach((st,si)=>{
+  const tab=document.createElement('button');
+  tab.className='stab'+(si===0?' active':'');
+  tab.innerHTML=`<span>${st.name}<span class="stab-sub">${st.cls}</span></span>`;
+  tab.onclick=()=>switchStudent(st.id);
   tabsEl.appendChild(tab);
 
-  /* panel */
-  const panel = document.createElement('div');
-  panel.className = 'student-panel' + (si===0?' active':'');
-  panel.id = 'panel-' + st.id;
-
-  const allSc = st.weeks.flatMap(w=>w.scores);
-  const ovAvg = avg(allSc);
-  const { g:ovG } = grade(ovAvg);
-  const topI = SUBJECTS.map((_,i)=>({ i, a: avg(st.weeks.map(w=>w.scores[i])) })).sort((a,b)=>b.a-a.a)[0];
-
-  panel.innerHTML = `
+  const panel=document.createElement('div');
+  panel.className='student-panel'+(si===0?' active':'');
+  panel.id='panel-'+st.id;
+  const allSc=st.weeks.flatMap(w=>w.scores);
+  const ovAvg=avg(allSc);
+  const{g:ovG}=grade(ovAvg);
+  const topI=SUBJECTS.map((_,i)=>({i,a:avg(st.weeks.map(w=>w.scores[i]))})).sort((a,b)=>b.a-a.a)[0];
+  panel.innerHTML=`
     <div class="shcard">
       <div class="shcard-av">${st.init}</div>
       <div class="shcard-info">
@@ -894,173 +608,197 @@ students.forEach((st, si)=>{
   panelsEl.appendChild(panel);
 });
 
-function buildContent(st, wIdx){
-  const el = document.getElementById('wcontent-' + st.id);
-  let html = '';
-
-  if(wIdx === -1){
-    /* ALL WEEKS — show per-subject averages */
-    const sAvgs = SUBJECTS.map((_,i)=>({ s:SUBJECTS[i], a: avg(st.weeks.map(w=>w.scores[i])) }));
-    const ovA = avg(sAvgs.map(s=>s.a));
-    const { g:ovG } = grade(ovA);
-
-    html += `<div class="sum-row">
-      <div class="sum-box"><div class="sum-n">${ovA}</div><div class="sum-l">Overall Avg</div></div>
-      <div class="sum-box"><div class="sum-n">${ovA * SUBJECTS.length}</div><div class="sum-l">Total (avg)</div></div>
-      <div class="sum-box"><div class="sum-n">${pct(ovA)}%</div><div class="sum-l">Percentage</div></div>
-      <div class="sum-box"><div class="sum-n">${ovG}</div><div class="sum-l">Grade</div></div>
-    </div><div class="res-grid">`;
-
-    sAvgs.forEach(s=>{
-      const { g, c } = grade(s.a);
-      html += `<div class="rc">
-        <span class="rc-subj-label">${s.s}</span>
-        <div class="rc-score">${s.a}<span class="rc-of">/ ${MAX}</span></div>
-        <div class="rc-bar"><div class="rc-fill" style="width:${pct(s.a)}%"></div></div>
-        <div class="rc-row">
-          <span class="rc-grade ${c}">${g}</span>
-          <span class="rc-pct">${pct(s.a)}%</span>
-        </div>
-      </div>`;
-    });
-
-    html += `</div>
-    <div class="rtable-wrap">
-      <div class="rtable-hd">Week-by-Week Scores (out of ${MAX} per subject)</div>
-      <table>
-        <thead><tr><th>Week</th>${SUBJECTS.map(s=>`<th>${s.split(' ')[0]}</th>`).join('')}<th>Total</th><th>Avg</th></tr></thead>
-        <tbody>${st.weeks.map((w,wi)=>{
-          const tot = w.scores.reduce((a,b)=>a+b,0);
-          const av2 = Math.round(tot/SUBJECTS.length);
-          const { g, c } = grade(av2);
-          return `<tr>
-            <td class="td-r">${WEEKS[wi]}</td>
-            ${w.scores.map(sc=>`<td class="td-s">${sc}</td>`).join('')}
-            <td class="td-s">${tot}</td>
-            <td><span class="td-g ${c}">${av2}</span></td>
-          </tr>`;
-        }).join('')}</tbody>
-      </table>
-    </div>`;
-
+function buildContent(st,wIdx){
+  const el=document.getElementById('wcontent-'+st.id);
+  let html='';
+  if(wIdx===-1){
+    const sAvgs=SUBJECTS.map((_,i)=>({s:SUBJECTS[i],a:avg(st.weeks.map(w=>w.scores[i]))}));
+    const ovA=avg(sAvgs.map(s=>s.a));
+    const{g:ovG}=grade(ovA);
+    html+=`<div class="sum-row"><div class="sum-box"><div class="sum-n">${ovA}</div><div class="sum-l">Overall Avg</div></div><div class="sum-box"><div class="sum-n">${ovA*SUBJECTS.length}</div><div class="sum-l">Total (avg)</div></div><div class="sum-box"><div class="sum-n">${pct(ovA)}%</div><div class="sum-l">Percentage</div></div><div class="sum-box"><div class="sum-n">${ovG}</div><div class="sum-l">Grade</div></div></div><div class="res-grid">`;
+    sAvgs.forEach(s=>{const{g,c}=grade(s.a);html+=`<div class="rc"><span class="rc-subj-label">${s.s}</span><div class="rc-score">${s.a}<span class="rc-of">/ ${MAX}</span></div><div class="rc-bar"><div class="rc-fill" style="width:${pct(s.a)}%"></div></div><div class="rc-row"><span class="rc-grade ${c}">${g}</span><span class="rc-pct">${pct(s.a)}%</span></div></div>`;});
+    html+=`</div><div class="rtable-wrap"><div class="rtable-hd">Week-by-Week Scores (out of ${MAX} per subject)</div><table><thead><tr><th>Week</th>${SUBJECTS.map(s=>`<th>${s.split(' ')[0]}</th>`).join('')}<th>Total</th><th>Avg</th></tr></thead><tbody>${st.weeks.map((w,wi)=>{const tot=w.scores.reduce((a,b)=>a+b,0);const av2=Math.round(tot/SUBJECTS.length);const{g,c}=grade(av2);return`<tr><td class="td-r">${WEEKS[wi]}</td>${w.scores.map(sc=>`<td class="td-s">${sc}</td>`).join('')}<td class="td-s">${tot}</td><td><span class="td-g ${c}">${av2}</span></td></tr>`;}).join('')}</tbody></table></div>`;
   } else {
-    /* SINGLE WEEK */
-    const w   = st.weeks[wIdx];
-    const tot = w.scores.reduce((a,b)=>a+b, 0);
-    const av2 = Math.round(tot / SUBJECTS.length);
-    const { g:wG } = grade(av2);
-
-    html += `<div class="sum-row">
-      <div class="sum-box"><div class="sum-n">${tot}</div><div class="sum-l">Total Marks</div></div>
-      <div class="sum-box"><div class="sum-n">${av2} / ${MAX}</div><div class="sum-l">Average</div></div>
-      <div class="sum-box"><div class="sum-n">${pct(av2)}%</div><div class="sum-l">Percentage</div></div>
-      <div class="sum-box"><div class="sum-n">${wG}</div><div class="sum-l">Grade</div></div>
-    </div><div class="res-grid">`;
-
-    SUBJECTS.forEach((s,i)=>{
-      const sc = w.scores[i];
-      const { g, c } = grade(sc);
-      html += `<div class="rc">
-        <span class="rc-subj-label">${s}</span>
-        <div class="rc-score">${sc}<span class="rc-of">/ ${MAX}</span></div>
-        <div class="rc-bar"><div class="rc-fill" style="width:${pct(sc)}%"></div></div>
-        <div class="rc-row">
-          <span class="rc-grade ${c}">${g}</span>
-          <span class="rc-pct">${pct(sc)}%</span>
-        </div>
-      </div>`;
-    });
-    html += `</div>`;
+    const w=st.weeks[wIdx];const tot=w.scores.reduce((a,b)=>a+b,0);const av2=Math.round(tot/SUBJECTS.length);const{g:wG}=grade(av2);
+    html+=`<div class="sum-row"><div class="sum-box"><div class="sum-n">${tot}</div><div class="sum-l">Total Marks</div></div><div class="sum-box"><div class="sum-n">${av2} / ${MAX}</div><div class="sum-l">Average</div></div><div class="sum-box"><div class="sum-n">${pct(av2)}%</div><div class="sum-l">Percentage</div></div><div class="sum-box"><div class="sum-n">${wG}</div><div class="sum-l">Grade</div></div></div><div class="res-grid">`;
+    SUBJECTS.forEach((s,i)=>{const sc=w.scores[i];const{g,c}=grade(sc);html+=`<div class="rc"><span class="rc-subj-label">${s}</span><div class="rc-score">${sc}<span class="rc-of">/ ${MAX}</span></div><div class="rc-bar"><div class="rc-fill" style="width:${pct(sc)}%"></div></div><div class="rc-row"><span class="rc-grade ${c}">${g}</span><span class="rc-pct">${pct(sc)}%</span></div></div>`;});
+    html+=`</div>`;
   }
-
-  el.innerHTML = html;
-  setTimeout(()=>{
-    el.querySelectorAll('.rc-fill').forEach(b=>{
-      const w = b.style.width; b.style.width = '0';
-      setTimeout(()=>{ b.style.width = w; }, 60);
-    });
-  }, 60);
+  el.innerHTML=html;
+  setTimeout(()=>{el.querySelectorAll('.rc-fill').forEach(b=>{const w=b.style.width;b.style.width='0';setTimeout(()=>{b.style.width=w;},60);});},60);
 }
-
-students.forEach(st => buildContent(st, 0));
+students.forEach(st=>buildContent(st,0));
 
 function switchStudent(id){
-  document.querySelectorAll('.stab').forEach((t,i)=>{ t.classList.toggle('active', students[i].id === id); });
-  document.querySelectorAll('.student-panel').forEach(p=>{ p.classList.toggle('active', p.id === 'panel-' + id); });
+  document.querySelectorAll('.stab').forEach((t,i)=>{t.classList.toggle('active',students[i].id===id);});
+  document.querySelectorAll('.student-panel').forEach(p=>{p.classList.toggle('active',p.id==='panel-'+id);});
 }
-function switchWeek(stId, wIdx, btn){
+function switchWeek(stId,wIdx,btn){
   document.getElementById('wtabs-'+stId).querySelectorAll('.wtab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
-  buildContent(students.find(s=>s.id === stId), wIdx);
+  buildContent(students.find(s=>s.id===stId),wIdx);
 }
 
-/* ══ RANKINGS ══ */
+/* ══ RANKINGS + CHAMPION ANIMATION ══ */
 (function(){
-  const ranked = students.map(st=>{
-    const all  = st.weeks.flatMap(w=>w.scores);
-    const ovA  = avg(all);
-    const topI = SUBJECTS.map((_,i)=>({ i, a: avg(st.weeks.map(w=>w.scores[i])) })).sort((a,b)=>b.a-a.a)[0];
-    return { ...st, ovA, topS: SUBJECTS[topI.i] };
+  const ranked=students.map(st=>{
+    const all=st.weeks.flatMap(w=>w.scores);
+    const ovA=avg(all);
+    const topI=SUBJECTS.map((_,i)=>({i,a:avg(st.weeks.map(w=>w.scores[i]))})).sort((a,b)=>b.a-a.a)[0];
+    return{...st,ovA,topS:SUBJECTS[topI.i]};
   }).sort((a,b)=>b.ovA-a.ovA);
 
-  document.getElementById('rankTbody').innerHTML = ranked.map((st,i)=>{
-    const { g, c } = grade(st.ovA);
-    const pos = ['01','02','03','04','05'][i] || '#'+(i+1);
+  document.getElementById('rankTbody').innerHTML=ranked.map((st,i)=>{
+    const{g,c}=grade(st.ovA);
+    const isChamp = i === 0;
+    const pos=['01','02','03','04','05'][i]||'#'+(i+1);
+
+    if(isChamp){
+      return `<tr class="rank-champion" id="championRow">
+        <td><span class="rank-num-badge">${pos}</span></td>
+        <td class="td-n" style="font-size:14px;letter-spacing:.03em;">${st.name}</td>
+        <td style="font-size:12px;">${st.cls}</td>
+        <td class="td-s" style="font-size:12px;">${st.ovA} / ${MAX}</td>
+        <td style="font-size:12px;">${st.topS}</td>
+        <td><span class="td-g ${c}">${g}</span></td>
+      </tr>`;
+    }
     return `<tr>
       <td class="td-r">${pos}</td>
       <td class="td-n">${st.name}</td>
       <td style="color:#666;font-size:12px;">${st.cls}</td>
-      <td class="td-s">${st.ovA} / ${MAX}</td>
-      <td style="color:#888;font-size:13px;">${st.topS}</td>
+      <td class="td-s" style="font-size:12px;">${st.ovA} / ${MAX}</td>
+      <td style="color:#888;font-size:12px;">${st.topS}</td>
       <td><span class="td-g ${c}">${g}</span></td>
     </tr>`;
   }).join('');
+
+  /* Add floating star bursts to champion row */
+  const champRow = document.getElementById('championRow');
+  if(champRow){
+    const starPositions = [
+      {left:'4%',  top:'50%', dur:'3.1s', delay:'0s',   emoji:'⭐'},
+      {left:'8%',  top:'20%', dur:'2.7s', delay:'.5s',  emoji:'✨'},
+      {left:'15%', top:'70%', dur:'3.5s', delay:'1.1s', emoji:'⭐'},
+      {left:'85%', top:'30%', dur:'2.9s', delay:'.3s',  emoji:'✨'},
+      {left:'90%', top:'65%', dur:'3.3s', delay:'.8s',  emoji:'⭐'},
+      {left:'95%', top:'15%', dur:'2.5s', delay:'1.4s', emoji:'✨'},
+    ];
+    starPositions.forEach(sp=>{
+      const star = document.createElement('span');
+      star.className = 'star-burst';
+      star.textContent = sp.emoji;
+      star.style.cssText = `left:${sp.left};top:${sp.top};--dur:${sp.dur};--delay:${sp.delay};`;
+      champRow.appendChild(star);
+    });
+  }
+
+  /* ── Confetti on the rank table ── */
+  const cc = document.getElementById('confettiCanvas');
+  const cctx = cc.getContext('2d');
+
+  function resizeCC(){
+    const rect = document.getElementById('rankTable').getBoundingClientRect();
+    cc.width  = rect.width;
+    cc.height = rect.height;
+  }
+
+  const CONF_COLORS = ['#ffd700','#ffb300','#fff8dc','#fffacd','#ffa500','#ffffff','#ffe066','#ffd966'];
+  const confPieces = [];
+
+  class ConfPiece {
+    constructor(){this.reset(true);}
+    reset(initial){
+      this.x  = Math.random() * (cc.width || 900);
+      this.y  = initial ? Math.random() * (cc.height || 200) : -12;
+      this.w  = 4 + Math.random() * 6;
+      this.h  = 5 + Math.random() * 8;
+      this.vx = (Math.random() - .5) * .8;
+      this.vy = .4 + Math.random() * .7;
+      this.rot = Math.random() * Math.PI * 2;
+      this.rv = (Math.random() - .5) * .08;
+      this.color = CONF_COLORS[Math.floor(Math.random() * CONF_COLORS.length)];
+      this.al = .55 + Math.random() * .45;
+      this.shape = Math.random() > .5 ? 'rect' : 'circle';
+      this.wobble = Math.random() * Math.PI * 2;
+      this.wobbleSpeed = .03 + Math.random() * .04;
+    }
+    update(){
+      this.wobble += this.wobbleSpeed;
+      this.x += this.vx + Math.sin(this.wobble) * .4;
+      this.y += this.vy;
+      this.rot += this.rv;
+      if(this.y > (cc.height || 200) + 14) this.reset(false);
+    }
+    draw(){
+      cctx.save();
+      cctx.globalAlpha = this.al;
+      cctx.fillStyle = this.color;
+      cctx.translate(this.x, this.y);
+      cctx.rotate(this.rot);
+      if(this.shape === 'rect'){
+        cctx.fillRect(-this.w/2, -this.h/2, this.w, this.h);
+      } else {
+        cctx.beginPath();
+        cctx.arc(0, 0, this.w/2, 0, Math.PI*2);
+        cctx.fill();
+      }
+      cctx.restore();
+    }
+  }
+
+  /* Init confetti pieces */
+  for(let i = 0; i < 55; i++) confPieces.push(new ConfPiece());
+
+  let confRunning = false;
+
+  function runConfetti(){
+    confRunning = true;
+    resizeCC();
+    cctx.clearRect(0, 0, cc.width, cc.height);
+    confPieces.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(runConfetti);
+  }
+
+  /* Start confetti when ranks section scrolls into view */
+  const confObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting && !confRunning){
+        runConfetti();
+      }
+    });
+  }, { threshold: 0.2 });
+  confObs.observe(document.getElementById('ranks'));
+
+  window.addEventListener('resize', ()=>{ resizeCC(); });
 })();
 
 /* ══ NOTES ══ */
 [
-  { subj:'English Grammar', title:'Tenses & Active / Passive',       prev:'All 12 tenses with clear timelines, active-to-passive conversion rules, and common error patterns for Classes 6–8.', tag:'Grammar',   date:'Mar 10' },
-  { subj:'Hindi Grammar',   title:'Sandhi, Samas & Karak',           prev:'Sandhi types with examples, all Samas categories, and the 8 Karak cases — each with fill-in-the-blank exercises.',   tag:'व्याकरण',  date:'Mar 8'  },
-  { subj:'Math',            title:'Fractions, Decimals & Algebra',   prev:'Concept maps for fractions and decimals with step-by-step methods, plus introductory algebra for Classes 4–8.',        tag:'Arithmetic',date:'Mar 5'  },
-  { subj:'Science',         title:'Living World & States of Matter', prev:'Labelled cell diagrams, states of matter, and plant/animal life systems with revision summaries.',                      tag:'Biology',   date:'Mar 3'  },
-  { subj:'Computer',        title:'MS Office Basics',                prev:'Word, Excel, and PowerPoint fundamentals — shortcuts, formatting tips, and practical exercises for school level.',      tag:'Digital',   date:'Mar 1'  },
-  { subj:'Social Science',  title:'India — Geography & History',     prev:'Rivers, climate zones, state maps, and a key historical events timeline covering Classes 4–8 syllabi.',                tag:'Geography', date:'Feb 28' },
+  {subj:'English Grammar',title:'Tenses & Active / Passive',prev:'All 12 tenses with clear timelines, active-to-passive conversion rules, and common error patterns for Classes 6–8.',tag:'Grammar',date:'Mar 10'},
+  {subj:'Hindi Grammar',title:'Sandhi, Samas & Karak',prev:'Sandhi types with examples, all Samas categories, and the 8 Karak cases — each with fill-in-the-blank exercises.',tag:'व्याकरण',date:'Mar 8'},
+  {subj:'Math',title:'Fractions, Decimals & Algebra',prev:'Concept maps for fractions and decimals with step-by-step methods, plus introductory algebra for Classes 4–8.',tag:'Arithmetic',date:'Mar 5'},
+  {subj:'Science',title:'Living World & States of Matter',prev:'Labelled cell diagrams, states of matter, and plant/animal life systems with revision summaries.',tag:'Biology',date:'Mar 3'},
+  {subj:'Computer',title:'MS Office Basics',prev:'Word, Excel, and PowerPoint fundamentals — shortcuts, formatting tips, and practical exercises for school level.',tag:'Digital',date:'Mar 1'},
+  {subj:'Social Science',title:'India — Geography & History',prev:'Rivers, climate zones, state maps, and a key historical events timeline covering Classes 4–8 syllabi.',tag:'Geography',date:'Feb 28'},
 ].forEach((n,i)=>{
-  const d = document.createElement('div');
-  d.className = 'nc rv'; d.style.transitionDelay = (i%3)*.1 + 's';
-  d.innerHTML = `
-    <div class="nc-sub">${n.subj}</div>
-    <div class="nc-title">${n.title}</div>
-    <div class="nc-prev">${n.prev}</div>
-    <div class="nc-meta">
-      <span class="nc-tag">${n.tag}</span>
-      <span>${n.date}</span>
-    </div>`;
-  d.onclick = ()=> openModal(n.subj, n.title,
-    `<p>${n.prev}</p><p><strong>Category:</strong> ${n.tag}</p><p><strong>Date:</strong> ${n.date}</p><p>Ask Shahnewaz for the full PDF and practice sheet.</p>`);
+  const d=document.createElement('div');
+  d.className='nc rv';d.style.transitionDelay=(i%3)*.1+'s';
+  d.innerHTML=`<div class="nc-sub">${n.subj}</div><div class="nc-title">${n.title}</div><div class="nc-prev">${n.prev}</div><div class="nc-meta"><span class="nc-tag">${n.tag}</span><span>${n.date}</span></div>`;
+  d.onclick=()=>openModal(n.subj,n.title,`<p>${n.prev}</p><p><strong>Category:</strong> ${n.tag}</p><p><strong>Date:</strong> ${n.date}</p><p>Ask Shahnewaz for the full PDF and practice sheet.</p>`);
   document.getElementById('notesGrid').appendChild(d);
   rvObs.observe(d);
 });
 
 /* ══ MODAL ══ */
-function openModal(tag, title, cont){
-  document.getElementById('mTag').textContent = tag;
-  document.getElementById('mTitle').textContent = title;
-  document.getElementById('mCont').innerHTML = cont;
-  document.getElementById('modal').classList.add('open');
-}
-function closeModal(){ document.getElementById('modal').classList.remove('open'); }
-document.getElementById('modal').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+function openModal(tag,title,cont){document.getElementById('mTag').textContent=tag;document.getElementById('mTitle').textContent=title;document.getElementById('mCont').innerHTML=cont;document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
 /* ══ SMOOTH SCROLL ══ */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click', e=>{
-    e.preventDefault();
-    const t = document.querySelector(a.getAttribute('href'));
-    if(t) t.scrollIntoView({ behavior:'smooth' });
-    closeNav();
-  });
+  a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'});closeNav();});
 });
 document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
 </script>
