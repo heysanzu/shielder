@@ -529,7 +529,7 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
   <div class="hero-tag">Weekly Academic Intelligence Platform</div>
   <h1 class="hero-h1" data-t="SHIELDER">SHIELDER</h1>
   <div class="hero-by">by Shahnewaz</div>
-  <p class="hero-desc">Weekly results for 5 students across 6 core subjects. Each test is out of 50 marks.</p>
+  <p class="hero-desc">Weekly results for students across 6 core subjects. Each test is out of 50 marks.</p>
   <div class="hero-btns">
     <a href="#students" class="btn btn-w">View Results</a>
     <a href="#notes" class="btn btn-o">Study Notes</a>
@@ -606,8 +606,8 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
 <footer>
   <div class="ft-brand">SHIELDER</div>
   <div class="ft-txt">
-    by Shahnewaz · Empowering Young Minds
-    <br><span style="color:#222;font-size:10px;">© 2025 All Rights Reserved</span>
+    by Shahnewaz · Empowering young minds
+    <br><span style="color:#646464;font-size:10px;">© 2025 All Rights Reserved</span>
   </div>
 </footer>
 
@@ -714,10 +714,10 @@ const WEEKS=['Week 1','Week 2','Week 3','Week 4'];
 
 const students=[
   {id:'aarisha',name:'Aarisha',cls:'Class 8',init:'A',weeks:[{scores:[44,43,46,48,42,45]},{scores:[45,43,47,44,46,41]},{scores:[42,40,44,42,44,39]},{scores:[46,44,48,45,47,43]}]},
-  {id:'aarifa',name:'Aarifa',cls:'Class 7',init:'Aa',weeks:[{scores:[40,44,42,42,41,46]},{scores:[41,39,43,41,42,38]},{scores:[39,37,41,38,40,35]},{scores:[43,40,44,41,43,39]}]},
+  {id:'aarifa',name:'Aarifa',cls:'Class 7',init:'Aa',weeks:[{scores:[42,44,42,42,41,46]},{scores:[41,42,43,41,42,40]},{scores:[39,37,41,38,40,42]},{scores:[43,40,44,41,43,44]}]},
   {id:'aayu',name:'Aayu',cls:'Class 6',init:'Au',weeks:[{scores:[38,35,40,37,49,34]},{scores:[39,36,41,38,40,35]},{scores:[37,34,39,36,48,33]},{scores:[41,37,43,40,42,37]}]},
   {id:'ayan',name:'Ayan',cls:'Class 4',init:'Ay',weeks:[{scores:[35,32,37,34,36,31]},{scores:[36,34,38,36,37,33]},{scores:[34,31,36,33,35,31]},{scores:[38,35,40,37,39,34]}]},
-  {id:'shanvi',name:'Shanvi',cls:'Class 1',init:'S',weeks:[{scores:[42,44,45,43,42,44]},{scores:[41,45,46,44,44,45]},{scores:[39,43,44,43,42,44]},{scores:[43,46,47,45,45,46]}]}
+  {id:'shanvi',name:'Shanvi',cls:'Class 1',init:'S',weeks:[{scores:[42,36,40,43,42,44]},{scores:[41,42,36,41,38,40]},{scores:[39,43,44,43,42,38]},{scores:[43,41,37,45,45,40]}]}
 ];
 
 function grade(score){const pct=score/MAX*100;if(pct>=90)return{g:'A+',c:'ga'};if(pct>=80)return{g:'A',c:'ga'};if(pct>=70)return{g:'B+',c:'gb2'};if(pct>=60)return{g:'B',c:'gb2'};return{g:'C',c:'gc'};}
@@ -833,11 +833,11 @@ function switchWeek(stId,wIdx,btn){
   if(champRow){
     const starPositions = [
       {left:'4%',  top:'50%', dur:'3.1s', delay:'0s',   emoji:'⭐'},
-      {left:'8%',  top:'20%', dur:'2.7s', delay:'.5s',  emoji:'✨'},
+      {left:'8%',  top:'20%', dur:'2.7s', delay:'.5s',  emoji:'🏆'},
       {left:'15%', top:'70%', dur:'3.5s', delay:'1.1s', emoji:'⭐'},
-      {left:'85%', top:'30%', dur:'2.9s', delay:'.3s',  emoji:'✨'},
+      {left:'85%', top:'30%', dur:'2.9s', delay:'.3s',  emoji:'🏆'},
       {left:'90%', top:'65%', dur:'3.3s', delay:'.8s',  emoji:'⭐'},
-      {left:'95%', top:'15%', dur:'2.5s', delay:'1.4s', emoji:'✨'},
+      {left:'95%', top:'15%', dur:'2.5s', delay:'1.4s', emoji:'🏆'},
     ];
     starPositions.forEach(sp=>{
       const star = document.createElement('span');
