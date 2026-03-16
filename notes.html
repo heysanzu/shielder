@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHIELDER · Library</title>
+<link rel="icon" type="image/png" href="shielder.png">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+:root{
+  --bk:#000;
+  --g1:#0d0d0d;
+  --g2:#141414;
+  --g3:#1c1c1c;
+  --border:#2a2a2a;
+  --gbb:#333;
+  --wb:#fff;
+  --wb-bg:#f4f4f4;
+  --wb-border:#dedede;
+  --wb-text:#111;
+  --wb-sub:#555;
+  --wb-muted:#999;
+  --gold:#ffd700;
+  --gold2:#ffb300;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--wb-bg);
+  color:var(--wb-text);
+  font-family:'Google Sans','Product Sans','Segoe UI',sans-serif;
+  overflow-x:hidden;
+  cursor:none;
+  min-height:100vh;
+}
+
+/* CUSTOM CURSOR */
+#cur{position:fixed;width:9px;height:9px;background:#111;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);}
+#cur2{position:fixed;width:32px;height:32px;border:1.5px solid rgba(0,0,0,.22);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:1000;padding:16px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--wb-border);}
+.brand{font-family:'Orbitron',monospace;font-weight:900;font-size:clamp(16px,2.2vw,22px);letter-spacing:.22em;text-transform:uppercase;color:#000;text-decoration:none;display:flex;align-items:center;gap:10px;}
+.brand-sub{font-size:10px;letter-spacing:.3em;color:#999;font-weight:400;text-transform:uppercase;border-left:1px solid #ddd;padding-left:10px;}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{color:#777;text-decoration:none;font-size:11px;letter-spacing:.15em;text-transform:uppercase;transition:color .3s;position:relative;padding-bottom:3px;}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:#000;transition:width .35s;}
+.nav-links a:hover{color:#000;}
+.nav-links a:hover::after{width:100%;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+.hamburger span{width:22px;height:1.5px;background:#000;display:block;}
+.nav-mobile{display:none;flex-direction:column;position:fixed;top:0;right:0;width:240px;height:100vh;background:#fff;border-left:1px solid var(--wb-border);padding:80px 28px;gap:22px;list-style:none;transform:translateX(100%);transition:transform .4s;z-index:999;}
+.nav-mobile.open{transform:translateX(0);display:flex;}
+.nav-mobile a{color:#666;text-decoration:none;font-size:13px;letter-spacing:.12em;text-transform:uppercase;}
+
+/* HERO BAND */
+.lib-hero{
+  background:var(--bk);
+  padding:140px 48px 80px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.lib-hero-tag{font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:#444;margin-bottom:18px;}
+.lib-hero-h1{font-family:'Orbitron',monospace;font-weight:900;font-size:clamp(36px,7vw,88px);letter-spacing:-.01em;text-transform:uppercase;background:linear-gradient(180deg,#fff 30%,#444 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:.9;}
+.lib-hero-desc{font-size:14px;color:#555;margin-top:20px;letter-spacing:.05em;}
+
+/* SCAN LINES */
+.lib-hero::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.012) 2px,rgba(255,255,255,.012) 4px);
+  pointer-events:none;
+}
+
+/* FLOATING GRID DOTS ON HERO */
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.06) 1px,transparent 1px);
+  background-size:36px 36px;
+  pointer-events:none;
+}
+
+/* LIBRARY LAYOUT */
+.lib-layout{
+  display:grid;
+  grid-template-columns:320px 1fr;
+  min-height:calc(100vh - 80px);
+}
+
+/* SIDEBAR */
+.lib-sidebar{
+  background:#fff;
+  border-right:1px solid var(--wb-border);
+  padding:32px 0;
+  position:sticky;
+  top:73px;
+  height:calc(100vh - 73px);
+  overflow-y:auto;
+}
+.lib-sidebar::-webkit-scrollbar{width:4px;}
+.lib-sidebar::-webkit-scrollbar-track{background:transparent;}
+.lib-sidebar::-webkit-scrollbar-thumb{background:#ddd;border-radius:2px;}
+.sidebar-section-label{
+  font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:#bbb;
+  padding:0 24px;margin-bottom:12px;margin-top:20px;
+}
+.sidebar-section-label:first-child{margin-top:0;}
+
+/* Filter tabs */
+.filter-row{
+  display:flex;flex-wrap:wrap;gap:6px;padding:0 24px 20px;
+  border-bottom:1px solid var(--wb-border);margin-bottom:8px;
+}
+.ftab{
+  padding:5px 12px;font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  background:transparent;color:#888;border:1px solid var(--wb-border);
+  cursor:pointer;transition:all .25s;font-family:inherit;
+}
+.ftab.active{background:#111;color:#fff;border-color:#111;}
+.ftab:hover:not(.active){border-color:#999;color:#333;}
+
+/* File item */
+.file-item{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 24px;cursor:pointer;
+  transition:background .2s;
+  border-left:2px solid transparent;
+  position:relative;
+}
+.file-item:hover{background:#f8f8f8;}
+.file-item.active{background:#f4f4f4;border-left-color:#111;}
+.file-item.active .fi-name{color:#111;font-weight:700;}
+.fi-icon{
+  width:36px;height:44px;border:1.5px solid var(--wb-border);
+  background:#fafafa;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:16px;position:relative;overflow:hidden;
+}
+.fi-icon::after{
+  content:'';position:absolute;top:0;right:0;
+  border-style:solid;border-width:8px 8px 0 0;
+  border-color:#fff #ddd transparent transparent;
+}
+.fi-icon.pdf-icon{border-color:#ffcdd2;background:#fff5f5;}
+.fi-icon.pdf-icon::after{border-color:#fff5f5 #ffcdd2 transparent transparent;}
+.fi-icon.img-icon{border-color:#c8e6c9;background:#f1f8e9;}
+.fi-icon.img-icon::after{border-color:#f1f8e9 #c8e6c9 transparent transparent;}
+.fi-icon.note-icon{border-color:#c5cae9;background:#f3f4ff;}
+.fi-icon.note-icon::after{border-color:#f3f4ff #c5cae9 transparent transparent;}
+.fi-meta{flex:1;min-width:0;}
+.fi-name{font-size:13px;font-weight:600;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fi-info{font-size:10px;color:#aaa;margin-top:2px;letter-spacing:.05em;}
+.fi-badge{
+  font-size:8px;padding:2px 7px;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid;border-radius:2px;flex-shrink:0;
+}
+.fi-badge.pdf{color:#e53935;border-color:#ffcdd2;background:#fff5f5;}
+.fi-badge.png{color:#43a047;border-color:#c8e6c9;background:#f1f8e9;}
+.fi-badge.note{color:#3949ab;border-color:#c5cae9;background:#f3f4ff;}
+
+.add-file-btn{
+  margin:16px 24px 0;width:calc(100% - 48px);
+  padding:11px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  background:transparent;color:#999;border:1.5px dashed #ddd;
+  cursor:pointer;font-family:inherit;transition:all .3s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.add-file-btn:hover{border-color:#999;color:#555;background:#fafafa;}
+.add-file-btn svg{width:14px;height:14px;}
+
+/* MAIN VIEWER */
+.lib-main{
+  background:var(--wb-bg);
+  display:flex;
+  flex-direction:column;
+}
+
+/* VIEWER TOOLBAR */
+.viewer-toolbar{
+  background:#fff;
+  border-bottom:1px solid var(--wb-border);
+  padding:14px 28px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+  position:sticky;
+  top:73px;
+  z-index:100;
+}
+.vt-title{
+  font-size:13px;font-weight:700;color:#111;flex:1;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.vt-tag{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#aaa;background:#f4f4f4;padding:3px 8px;border:1px solid var(--wb-border);}
+.vt-sep{width:1px;height:20px;background:var(--wb-border);}
+.vt-btn{
+  padding:8px 16px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+  cursor:pointer;border:1.5px solid var(--wb-border);background:#fff;color:#555;
+  font-family:inherit;transition:all .25s;display:flex;align-items:center;gap:6px;
+}
+.vt-btn:hover{background:#111;color:#fff;border-color:#111;}
+.vt-btn svg{width:12px;height:12px;}
+.vt-btn.primary{background:#111;color:#fff;border-color:#111;}
+.vt-btn.primary:hover{background:#333;}
+.page-nav{display:flex;align-items:center;gap:8px;}
+.page-nav button{
+  width:30px;height:30px;border:1.5px solid var(--wb-border);
+  background:#fff;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:#555;
+}
+.page-nav button:hover{background:#111;color:#fff;border-color:#111;}
+.page-num{font-family:'Orbitron',monospace;font-size:11px;color:#888;white-space:nowrap;}
+
+/* VIEWER AREA */
+.viewer-area{
+  flex:1;display:flex;align-items:flex-start;justify-content:center;
+  padding:48px 32px;
+  min-height:600px;
+}
+
+/* EMPTY STATE */
+.empty-state{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:400px;text-align:center;gap:16px;
+  animation:fadeUp .6s both;
+}
+.es-icon{font-size:64px;opacity:.3;}
+.es-title{font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:#999;letter-spacing:.05em;text-transform:uppercase;}
+.es-sub{font-size:13px;color:#bbb;line-height:1.8;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* ═══════════════════════════════════════
+   FLIP BOOK VIEWER
+═══════════════════════════════════════ */
+.flipbook-container{
+  perspective:2400px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  width:100%;
+  animation:fadeUp .5s both;
+}
+
+.book{
+  position:relative;
+  transform-style:preserve-3d;
+  /* Sizing set by JS */
+}
+
+/* The shadow under the book */
+.book-shadow{
+  position:absolute;
+  bottom:-18px;left:8%;width:84%;height:18px;
+  background:radial-gradient(ellipse,rgba(0,0,0,.3) 0%,transparent 70%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* Hard covers */
+.cover-front,.cover-back{
+  position:absolute;
+  top:0;bottom:0;
+  width:50%;
+  background:linear-gradient(135deg,#1a1a1a 0%,#2c2c2c 50%,#111 100%);
+  border:1px solid #444;
+  transform-origin:right center;
+  transform-style:preserve-3d;
+  border-radius:2px 0 0 2px;
+  box-shadow:-4px 0 14px rgba(0,0,0,.4),inset 1px 0 0 rgba(255,255,255,.05);
+  z-index:1;
+}
+.cover-front{left:0;transform-origin:right center;}
+.cover-back{right:0;transform-origin:left center;background:linear-gradient(135deg,#111 0%,#2c2c2c 50%,#1a1a1a 100%);border-radius:0 2px 2px 0;}
+
+.cover-front-label,.cover-back-label{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;
+  backface-visibility:hidden;
+}
+.cover-front-label span{
+  font-family:'Orbitron',monospace;font-size:clamp(10px,1.5vw,14px);
+  font-weight:900;letter-spacing:.3em;color:#fff;text-transform:uppercase;
+  opacity:.7;
+}
+.cover-front-label .cover-line{width:40px;height:1px;background:rgba(255,255,255,.2);}
+
+/* SPINE */
+.book-spine{
+  position:absolute;
+  top:0;bottom:0;
+  left:calc(50% - 6px);
+  width:12px;
+  background:linear-gradient(180deg,#1a1a1a,#333,#1a1a1a);
+  box-shadow:0 0 8px rgba(0,0,0,.6),inset 1px 0 0 rgba(255,255,255,.05),inset -1px 0 0 rgba(255,255,255,.03);
+  z-index:100;
+}
+
+/* PAGE STACK */
+.page-stack-left,.page-stack-right{
+  position:absolute;top:2px;bottom:2px;
+  width:calc(50% - 8px);
+  pointer-events:none;
+  z-index:2;
+}
+.page-stack-left{left:2px;}
+.page-stack-right{right:2px;}
+
+/* Individual stack lines simulating pages */
+.stack-line{
+  position:absolute;top:0;bottom:0;width:1px;background:#e0e0e0;
+}
+
+/* FLIPPER - the turning page */
+.flipper{
+  position:absolute;
+  top:0;bottom:0;
+  width:50%;
+  transform-origin:right center;
+  transform-style:preserve-3d;
+  transition:transform 0.8s cubic-bezier(.645,.045,.355,1.000);
+  z-index:50;
+  cursor:pointer;
+}
+.flipper.left{
+  left:0;
+  transform-origin:right center;
+}
+.flipper.right{
+  right:0;
+  transform-origin:left center;
+  transform:rotateY(0deg);
+}
+.flipper.flipping-out{transform:rotateY(-180deg);}
+.flipper.flipping-in{transform:rotateY(0deg);}
+
+/* Page face */
+.page-face{
+  position:absolute;inset:0;
+  backface-visibility:hidden;
+  overflow:hidden;
+  background:#fff;
+  border:1px solid #e8e8e8;
+}
+.page-face.front{z-index:2;}
+.page-face.back{
+  transform:rotateY(180deg);
+  z-index:1;
+  background:#fafafa;
+}
+
+/* Page curl shadow during flip */
+.flipper::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 60%,rgba(0,0,0,.18) 100%);
+  pointer-events:none;
+  z-index:10;
+  opacity:0;
+  transition:opacity .3s;
+}
+.flipper.flipping-out::after{opacity:1;}
+
+/* Canvas inside page */
+.page-canvas{
+  width:100% !important;
+  height:100% !important;
+  display:block;
+  object-fit:contain;
+}
+
+/* Page number stamp */
+.page-stamp{
+  position:absolute;bottom:10px;
+  font-size:10px;letter-spacing:.15em;color:#ccc;
+  font-family:'Orbitron',monospace;
+  pointer-events:none;
+}
+.page-stamp.left-pg{left:16px;}
+.page-stamp.right-pg{right:16px;}
+
+/* Subtle page gradient for realism */
+.page-face::after{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:linear-gradient(100deg,rgba(0,0,0,.015) 0%,transparent 40%,rgba(0,0,0,.012) 100%);
+  pointer-events:none;
+  z-index:5;
+}
+
+/* LOADING OVERLAY on viewer */
+.page-loading{
+  position:absolute;inset:0;background:rgba(255,255,255,.9);
+  display:flex;align-items:center;justify-content:center;
+  z-index:200;
+  flex-direction:column;gap:12px;
+}
+.pl-spinner{
+  width:32px;height:32px;border:2px solid #eee;
+  border-top-color:#111;border-radius:50%;
+  animation:spin .7s linear infinite;
+}
+.pl-text{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#999;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* IMAGE VIEWER */
+.img-viewer{
+  max-width:800px;width:100%;
+  background:#fff;border:1.5px solid var(--wb-border);
+  box-shadow:0 8px 40px rgba(0,0,0,.1);
+  animation:fadeUp .5s both;
+}
+.img-viewer img{width:100%;display:block;}
+.img-viewer-bar{
+  padding:14px 20px;display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid var(--wb-border);
+}
+.iv-title{font-size:12px;font-weight:700;color:#111;}
+.iv-meta{font-size:10px;color:#aaa;}
+
+/* NOTE VIEWER */
+.note-viewer{
+  max-width:680px;width:100%;
+  background:#fff;border:1.5px solid var(--wb-border);
+  box-shadow:0 8px 40px rgba(0,0,0,.1);
+  animation:fadeUp .5s both;
+}
+.nv-header{
+  padding:28px 36px 24px;border-bottom:1px solid var(--wb-border);
+}
+.nv-subject{font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:#aaa;margin-bottom:8px;}
+.nv-title{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:#111;}
+.nv-body{padding:28px 36px;font-size:14px;line-height:1.9;color:#444;}
+.nv-body p{margin-bottom:14px;}
+.nv-body strong{color:#111;}
+.nv-body h3{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#888;margin:20px 0 10px;font-weight:600;}
+.nv-body ul{padding-left:20px;margin-bottom:14px;}
+.nv-body li{margin-bottom:6px;}
+
+/* UPLOAD ZONE */
+.upload-modal{
+  position:fixed;inset:0;background:rgba(0,0,0,.7);
+  z-index:9000;display:flex;align-items:center;justify-content:center;
+  padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;
+  backdrop-filter:blur(12px);
+}
+.upload-modal.open{opacity:1;pointer-events:all;}
+.upload-box{
+  background:#fff;border:1px solid var(--wb-border);padding:44px;
+  max-width:480px;width:100%;position:relative;
+  box-shadow:0 24px 80px rgba(0,0,0,.2);
+  transform:translateY(16px);transition:transform .3s;
+}
+.upload-modal.open .upload-box{transform:translateY(0);}
+.ub-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:#333;opacity:.4;transition:opacity .2s;}
+.ub-close:hover{opacity:.9;}
+.ub-tag{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#aaa;margin-bottom:10px;}
+.ub-title{font-family:'Orbitron',monospace;font-size:18px;font-weight:900;margin-bottom:22px;color:#111;}
+.drop-zone{
+  border:2px dashed #ddd;padding:36px;text-align:center;
+  cursor:pointer;transition:all .3s;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+.drop-zone:hover,.drop-zone.dragging{border-color:#111;background:#f8f8f8;}
+.dz-icon{font-size:36px;opacity:.4;}
+.dz-text{font-size:13px;color:#888;line-height:1.7;}
+.dz-text strong{color:#111;font-weight:700;}
+.dz-formats{font-size:10px;color:#bbb;letter-spacing:.1em;text-transform:uppercase;}
+#fileInput{display:none;}
+
+/* FOOTER */
+footer{background:var(--g1);border-top:1px solid var(--border);padding:44px 40px;text-align:center;}
+.ft-brand{font-family:'Orbitron',monospace;font-size:18px;font-weight:900;letter-spacing:.25em;color:#fff;margin-bottom:8px;}
+.ft-txt{font-size:12px;color:#444;line-height:1.9;}
+
+/* SCROLL REVEAL */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .55s,transform .55s;}
+.rv.vis{opacity:1;transform:translateY(0);}
+
+@media(max-width:900px){
+  nav{padding:14px 20px;}
+  .lib-layout{grid-template-columns:1fr;}
+  .lib-sidebar{position:relative;top:0;height:auto;border-right:none;border-bottom:1px solid var(--wb-border);}
+  .hamburger{display:flex;}
+  .nav-links{display:none;}
+  .lib-hero{padding:120px 24px 60px;}
+}
+@media(max-width:600px){
+  .viewer-area{padding:24px 12px;}
+  .viewer-toolbar{padding:10px 14px;gap:8px;}
+  .vt-title{font-size:11px;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<!-- UPLOAD MODAL -->
+<div class="upload-modal" id="uploadModal">
+  <div class="upload-box">
+    <button class="ub-close" onclick="closeUpload()">×</button>
+    <div class="ub-tag">Add to Library</div>
+    <div class="ub-title">Upload File</div>
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+      <div class="dz-icon">📁</div>
+      <div class="dz-text"><strong>Drop file here</strong><br>or click to browse</div>
+      <div class="dz-formats">PDF · PNG · JPG · JPEG · WEBP</div>
+    </div>
+    <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.webp" onchange="handleFileInput(event)">
+  </div>
+</div>
+
+<nav>
+  <a href="index.html" class="brand">
+    SHIELDER
+    <span class="brand-sub">Library</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#students">Results</a></li>
+    <li><a href="index.html#ranks">Rankings</a></li>
+    <li><a href="#" style="color:#111;font-weight:700;">Library</a></li>
+    <li><a href="index.html#about">About</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<ul class="nav-mobile" id="navMob">
+  <li><a href="index.html#students" onclick="closeNav()">Results</a></li>
+  <li><a href="index.html#ranks" onclick="closeNav()">Rankings</a></li>
+  <li><a href="#" onclick="closeNav()">Library</a></li>
+  <li><a href="index.html#about" onclick="closeNav()">About</a></li>
+</ul>
+
+<div class="lib-hero">
+  <div class="hero-grid"></div>
+  <div class="lib-hero-tag">Study Materials · Notes · Resources</div>
+  <h1 class="lib-hero-h1">LIBRARY</h1>
+  <p class="lib-hero-desc">Upload PDFs, images & notes · Flip through with cinematic page turns</p>
+</div>
+
+<div class="lib-layout">
+  <!-- SIDEBAR -->
+  <aside class="lib-sidebar">
+    <div class="sidebar-section-label">Filter</div>
+    <div class="filter-row">
+      <button class="ftab active" onclick="filterFiles('all',this)">All</button>
+      <button class="ftab" onclick="filterFiles('pdf',this)">PDF</button>
+      <button class="ftab" onclick="filterFiles('image',this)">Images</button>
+      <button class="ftab" onclick="filterFiles('note',this)">Notes</button>
+    </div>
+    <div class="sidebar-section-label">Files</div>
+    <div id="fileList"></div>
+    <button class="add-file-btn" onclick="openUpload()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add File
+    </button>
+  </aside>
+
+  <!-- MAIN VIEWER -->
+  <main class="lib-main">
+    <div class="viewer-toolbar" id="viewerToolbar">
+      <div class="vt-title" id="viewerTitle">Select a file to view</div>
+      <span class="vt-tag" id="viewerTag"></span>
+      <div class="vt-sep" id="toolSep" style="display:none"></div>
+      <div class="page-nav" id="pageNav" style="display:none">
+        <button onclick="prevPage()" title="Previous page">‹</button>
+        <div class="page-num" id="pageNum">1 / 1</div>
+        <button onclick="nextPage()" title="Next page">›</button>
+      </div>
+      <div class="vt-sep" id="toolSep2" style="display:none"></div>
+      <button class="vt-btn" id="dlBtn" style="display:none" onclick="downloadCurrent()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download
+      </button>
+      <button class="vt-btn primary" onclick="openUpload()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Upload
+      </button>
+    </div>
+
+    <div class="viewer-area" id="viewerArea">
+      <div class="empty-state">
+        <div class="es-icon">📚</div>
+        <div class="es-title">No File Selected</div>
+        <div class="es-sub">Upload a PDF, image or note from the sidebar<br>PDFs open with realistic animated page flips</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer>
+  <div class="ft-brand">SHIELDER</div>
+  <div class="ft-txt">by Shahnewaz · Empowering young minds<br><span style="color:#646464;font-size:10px;">© 2025 All Rights Reserved</span></div>
+</footer>
+
+<script>
+/* ══ PDF.JS WORKER ══ */
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+/* ══ CURSOR ══ */
+const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+let cx=300,cy=300,rx=cx,ry=cy;
+document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px';});
+(function lag(){rx+=(cx-rx)*.1;ry+=(cy-ry)*.1;cur2.style.left=rx+'px';cur2.style.top=ry+'px';requestAnimationFrame(lag);})();
+function hookCursor(){document.querySelectorAll('a,button,.file-item,.ftab,.drop-zone,.rc').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.5)';cur2.style.width='46px';cur2.style.height='46px';});
+  el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';cur2.style.width='32px';cur2.style.height='32px';});
+});}
+hookCursor();
+
+/* ══ NAV ══ */
+function toggleNav(){document.getElementById('navMob').classList.toggle('open');}
+function closeNav(){document.getElementById('navMob').classList.remove('open');}
+
+/* ══ SCROLL REVEAL ══ */
+const rvObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:.06});
+document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
+
+/* ══ FILE LIBRARY STATE ══ */
+let files = []; // {id, name, subject, type:'pdf'|'image'|'note', data, size, date, noteContent}
+let currentFileId = null;
+let currentFilter = 'all';
+
+// Default notes (built-in)
+const defaultNotes = [
+  {
+    id:'note-english',name:'Tenses & Active / Passive',subject:'English',type:'note',date:'Mar 10',size:'Note',
+    noteContent:`<h3>Tenses Overview</h3><p>English has <strong>12 tenses</strong> grouped into Past, Present and Future. Each tense has 4 forms: Simple, Continuous, Perfect, Perfect Continuous.</p><h3>Active to Passive Voice</h3><p><strong>Active:</strong> Subject + Verb + Object → <strong>Passive:</strong> Object + is/was/will be + V3 + by + Subject</p><p>Example: <strong>Active:</strong> Aarisha writes the essay. | <strong>Passive:</strong> The essay is written by Aarisha.</p><h3>Common Rules</h3><ul><li>Only transitive verbs can be made passive</li><li>The object of active sentence becomes the subject of passive</li><li>The tense of the helping verb changes accordingly</li><li>Use "by" to mention the doer (optional)</li></ul><h3>Practice Exercise</h3><p>Convert these sentences to passive voice: 1) The teacher teaches the lesson. 2) Ayan completed his homework. 3) Shanvi will sing the song.</p><p><strong>Ask Shahnewaz for the complete exercise sheet with answers!</strong></p>`
+  },
+  {
+    id:'note-hindi',name:'Sandhi, Samas & Karak',subject:'Hindi',type:'note',date:'Mar 8',size:'Note',
+    noteContent:`<h3>संधि (Sandhi)</h3><p><strong>स्वर संधि</strong> — दो स्वरों के मिलने से बनती है। जैसे: विद्या + आलय = विद्यालय</p><p><strong>व्यंजन संधि</strong> — स्वर और व्यंजन या दो व्यंजनों के मिलने से। जैसे: जगत + नाथ = जगन्नाथ</p><p><strong>विसर्ग संधि</strong> — विसर्ग के साथ स्वर/व्यंजन के मिलने से। जैसे: मनः + बल = मनोबल</p><h3>समास (Samas)</h3><ul><li><strong>तत्पुरुष समास</strong> — दूसरा पद प्रधान</li><li><strong>कर्मधारय समास</strong> — विशेषण-विशेष्य</li><li><strong>द्विगु समास</strong> — संख्यावाची</li><li><strong>द्वंद्व समास</strong> — दोनों पद प्रधान</li><li><strong>बहुव्रीहि समास</strong> — दोनों पद अप्रधान</li><li><strong>अव्ययीभाव समास</strong> — पहला पद प्रधान</li></ul><h3>कारक (Karak) — 8 Cases</h3><p>कर्ता, कर्म, करण, संप्रदान, अपादान, संबंध, अधिकरण, संबोधन</p><p><strong>Shahnewaz sir से पूरी practice sheet माँगें!</strong></p>`
+  },
+  {
+    id:'note-math',name:'Fractions, Decimals & Algebra',subject:'Math',type:'note',date:'Mar 5',size:'Note',
+    noteContent:`<h3>Fractions</h3><p>A fraction has two parts: <strong>Numerator</strong> (top) and <strong>Denominator</strong> (bottom).</p><ul><li><strong>Like fractions:</strong> Same denominator — add/subtract directly</li><li><strong>Unlike fractions:</strong> Find LCM first, then add/subtract</li><li><strong>Multiplication:</strong> Multiply numerators × numerators, denominators × denominators</li><li><strong>Division:</strong> Multiply by the reciprocal of the divisor</li></ul><h3>Decimals</h3><p>Decimal place values: <strong>Tenths → Hundredths → Thousandths</strong></p><p>To convert fraction to decimal: divide numerator by denominator.</p><h3>Introduction to Algebra</h3><p>An <strong>algebraic expression</strong> uses letters (variables) to represent unknown numbers.</p><p>Example: 2x + 5 = 13 → 2x = 8 → x = 4</p><ul><li>Like terms have the same variable and power</li><li>Collect like terms before simplifying</li><li>Substitute values to evaluate expressions</li></ul><p><strong>Ask Shahnewaz for the full worksheet with 30 practice problems!</strong></p>`
+  },
+  {
+    id:'note-science',name:'Living World & States of Matter',subject:'Science',type:'note',date:'Mar 3',size:'Note',
+    noteContent:`<h3>The Living World</h3><p>All living organisms share 7 characteristics: <strong>Movement, Respiration, Sensitivity, Growth, Reproduction, Excretion, Nutrition</strong> (MRSGREN).</p><h3>Cell — Basic Unit of Life</h3><ul><li><strong>Cell Wall</strong> (plants only) — provides structure</li><li><strong>Cell Membrane</strong> — controls what enters/exits</li><li><strong>Nucleus</strong> — control center, contains DNA</li><li><strong>Mitochondria</strong> — powerhouse, produces energy</li><li><strong>Chloroplasts</strong> (plants only) — photosynthesis</li></ul><h3>States of Matter</h3><p><strong>Solid:</strong> Fixed shape & volume. Particles tightly packed. <br><strong>Liquid:</strong> Fixed volume, takes shape of container. <br><strong>Gas:</strong> No fixed shape or volume. Particles move freely.</p><h3>Changes of State</h3><p>Melting → Freezing → Evaporation → Condensation → Sublimation</p><p><strong>Full labelled diagrams available from Shahnewaz sir!</strong></p>`
+  },
+];
+
+defaultNotes.forEach(n=>files.push(n));
+renderFileList();
+
+/* ══ RENDER FILE LIST ══ */
+function renderFileList(){
+  const list=document.getElementById('fileList');
+  const filtered=files.filter(f=>currentFilter==='all'||f.type===currentFilter||(currentFilter==='image'&&f.type==='image'));
+  if(filtered.length===0){
+    list.innerHTML=`<div style="padding:20px 24px;font-size:12px;color:#bbb;text-align:center;">No files in this category</div>`;
+    return;
+  }
+  list.innerHTML=filtered.map(f=>{
+    const icon=f.type==='pdf'?'📄':f.type==='image'?'🖼️':'📝';
+    const iconClass=f.type==='pdf'?'pdf-icon':f.type==='image'?'img-icon':'note-icon';
+    const badgeClass=f.type==='pdf'?'pdf':f.type==='image'?'png':'note';
+    const badgeText=f.type==='pdf'?'PDF':f.type==='image'?'IMG':'NOTE';
+    const isActive=f.id===currentFileId;
+    return `<div class="file-item${isActive?' active':''}" onclick="openFile('${f.id}')">
+      <div class="fi-icon ${iconClass}">${icon}</div>
+      <div class="fi-meta">
+        <div class="fi-name">${f.name}</div>
+        <div class="fi-info">${f.subject} · ${f.date||''}</div>
+      </div>
+      <span class="fi-badge ${badgeClass}">${badgeText}</span>
+    </div>`;
+  }).join('');
+  hookCursor();
+}
+
+function filterFiles(type,btn){
+  currentFilter=type;
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderFileList();
+}
+
+/* ══ OPEN FILE ══ */
+function openFile(id){
+  currentFileId=id;
+  const f=files.find(x=>x.id===id);
+  if(!f)return;
+  renderFileList();
+  document.getElementById('viewerTitle').textContent=f.name;
+  document.getElementById('viewerTag').textContent=f.subject;
+  document.getElementById('toolSep').style.display='';
+  document.getElementById('toolSep2').style.display='';
+  document.getElementById('dlBtn').style.display='';
+
+  if(f.type==='pdf'){
+    document.getElementById('pageNav').style.display='flex';
+    openPDFViewer(f);
+  } else if(f.type==='image'){
+    document.getElementById('pageNav').style.display='none';
+    openImageViewer(f);
+  } else {
+    document.getElementById('pageNav').style.display='none';
+    openNoteViewer(f);
+  }
+}
+
+/* ══ NOTE VIEWER ══ */
+function openNoteViewer(f){
+  const area=document.getElementById('viewerArea');
+  area.innerHTML=`<div class="note-viewer">
+    <div class="nv-header">
+      <div class="nv-subject">${f.subject}</div>
+      <div class="nv-title">${f.name}</div>
+    </div>
+    <div class="nv-body">${f.noteContent}</div>
+  </div>`;
+}
+
+/* ══ IMAGE VIEWER ══ */
+function openImageViewer(f){
+  const area=document.getElementById('viewerArea');
+  area.innerHTML=`<div class="img-viewer">
+    <img src="${f.data}" alt="${f.name}" style="max-height:75vh;object-fit:contain;width:100%;">
+    <div class="img-viewer-bar">
+      <div class="iv-title">${f.name}</div>
+      <div class="iv-meta">${f.subject} · ${f.size||''}</div>
+    </div>
+  </div>`;
+}
+
+/* ════════════════════════════════════════════
+   FLIP BOOK PDF VIEWER
+════════════════════════════════════════════ */
+let pdfDoc=null;
+let totalPages=0;
+let currentSpread=0; // 0 = pages 1-2, 1 = pages 3-4, etc.
+let isFlipping=false;
+let renderedPages={}; // cache: pageNum -> dataURL
+
+const PAGE_W=380;
+const PAGE_H=520;
+
+async function openPDFViewer(f){
+  const area=document.getElementById('viewerArea');
+  area.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;min-height:400px;flex-direction:column;gap:12px;">
+    <div class="pl-spinner"></div>
+    <div class="pl-text">Loading PDF…</div>
+  </div>`;
+
+  try{
+    const loadingTask=pdfjsLib.getDocument({data:f.data});
+    pdfDoc=await loadingTask.promise;
+    totalPages=pdfDoc.numPages;
+    currentSpread=0;
+    renderedPages={};
+    updatePageNum();
+    await buildFlipbook();
+    await preRenderPages();
+  }catch(e){
+    area.innerHTML=`<div class="empty-state">
+      <div class="es-icon">⚠️</div>
+      <div class="es-title">Could Not Load PDF</div>
+      <div class="es-sub">The file may be corrupted or unsupported.<br>Try re-uploading the PDF.</div>
+    </div>`;
+  }
+}
+
+async function renderPage(pageNum){
+  if(renderedPages[pageNum])return renderedPages[pageNum];
+  const page=await pdfDoc.getPage(pageNum);
+  const vp=page.getViewport({scale:1});
+  const scale=Math.min(PAGE_W/vp.width,PAGE_H/vp.height);
+  const viewport=page.getViewport({scale});
+  const canvas=document.createElement('canvas');
+  canvas.width=PAGE_W;canvas.height=PAGE_H;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#fff';
+  ctx.fillRect(0,0,PAGE_W,PAGE_H);
+  const offX=(PAGE_W-viewport.width)/2;
+  const offY=(PAGE_H-viewport.height)/2;
+  await page.render({canvasContext:ctx,viewport,transform:[1,0,0,1,offX,offY]}).promise;
+  const url=canvas.toDataURL();
+  renderedPages[pageNum]=url;
+  return url;
+}
+
+async function preRenderPages(){
+  // Pre-render current spread and neighbors
+  const leftPage=currentSpread*2+1;
+  const rightPage=leftPage+1;
+  const pagesToRender=[leftPage,rightPage,leftPage+2,rightPage+2].filter(p=>p>=1&&p<=totalPages);
+  for(const p of pagesToRender) await renderPage(p);
+  await updateVisiblePages();
+}
+
+function getSpreadPages(){
+  const left=currentSpread*2+1;  // page number shown on left side
+  const right=left+1;
+  return{left,right};
+}
+
+async function buildFlipbook(){
+  const area=document.getElementById('viewerArea');
+  const bookW=PAGE_W*2+12;
+  const bookH=PAGE_H;
+
+  area.innerHTML=`<div class="flipbook-container" id="flipContainer">
+    <div class="book" id="bookEl" style="width:${bookW}px;height:${bookH}px;">
+      <div class="book-shadow"></div>
+
+      <!-- BACK COVER -->
+      <div class="cover-back">
+        <div class="cover-back-label">
+          <span style="opacity:.3">SHIELDER</span>
+        </div>
+      </div>
+
+      <!-- RIGHT PAGE (static background) -->
+      <div class="page-face" id="rightPageBg" style="position:absolute;left:calc(50% + 6px);right:0;top:0;bottom:0;">
+        <canvas id="rightBgCanvas" width="${PAGE_W}" height="${PAGE_H}" class="page-canvas"></canvas>
+        <span class="page-stamp right-pg" id="rightStamp"></span>
+      </div>
+
+      <!-- LEFT PAGE (static background) -->
+      <div class="page-face" id="leftPageBg" style="position:absolute;left:0;right:calc(50% + 6px);top:0;bottom:0;">
+        <canvas id="leftBgCanvas" width="${PAGE_W}" height="${PAGE_H}" class="page-canvas"></canvas>
+        <span class="page-stamp left-pg" id="leftStamp"></span>
+      </div>
+
+      <!-- FLIPPER (the turning right-to-left page) -->
+      <div class="flipper left" id="flipperEl" style="transform-origin:right center;">
+        <div class="page-face front" id="flipFront">
+          <canvas id="flipFrontCanvas" width="${PAGE_W}" height="${PAGE_H}" class="page-canvas"></canvas>
+          <span class="page-stamp left-pg" id="flipFrontStamp"></span>
+        </div>
+        <div class="page-face back" id="flipBack">
+          <canvas id="flipBackCanvas" width="${PAGE_W}" height="${PAGE_H}" class="page-canvas"></canvas>
+          <span class="page-stamp left-pg" id="flipBackStamp"></span>
+        </div>
+      </div>
+
+      <!-- PAGE STACK (visual depth lines) -->
+      <div class="page-stack-left" id="stackLeft"></div>
+      <div class="page-stack-right" id="stackRight"></div>
+
+      <!-- FRONT COVER -->
+      <div class="cover-front" id="coverFront" style="display:none">
+        <div class="cover-front-label">
+          <span>SHIELDER</span>
+          <div class="cover-line"></div>
+          <span style="font-size:9px;letter-spacing:.45em;opacity:.4">LIBRARY</span>
+        </div>
+      </div>
+
+      <!-- SPINE -->
+      <div class="book-spine"></div>
+
+      <!-- CLICK ZONES -->
+      <div style="position:absolute;left:0;top:0;width:calc(50% - 6px);height:100%;cursor:pointer;z-index:60;" onclick="prevPage()" title="Previous page"></div>
+      <div style="position:absolute;right:0;top:0;width:calc(50% - 6px);height:100%;cursor:pointer;z-index:60;" onclick="nextPage()" title="Next page"></div>
+    </div>
+  </div>`;
+
+  buildPageStacks();
+  await updateVisiblePages();
+}
+
+function buildPageStacks(){
+  const stackL=document.getElementById('stackLeft');
+  const stackR=document.getElementById('stackRight');
+  if(!stackL||!stackR)return;
+  let linesL='';let linesR='';
+  for(let i=1;i<=6;i++){
+    linesL+=`<div class="stack-line" style="right:${i*2}px;opacity:${0.12+i*.04}"></div>`;
+    linesR+=`<div class="stack-line" style="left:${i*2}px;opacity:${0.12+i*.04}"></div>`;
+  }
+  stackL.innerHTML=linesL;
+  stackR.innerHTML=linesR;
+}
+
+async function updateVisiblePages(){
+  const {left,right}=getSpreadPages();
+  const leftBgCanvas=document.getElementById('leftBgCanvas');
+  const rightBgCanvas=document.getElementById('rightBgCanvas');
+  const flipFrontCanvas=document.getElementById('flipFrontCanvas');
+  const leftStamp=document.getElementById('leftStamp');
+  const rightStamp=document.getElementById('rightStamp');
+  const flipFrontStamp=document.getElementById('flipFrontStamp');
+
+  if(!leftBgCanvas)return;
+
+  // Left page = the page behind the flipper (shows current spread left)
+  if(left<=totalPages){
+    const url=await renderPage(left);
+    drawCanvasFromURL(leftBgCanvas,url);
+    if(leftStamp)leftStamp.textContent=left;
+  }else{
+    clearCanvas(leftBgCanvas);
+    if(leftStamp)leftStamp.textContent='';
+  }
+
+  // The flipper front = same as left page (it sits on top)
+  if(left<=totalPages){
+    const url=await renderPage(left);
+    drawCanvasFromURL(flipFrontCanvas,url);
+    if(flipFrontStamp)flipFrontStamp.textContent=left;
+  }else{
+    clearCanvas(flipFrontCanvas);
+    if(flipFrontStamp)flipFrontStamp.textContent='';
+  }
+
+  // Right page
+  if(right<=totalPages){
+    const url=await renderPage(right);
+    drawCanvasFromURL(rightBgCanvas,url);
+    if(rightStamp)rightStamp.textContent=right;
+  }else{
+    clearCanvas(rightBgCanvas);
+    if(rightStamp)rightStamp.textContent='';
+  }
+}
+
+function drawCanvasFromURL(canvas,url){
+  const ctx=canvas.getContext('2d');
+  const img=new Image();
+  img.onload=()=>{
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(img,0,0,canvas.width,canvas.height);
+    // subtle page texture
+    ctx.fillStyle='rgba(0,0,0,0.012)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+  };
+  img.src=url;
+}
+
+function clearCanvas(canvas){
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#fafafa';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+}
+
+async function flipForward(){
+  if(isFlipping)return;
+  const nextSpread=currentSpread+1;
+  const nextLeft=nextSpread*2+1;
+  if(nextLeft>totalPages)return;
+  isFlipping=true;
+
+  // Pre-render next spread
+  const nR=nextLeft+1;
+  await renderPage(nextLeft);
+  if(nR<=totalPages) await renderPage(nR);
+
+  // Prepare flipper back = next spread left page
+  const flipBackCanvas=document.getElementById('flipBackCanvas');
+  const flipBackStamp=document.getElementById('flipBackStamp');
+  const urlNextLeft=await renderPage(nextLeft);
+  drawCanvasFromURL(flipBackCanvas,urlNextLeft);
+  if(flipBackStamp)flipBackStamp.textContent=nextLeft;
+
+  // Pre-fill right bg with next right page
+  const rightBgCanvas=document.getElementById('rightBgCanvas');
+  const rightStamp=document.getElementById('rightStamp');
+  if(nR<=totalPages){
+    const urlNextRight=await renderPage(nR);
+    drawCanvasFromURL(rightBgCanvas,urlNextRight);
+    if(rightStamp)rightStamp.textContent=nR;
+  }
+
+  // Animate
+  const flipper=document.getElementById('flipperEl');
+  if(!flipper){isFlipping=false;return;}
+  flipper.style.transition='transform 0.75s cubic-bezier(.645,.045,.355,1)';
+  flipper.style.transform='rotateY(-180deg)';
+
+  setTimeout(async()=>{
+    currentSpread=nextSpread;
+    updatePageNum();
+    // After flip, reset flipper (instant, no transition)
+    flipper.style.transition='none';
+    flipper.style.transform='rotateY(0deg)';
+    await updateVisiblePages();
+    setTimeout(()=>{flipper.style.transition='';isFlipping=false;},50);
+  },750);
+}
+
+async function flipBackward(){
+  if(isFlipping||currentSpread===0)return;
+  isFlipping=true;
+
+  const prevSpread=currentSpread-1;
+  const prevLeft=prevSpread*2+1;
+  const prevRight=prevLeft+1;
+
+  await renderPage(prevLeft);
+  if(prevRight<=totalPages) await renderPage(prevRight);
+
+  // Prepare: flipper starts rotated (as if page was turned), shows prev left on back
+  const flipBackCanvas=document.getElementById('flipBackCanvas');
+  const flipBackStamp=document.getElementById('flipBackStamp');
+  const urlPrevLeft=await renderPage(prevLeft);
+  drawCanvasFromURL(flipBackCanvas,urlPrevLeft);
+  if(flipBackStamp)flipBackStamp.textContent=prevLeft;
+
+  // Set flipper front to current left
+  const flipFrontCanvas=document.getElementById('flipFrontCanvas');
+  const flipFrontStamp=document.getElementById('flipFrontStamp');
+  const currLeft=currentSpread*2+1;
+  if(currLeft<=totalPages){
+    const u=await renderPage(currLeft);
+    drawCanvasFromURL(flipFrontCanvas,u);
+    if(flipFrontStamp)flipFrontStamp.textContent=currLeft;
+  }
+
+  // Start flipper in flipped state
+  const flipper=document.getElementById('flipperEl');
+  if(!flipper){isFlipping=false;return;}
+  flipper.style.transition='none';
+  flipper.style.transform='rotateY(-180deg)';
+
+  // Update right side to previous right
+  const rightBgCanvas=document.getElementById('rightBgCanvas');
+  const rightStamp=document.getElementById('rightStamp');
+  if(prevRight<=totalPages){
+    const u2=await renderPage(prevRight);
+    drawCanvasFromURL(rightBgCanvas,u2);
+    if(rightStamp)rightStamp.textContent=prevRight;
+  }
+
+  // Animate back to 0
+  await new Promise(r=>setTimeout(r,30));
+  flipper.style.transition='transform 0.75s cubic-bezier(.645,.045,.355,1)';
+  flipper.style.transform='rotateY(0deg)';
+
+  setTimeout(async()=>{
+    currentSpread=prevSpread;
+    updatePageNum();
+    await updateVisiblePages();
+    flipper.style.transition='';
+    isFlipping=false;
+  },750);
+}
+
+function updatePageNum(){
+  if(!pdfDoc)return;
+  const {left}=getSpreadPages();
+  const right=Math.min(left+1,totalPages);
+  const display=right>left?`${left}–${right} / ${totalPages}`:`${left} / ${totalPages}`;
+  document.getElementById('pageNum').textContent=display;
+}
+
+function nextPage(){flipForward();}
+function prevPage(){flipBackward();}
+
+/* ══ KEYBOARD NAVIGATION ══ */
+document.addEventListener('keydown',e=>{
+  if(pdfDoc){
+    if(e.key==='ArrowRight'||e.key==='ArrowDown')nextPage();
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp')prevPage();
+  }
+});
+
+/* ══ DOWNLOAD CURRENT ══ */
+function downloadCurrent(){
+  const f=files.find(x=>x.id===currentFileId);
+  if(!f||!f.rawData)return;
+  const a=document.createElement('a');
+  const blob=new Blob([f.rawData],{type:f.type==='pdf'?'application/pdf':'image/'+f.ext});
+  a.href=URL.createObjectURL(blob);
+  a.download=f.name+(f.type==='pdf'?'.pdf':'.'+f.ext);
+  a.click();
+}
+
+/* ══ UPLOAD ══ */
+function openUpload(){document.getElementById('uploadModal').classList.add('open');}
+function closeUpload(){document.getElementById('uploadModal').classList.remove('open');}
+document.getElementById('uploadModal').addEventListener('click',function(e){if(e.target===this)closeUpload();});
+
+const dropZone=document.getElementById('dropZone');
+dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('dragging');});
+dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('dragging'));
+dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('dragging');const file=e.dataTransfer.files[0];if(file)processFile(file);});
+
+function handleFileInput(e){const file=e.target.files[0];if(file)processFile(file);}
+
+function processFile(file){
+  const name=file.name.replace(/\.[^/.]+$/,'');
+  const ext=file.name.split('.').pop().toLowerCase();
+  const isPDF=ext==='pdf';
+  const isImage=['png','jpg','jpeg','webp'].includes(ext);
+  if(!isPDF&&!isImage){alert('Unsupported file type. Please upload PDF, PNG, JPG, JPEG, or WEBP.');return;}
+
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const id='file-'+Date.now();
+    const fileObj={
+      id,
+      name,
+      subject:'Upload',
+      type:isPDF?'pdf':'image',
+      ext,
+      date:new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short'}),
+      size:formatBytes(file.size),
+    };
+    if(isPDF){
+      fileObj.data=new Uint8Array(e.target.result);
+      fileObj.rawData=e.target.result;
+    } else {
+      fileObj.data=e.target.result;
+    }
+    files.push(fileObj);
+    currentFilter='all';
+    document.querySelectorAll('.ftab').forEach((t,i)=>{t.classList.toggle('active',i===0);});
+    renderFileList();
+    closeUpload();
+    openFile(id);
+  };
+  if(isPDF) reader.readAsArrayBuffer(file);
+  else reader.readAsDataURL(file);
+}
+
+function formatBytes(b){if(b<1024)return b+'B';if(b<1048576)return(b/1024).toFixed(1)+'KB';return(b/1048576).toFixed(1)+'MB';}
+
+// Keyboard close
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeUpload();});
+</script>
+</body>
+</html>
