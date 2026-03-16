@@ -240,7 +240,7 @@ footer{background:var(--g1);border-top:1px solid var(--border);padding:40px;text
     <div class="ub-tag">Add to Library</div>
     <div class="ub-title">Upload File</div>
     <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-      <div class="dz-icon">📁</div>
+      <div class="dz-icon" style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#bbb;font-weight:600;opacity:.6;">UPLOAD</div>
       <div class="dz-text"><strong>Drop file here</strong><br>or click to browse</div>
       <div class="dz-formats">PDF · PNG · JPG · JPEG · WEBP</div>
     </div>
@@ -307,7 +307,7 @@ footer{background:var(--g1);border-top:1px solid var(--border);padding:40px;text
     </div>
     <div class="viewer-area" id="viewerArea">
       <div class="empty-state">
-        <div class="es-icon">📚</div>
+        <div class="es-icon" style="font-size:40px;color:#ccc;font-family:'Orbitron',monospace;font-weight:900;letter-spacing:.1em;">LIB</div>
         <div class="es-title">No File Selected</div>
         <div class="es-sub">Upload a PDF, image, or choose a note<br>PDFs open with animated page turns</div>
       </div>
@@ -400,7 +400,7 @@ function renderFileList() {
     return;
   }
   list.innerHTML = shown.map(f => {
-    const emoji = f.type === 'pdf' ? '📄' : f.type === 'image' ? '🖼️' : '📝';
+    const emoji = f.type === 'pdf' ? 'PDF' : f.type === 'image' ? 'IMG' : 'TXT';
     const iCls  = f.type === 'pdf' ? 'pdf-icon' : f.type === 'image' ? 'img-icon' : 'note-icon';
     const bCls  = f.type === 'pdf' ? 'pdf' : f.type === 'image' ? 'png' : 'note';
     const bTxt  = f.type === 'pdf' ? 'PDF' : f.type === 'image' ? 'IMG' : 'NOTE';
@@ -508,7 +508,7 @@ async function initPDF(f) {
     console.error('PDF error:', err);
     area.innerHTML = `
       <div class="empty-state">
-        <div class="es-icon">⚠️</div>
+        <div class="es-icon" style="font-size:40px;color:#ccc;font-family:'Orbitron',monospace;font-weight:900;letter-spacing:.1em;">LIB</div>
         <div class="es-title">Cannot Load PDF</div>
         <div class="es-sub">File may be corrupted or password-protected.<br>Try re-uploading.</div>
       </div>`;
@@ -561,16 +561,19 @@ async function drawPage(num) {
   if (loading) loading.style.display = 'flex';
 
   try {
-    const imgData = await renderOffscreen(num);
-    const ctx = canvas.getContext('2d');
-    ctx.putImageData(imgData, 0, 0);
+    const oc = await renderToCanvas(num);
+    if (oc) {
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, PW, PH);
+      ctx.drawImage(oc, 0, 0, PW, PH);
+    }
   } finally {
     if (loading) loading.style.display = 'none';
   }
 }
 
-/* Render a page to an offscreen canvas and cache ImageData */
-async function renderOffscreen(num) {
+/* Render a page to an offscreen canvas and cache it (returns HTMLCanvasElement) */
+async function renderToCanvas(num) {
   if (pdfCache[num]) return pdfCache[num];
   if (!PDF) return null;
 
@@ -590,9 +593,12 @@ async function renderOffscreen(num) {
     await page.render({ canvasContext: ctx, viewport: vp, transform:[1,0,0,1,tx,ty] }).promise;
   } catch(e) { console.warn('Render error p'+num, e); }
 
-  pdfCache[num] = ctx.getImageData(0, 0, PW, PH);
-  return pdfCache[num];
+  pdfCache[num] = oc;   // cache the canvas element, not ImageData
+  return oc;
 }
+
+/* Backward-compat alias */
+async function renderOffscreen(num) { return renderToCanvas(num); }
 
 /* ── Animate a page flip ──
    Canvas-drawn squeeze animation: current page squeezes to spine,
@@ -603,67 +609,71 @@ async function animateFlip(fromPage, toPage, dir) {
   const pageCanvas = document.getElementById('pageCanvas');
   if (!flipCanvas || !pageCanvas) { pdfBusy = false; syncUI(); return; }
 
-  const [fromData, toData] = await Promise.all([
-    renderOffscreen(fromPage),
-    renderOffscreen(toPage),
-  ]);
-  if (!fromData || !toData) { pdfBusy = false; syncUI(); return; }
+  /* Render both pages to offscreen HTMLCanvasElements (drawImage respects transforms) */
+  const fromOC = await renderToCanvas(fromPage);
+  const toOC   = await renderToCanvas(toPage);
+  if (!fromOC || !toOC) { pdfBusy = false; syncUI(); return; }
 
   const fCtx = flipCanvas.getContext('2d');
   const pCtx = pageCanvas.getContext('2d');
 
-  /* Draw destination on main canvas now (hidden under flipCanvas) */
-  pCtx.putImageData(toData, 0, 0);
+  /* Draw destination on main canvas immediately (sits behind flipCanvas) */
+  pCtx.clearRect(0, 0, PW, PH);
+  pCtx.drawImage(toOC, 0, 0, PW, PH);
 
-  /* flipCanvas shows departing page */
-  fCtx.putImageData(fromData, 0, 0);
+  /* flipCanvas starts showing the departing page fully */
+  fCtx.clearRect(0, 0, PW, PH);
+  fCtx.drawImage(fromOC, 0, 0, PW, PH);
   flipCanvas.style.display = 'block';
 
-  const DURATION = 380;
+  const DURATION = 420;
   const start = performance.now();
-  const originX = dir === 'next' ? 0 : PW;
+
+  /*
+   * next: page flips left  — right edge sweeps to left  (originX = right = PW)
+   * prev: page flips right — left  edge sweeps to right (originX = left  = 0)
+   */
+  const originX = dir === 'next' ? PW : 0;
 
   function step(now) {
-    const t = Math.min((now - start) / DURATION, 1);
+    const t    = Math.min((now - start) / DURATION, 1);
     const ease = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
 
     fCtx.clearRect(0, 0, PW, PH);
-    fCtx.save();
 
     if (ease < 0.5) {
-      /* First half: squeeze current page toward spine */
-      const sx = 1 - ease * 2;
-      fCtx.translate(originX, 0);
-      fCtx.scale(sx, 1);
-      fCtx.translate(-originX, 0);
-      fCtx.putImageData(fromData, 0, 0);
-      /* Shadow at fold edge */
-      const grd = fCtx.createLinearGradient(
-        dir === 'next' ? PW - 18 : 0, 0,
-        dir === 'next' ? PW       : 18, 0
-      );
-      grd.addColorStop(0, 'rgba(0,0,0,0)');
-      grd.addColorStop(1, `rgba(0,0,0,${ease * 0.28})`);
+      /* ── Phase 1: current page squeezes toward origin ── */
+      const sx = 1 - ease * 2;          // 1 → 0
+      const dx = dir === 'next'
+        ? PW * (1 - sx)                  // right-pinned: move left
+        : 0;                             // left-pinned: stay
+      fCtx.save();
+      fCtx.drawImage(fromOC, dx, 0, PW * sx, PH);
+      /* darkening gradient at the fold */
+      const dark = ease * 2 * 0.35;
+      const grd = fCtx.createLinearGradient(dx, 0, dx + PW * sx, 0);
+      if (dir === 'next') { grd.addColorStop(0,'rgba(0,0,0,0)'); grd.addColorStop(1,`rgba(0,0,0,${dark})`); }
+      else                { grd.addColorStop(0,`rgba(0,0,0,${dark})`); grd.addColorStop(1,'rgba(0,0,0,0)'); }
       fCtx.fillStyle = grd;
-      fCtx.fillRect(0, 0, PW, PH);
+      fCtx.fillRect(dx, 0, PW * sx, PH);
+      fCtx.restore();
     } else {
-      /* Second half: expand new page from spine */
-      const sx = (ease - 0.5) * 2;
-      fCtx.translate(originX, 0);
-      fCtx.scale(sx, 1);
-      fCtx.translate(-originX, 0);
-      fCtx.putImageData(toData, 0, 0);
-      /* Fade-in shadow */
-      const grd2 = fCtx.createLinearGradient(
-        dir === 'next' ? 0 : PW - 18, 0,
-        dir === 'next' ? 18 : PW, 0
-      );
-      grd2.addColorStop(0, `rgba(0,0,0,${(1 - ease) * 0.2})`);
-      grd2.addColorStop(1, 'rgba(0,0,0,0)');
+      /* ── Phase 2: new page expands from origin ── */
+      const sx = (ease - 0.5) * 2;      // 0 → 1
+      const dx = dir === 'next'
+        ? PW * (1 - sx)                  // right-pinned: starts at right, grows left
+        : 0;                             // left-pinned: starts at left, grows right
+      fCtx.save();
+      fCtx.drawImage(toOC, 0, 0, PW, PH, dx, 0, PW * sx, PH);
+      /* lightening gradient at leading edge */
+      const light = (1 - (ease - 0.5) * 2) * 0.25;
+      const grd2 = fCtx.createLinearGradient(dx, 0, dx + PW * sx, 0);
+      if (dir === 'next') { grd2.addColorStop(0,'rgba(255,255,255,0)'); grd2.addColorStop(1,`rgba(255,255,255,${light})`); }
+      else                { grd2.addColorStop(0,`rgba(255,255,255,${light})`); grd2.addColorStop(1,'rgba(255,255,255,0)'); }
       fCtx.fillStyle = grd2;
-      fCtx.fillRect(0, 0, PW, PH);
+      fCtx.fillRect(dx, 0, PW * sx, PH);
+      fCtx.restore();
     }
-    fCtx.restore();
 
     if (t < 1) {
       requestAnimationFrame(step);
@@ -672,8 +682,8 @@ async function animateFlip(fromPage, toPage, dir) {
       fCtx.clearRect(0, 0, PW, PH);
       pdfBusy = false;
       syncUI();
-      if (dir === 'next' && toPage + 1 <= pdfTotal) renderOffscreen(toPage + 1);
-      if (dir === 'prev' && toPage - 1 >= 1)         renderOffscreen(toPage - 1);
+      if (dir === 'next' && toPage + 1 <= pdfTotal) renderToCanvas(toPage + 1);
+      if (dir === 'prev' && toPage - 1 >= 1)         renderToCanvas(toPage - 1);
     }
   }
   requestAnimationFrame(step);
