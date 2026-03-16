@@ -63,12 +63,30 @@ nav{position:fixed;top:0;width:100%;z-index:1000;padding:16px 48px;display:flex;
 .nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:#000;transition:width .35s;}
 .nav-links a:hover{color:#000;}
 .nav-links a:hover::after{width:100%;}
+
+/* ══ LIBRARY NAV LINK ══ */
+.nav-links .lib-link a{
+  color:#000;
+  font-weight:700;
+}
+.nav-links .lib-link a::before{
+  content:'';
+  position:absolute;
+  inset:-4px -8px;
+  border:1px solid rgba(0,0,0,.12);
+  background:rgba(0,0,0,.04);
+  transition:all .3s;
+}
+.nav-links .lib-link a:hover::before{background:rgba(0,0,0,.08);}
+.nav-links .lib-link a::after{display:none;}
+
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1001;}
 .hamburger span{width:22px;height:1.5px;background:#000;display:block;transition:.3s;}
 .nav-mobile{display:none;flex-direction:column;position:fixed;top:0;right:0;width:240px;height:100vh;background:#fff;border-left:1px solid var(--wb-border);padding:80px 28px;gap:22px;list-style:none;transform:translateX(100%);transition:transform .4s;z-index:999;}
 .nav-mobile.open{transform:translateX(0);display:flex;}
 .nav-mobile a{color:#666;text-decoration:none;font-size:13px;letter-spacing:.12em;text-transform:uppercase;transition:color .3s;}
 .nav-mobile a:hover{color:#000;}
+.nav-mobile .lib-mob{font-weight:700;color:#000 !important;}
 
 .hero{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 100px;overflow:hidden;background:var(--bk);}
 .orb-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:820px;height:820px;pointer-events:none;}
@@ -96,6 +114,25 @@ nav{position:fixed;top:0;width:100%;z-index:1000;padding:16px 48px;display:flex;
 .btn-w:hover{background:#e8e8e8;transform:translateY(-2px);box-shadow:0 14px 36px rgba(255,255,255,.1);}
 .btn-o{background:transparent;color:#fff;border:1px solid #3a3a3a;}
 .btn-o:hover{border-color:#666;transform:translateY(-2px);}
+
+/* ══ LIBRARY BUTTON (hero) ══ */
+.btn-library{
+  background:transparent;
+  color:#fff;
+  border:1px solid #3a3a3a;
+  position:relative;
+  overflow:hidden;
+}
+.btn-library::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);
+  transform:translateX(-100%);
+  transition:transform .5s;
+}
+.btn-library:hover{border-color:#666;transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,255,255,.08);}
+.btn-library:hover::before{transform:translateX(100%);}
+
 .scroll-hint{position:absolute;bottom:36px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:8px;animation:fu .8s 1.4s both;}
 .sh-line{width:1px;height:48px;background:linear-gradient(#fff,transparent);animation:shp 2s infinite;}
 @keyframes shp{0%,100%{opacity:.15;transform:scaleY(1);}50%{opacity:.7;transform:scaleY(1.3);}}
@@ -140,7 +177,6 @@ section.dark .sec-title{background:linear-gradient(180deg,#fff 0%,#555 100%);-we
 .shcard-badges{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
 .badge{padding:5px 12px;border:1px solid var(--border);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#888;}
 
-/* ══ DOWNLOAD BUTTON ══ */
 .dl-wrap{display:flex;gap:10px;flex-wrap:wrap;margin-left:auto;}
 .dl-btn{padding:10px 20px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;border:none;transition:all .3s;font-family:inherit;display:inline-flex;align-items:center;gap:7px;font-weight:700;}
 .dl-btn-pdf{background:#fff;color:#111;border:1.5px solid #ccc;}
@@ -190,7 +226,6 @@ td{padding:14px 20px;font-size:13px;color:#444;}
 .td-n{font-weight:700;color:#111;font-size:14px;}
 .td-s{font-family:'Orbitron',monospace;font-size:13px;color:#333;font-weight:600;}
 
-/* ══ RANKINGS SECTION ══ */
 #ranks .rtable-wrap{background:var(--g2);border-color:var(--border);box-shadow:none;position:relative;overflow:visible;}
 #ranks .rtable-hd{border-color:var(--border);color:#666;}
 #ranks thead th{color:#444;border-color:var(--border);}
@@ -235,6 +270,42 @@ td{padding:14px 20px;font-size:13px;color:#444;}
 .nc-meta{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#aaa;}
 .nc-tag{padding:3px 10px;border:1px solid var(--wb-border);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#888;}
 
+/* ══ LIBRARY CTA SECTION ══ */
+.library-cta{
+  background:var(--bk);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:64px 40px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.library-cta::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.012) 3px,rgba(255,255,255,.012) 6px);
+  pointer-events:none;
+}
+.lcta-tag{font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:#444;margin-bottom:14px;}
+.lcta-title{font-family:'Orbitron',monospace;font-size:clamp(22px,4vw,42px);font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:12px;}
+.lcta-sub{font-size:14px;color:#555;margin-bottom:32px;line-height:1.8;}
+.lcta-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 44px;font-size:12px;letter-spacing:.25em;text-transform:uppercase;
+  background:#fff;color:#000;font-weight:900;cursor:pointer;
+  border:none;font-family:inherit;text-decoration:none;
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.lcta-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,215,0,.15),transparent);
+  transform:translateX(-100%);transition:transform .5s;
+}
+.lcta-btn:hover{background:#f0f0f0;transform:translateY(-3px);box-shadow:0 14px 40px rgba(255,255,255,.15);}
+.lcta-btn:hover::before{transform:translateX(100%);}
+.lcta-features{display:flex;gap:32px;justify-content:center;margin-top:28px;flex-wrap:wrap;}
+.lcta-feat{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#444;display:flex;align-items:center;gap:7px;}
+.lcta-feat::before{content:'✓';color:#666;}
+
 .moverlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(12px);}
 .moverlay.open{opacity:1;pointer-events:all;}
 .modal{background:#fff;border:1px solid var(--wb-border);padding:44px;max-width:520px;width:100%;position:relative;transform:translateY(16px);transition:transform .3s;box-shadow:0 24px 80px rgba(0,0,0,.16);}
@@ -278,10 +349,11 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
   .rtable-wrap thead th,.rtable-wrap tbody td{padding:10px 10px;font-size:11px;white-space:nowrap;}
   .rtable-wrap .td-s{font-size:11px;}
   .dl-wrap{margin-left:0;margin-top:10px;width:100%;}
+  .lcta-features{gap:16px;}
 }
 @media(max-width:400px){.res-grid{grid-template-columns:1fr;}}
 
-/* ══ SPLASH SCREEN ══ */
+/* SPLASH */
 #splash{position:fixed;inset:0;z-index:999999;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;transition:opacity .7s ease,visibility .7s ease;}
 #splash.hide{opacity:0;visibility:hidden;pointer-events:none;}
 #splashCanvas{position:absolute;inset:0;pointer-events:none;}
@@ -308,325 +380,55 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
 .sp-orb:nth-child(4){width:560px;height:560px;animation:orbs 42s linear infinite reverse;}
 .sp-orb::before{content:'';position:absolute;width:4px;height:4px;background:#fff;border-radius:50%;box-shadow:0 0 8px #fff,0 0 18px rgba(255,255,255,.3);top:-2px;left:50%;transform:translateX(-50%);}
 
-/* ══ MARKSHEET TEMPLATE (hidden, used for export) ══ */
-#marksheetTemplate{
-  position:fixed;
-  left:-9999px;
-  top:0;
-  width:794px; /* A4 width at 96dpi */
-  background:#fff;
-  z-index:-1;
-  font-family:'Segoe UI','Helvetica Neue',sans-serif;
-}
-.ms-wrap{
-  width:794px;
-  min-height:1123px;
-  background:#fff;
-  padding:0;
-  position:relative;
-  box-sizing:border-box;
-}
-/* Top header band */
-.ms-header{
-  background:#0a0a0a;
-  padding:32px 44px 28px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
+#marksheetTemplate{position:fixed;left:-9999px;top:0;width:794px;background:#fff;z-index:-1;font-family:'Segoe UI','Helvetica Neue',sans-serif;}
+.ms-wrap{width:794px;min-height:1123px;background:#fff;padding:0;position:relative;box-sizing:border-box;}
+.ms-header{background:#0a0a0a;padding:32px 44px 28px;display:flex;align-items:center;justify-content:space-between;}
 .ms-brand-block{}
-.ms-brand-name{
-  font-family:'Orbitron',monospace;
-  font-weight:900;
-  font-size:32px;
-  letter-spacing:.22em;
-  color:#fff;
-  text-transform:uppercase;
-}
-.ms-brand-sub{
-  font-size:9px;
-  letter-spacing:.45em;
-  color:#555;
-  text-transform:uppercase;
-  margin-top:4px;
-}
-.ms-doc-label{
-  text-align:right;
-}
-.ms-doc-title{
-  font-size:11px;
-  letter-spacing:.4em;
-  text-transform:uppercase;
-  color:#888;
-}
-.ms-doc-year{
-  font-family:'Orbitron',monospace;
-  font-size:18px;
-  font-weight:700;
-  color:#fff;
-  margin-top:4px;
-  letter-spacing:.1em;
-}
-
-/* Gold accent bar */
-.ms-gold-bar{
-  height:3px;
-  background:linear-gradient(90deg,#ffd700,#ffb300,#ff8c00,#ffd700);
-  background-size:300% 100%;
-}
-
-/* Student info section */
-.ms-student-band{
-  background:#f8f8f8;
-  border-bottom:1px solid #e8e8e8;
-  padding:24px 44px;
-  display:flex;
-  align-items:center;
-  gap:24px;
-}
-.ms-avatar{
-  width:64px;
-  height:64px;
-  background:#111;
-  border:2px solid #222;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:'Orbitron',monospace;
-  font-size:20px;
-  font-weight:900;
-  color:#fff;
-  flex-shrink:0;
-  border-radius:2px;
-}
+.ms-brand-name{font-family:'Orbitron',monospace;font-weight:900;font-size:32px;letter-spacing:.22em;color:#fff;text-transform:uppercase;}
+.ms-brand-sub{font-size:9px;letter-spacing:.45em;color:#555;text-transform:uppercase;margin-top:4px;}
+.ms-doc-label{text-align:right;}
+.ms-doc-title{font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:#888;}
+.ms-doc-year{font-family:'Orbitron',monospace;font-size:18px;font-weight:700;color:#fff;margin-top:4px;letter-spacing:.1em;}
+.ms-gold-bar{height:3px;background:linear-gradient(90deg,#ffd700,#ffb300,#ff8c00,#ffd700);background-size:300% 100%;}
+.ms-student-band{background:#f8f8f8;border-bottom:1px solid #e8e8e8;padding:24px 44px;display:flex;align-items:center;gap:24px;}
+.ms-avatar{width:64px;height:64px;background:#111;border:2px solid #222;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;border-radius:2px;}
 .ms-student-details{flex:1;}
-.ms-student-name{
-  font-size:24px;
-  font-weight:800;
-  color:#111;
-  letter-spacing:-.01em;
-}
-.ms-student-meta{
-  font-size:11px;
-  letter-spacing:.25em;
-  color:#888;
-  text-transform:uppercase;
-  margin-top:4px;
-}
-.ms-overall-badge{
-  text-align:right;
-}
-.ms-overall-score{
-  font-family:'Orbitron',monospace;
-  font-size:36px;
-  font-weight:900;
-  color:#111;
-  line-height:1;
-}
-.ms-overall-label{
-  font-size:9px;
-  letter-spacing:.35em;
-  text-transform:uppercase;
-  color:#aaa;
-  margin-top:4px;
-}
-.ms-grade-pill{
-  display:inline-block;
-  padding:4px 14px;
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:.12em;
-  border-radius:2px;
-  margin-top:8px;
-}
-
-/* Content area */
+.ms-student-name{font-size:24px;font-weight:800;color:#111;letter-spacing:-.01em;}
+.ms-student-meta{font-size:11px;letter-spacing:.25em;color:#888;text-transform:uppercase;margin-top:4px;}
+.ms-overall-badge{text-align:right;}
+.ms-overall-score{font-family:'Orbitron',monospace;font-size:36px;font-weight:900;color:#111;line-height:1;}
+.ms-overall-label{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:#aaa;margin-top:4px;}
+.ms-grade-pill{display:inline-block;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:.12em;border-radius:2px;margin-top:8px;}
 .ms-body{padding:28px 44px;}
-
-/* Period label */
-.ms-period-label{
-  font-size:9px;
-  letter-spacing:.5em;
-  text-transform:uppercase;
-  color:#aaa;
-  margin-bottom:18px;
-  padding-bottom:10px;
-  border-bottom:1px solid #ebebeb;
-}
-
-/* Subject grid */
-.ms-subj-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-  margin-bottom:28px;
-}
-.ms-subj-card{
-  border:1.5px solid #e8e8e8;
-  padding:16px;
-  background:#fff;
-}
-.ms-subj-name{
-  font-size:9px;
-  letter-spacing:.3em;
-  text-transform:uppercase;
-  color:#aaa;
-  margin-bottom:8px;
-  font-weight:600;
-}
-.ms-subj-score{
-  font-family:'Orbitron',monospace;
-  font-size:28px;
-  font-weight:900;
-  color:#111;
-  line-height:1;
-}
-.ms-subj-of{
-  font-size:11px;
-  color:#bbb;
-}
-.ms-subj-bar-bg{
-  height:3px;
-  background:#f0f0f0;
-  margin:10px 0 8px;
-  border-radius:2px;
-  overflow:hidden;
-}
-.ms-subj-bar-fill{
-  height:100%;
-  background:linear-gradient(90deg,#ccc,#111);
-  border-radius:2px;
-}
-.ms-subj-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-.ms-subj-grade{
-  display:inline-block;
-  padding:3px 9px;
-  font-size:9px;
-  font-weight:700;
-  letter-spacing:.1em;
-  border:1px solid;
-  border-radius:2px;
-}
-.ms-subj-pct{
-  font-family:'Orbitron',monospace;
-  font-size:10px;
-  color:#aaa;
-}
-
-/* Week table */
+.ms-period-label{font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:#aaa;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid #ebebeb;}
+.ms-subj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px;}
+.ms-subj-card{border:1.5px solid #e8e8e8;padding:16px;background:#fff;}
+.ms-subj-name{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#aaa;margin-bottom:8px;font-weight:600;}
+.ms-subj-score{font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:#111;line-height:1;}
+.ms-subj-of{font-size:11px;color:#bbb;}
+.ms-subj-bar-bg{height:3px;background:#f0f0f0;margin:10px 0 8px;border-radius:2px;overflow:hidden;}
+.ms-subj-bar-fill{height:100%;background:linear-gradient(90deg,#ccc,#111);border-radius:2px;}
+.ms-subj-row{display:flex;align-items:center;justify-content:space-between;}
+.ms-subj-grade{display:inline-block;padding:3px 9px;font-size:9px;font-weight:700;letter-spacing:.1em;border:1px solid;border-radius:2px;}
+.ms-subj-pct{font-family:'Orbitron',monospace;font-size:10px;color:#aaa;}
 .ms-table-section{margin-bottom:28px;}
-.ms-table-label{
-  font-size:9px;
-  letter-spacing:.45em;
-  text-transform:uppercase;
-  color:#aaa;
-  margin-bottom:10px;
-  font-weight:600;
-}
-.ms-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:12px;
-}
-.ms-table th{
-  padding:9px 12px;
-  text-align:left;
-  font-size:8px;
-  letter-spacing:.25em;
-  text-transform:uppercase;
-  color:#aaa;
-  border-bottom:1.5px solid #111;
-  font-weight:600;
-}
-.ms-table td{
-  padding:9px 12px;
-  color:#444;
-  border-bottom:1px solid #f0f0f0;
-}
+.ms-table-label{font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:#aaa;margin-bottom:10px;font-weight:600;}
+.ms-table{width:100%;border-collapse:collapse;font-size:12px;}
+.ms-table th{padding:9px 12px;text-align:left;font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:#aaa;border-bottom:1.5px solid #111;font-weight:600;}
+.ms-table td{padding:9px 12px;color:#444;border-bottom:1px solid #f0f0f0;}
 .ms-table tbody tr:last-child td{border-bottom:none;}
 .ms-table .ms-td-wk{font-weight:700;color:#111;font-size:10px;letter-spacing:.1em;}
 .ms-table .ms-td-sc{font-family:'Orbitron',monospace;font-size:11px;color:#333;font-weight:600;}
 .ms-table .ms-td-gr{display:inline-block;padding:2px 8px;font-size:8px;font-weight:700;letter-spacing:.1em;border:1px solid;border-radius:2px;}
-
-/* Summary row */
-.ms-summary-row{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  margin-bottom:28px;
-}
-.ms-sum-box{
-  border:1.5px solid #e8e8e8;
-  padding:14px;
-  text-align:center;
-}
-.ms-sum-n{
-  font-family:'Orbitron',monospace;
-  font-size:22px;
-  font-weight:900;
-  color:#111;
-}
-.ms-sum-l{
-  font-size:8px;
-  letter-spacing:.3em;
-  text-transform:uppercase;
-  color:#aaa;
-  margin-top:5px;
-}
-
-/* Footer */
-.ms-footer{
-  background:#0a0a0a;
-  padding:18px 44px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-top:auto;
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-}
-.ms-footer-brand{
-  font-family:'Orbitron',monospace;
-  font-size:13px;
-  font-weight:900;
-  letter-spacing:.22em;
-  color:#333;
-  text-transform:uppercase;
-}
-.ms-footer-right{
-  font-size:10px;
-  color:#333;
-  letter-spacing:.1em;
-  text-align:right;
-}
-.ms-footer-date{
-  font-size:9px;
-  color:#444;
-  margin-top:2px;
-}
-
-/* Watermark */
-.ms-watermark{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%) rotate(-35deg);
-  font-family:'Orbitron',monospace;
-  font-size:80px;
-  font-weight:900;
-  letter-spacing:.15em;
-  color:rgba(0,0,0,.025);
-  text-transform:uppercase;
-  pointer-events:none;
-  white-space:nowrap;
-  z-index:0;
-}
+.ms-summary-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
+.ms-sum-box{border:1.5px solid #e8e8e8;padding:14px;text-align:center;}
+.ms-sum-n{font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:#111;}
+.ms-sum-l{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:#aaa;margin-top:5px;}
+.ms-footer{background:#0a0a0a;padding:18px 44px;display:flex;align-items:center;justify-content:space-between;margin-top:auto;position:absolute;bottom:0;left:0;right:0;}
+.ms-footer-brand{font-family:'Orbitron',monospace;font-size:13px;font-weight:900;letter-spacing:.22em;color:#333;text-transform:uppercase;}
+.ms-footer-right{font-size:10px;color:#333;letter-spacing:.1em;text-align:right;}
+.ms-footer-date{font-size:9px;color:#444;margin-top:2px;}
+.ms-watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-family:'Orbitron',monospace;font-size:80px;font-weight:900;letter-spacing:.15em;color:rgba(0,0,0,.025);text-transform:uppercase;pointer-events:none;white-space:nowrap;z-index:0;}
 </style>
 </head>
 <body>
@@ -649,9 +451,7 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
   </div>
 </div>
 
-<!-- Hidden marksheet template container -->
 <div id="marksheetTemplate"></div>
-
 <canvas id="bgCanvas"></canvas>
 <div id="cur"></div>
 <div id="cur2"></div>
@@ -672,6 +472,7 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
     <li><a href="#ranks">Rankings</a></li>
     <li><a href="#notes">Notes</a></li>
     <li><a href="#about">About</a></li>
+    <li class="lib-link"><a href="notes.html">Library</a></li>
   </ul>
   <div class="hamburger" onclick="toggleNav()">
     <span></span><span></span><span></span>
@@ -682,6 +483,7 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
   <li><a href="#ranks" onclick="closeNav()">Rankings</a></li>
   <li><a href="#notes" onclick="closeNav()">Notes</a></li>
   <li><a href="#about" onclick="closeNav()">About</a></li>
+  <li><a href="notes.html" onclick="closeNav()" class="lib-mob">📚 Library</a></li>
 </ul>
 
 <section class="hero" id="home">
@@ -696,6 +498,7 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
   <div class="hero-btns">
     <a href="#students" class="btn btn-w">View Results</a>
     <a href="#notes" class="btn btn-o">Study Notes</a>
+    <a href="notes.html" class="btn btn-library">Library</a>
   </div>
   <div class="scroll-hint">
     <div class="sh-line"></div>
@@ -753,6 +556,23 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
   <div class="notes-grid" id="notesGrid"></div>
 </section>
 
+<!-- ══ LIBRARY CTA ══ -->
+<div class="library-cta rv">
+  <div class="lcta-tag">New Feature</div>
+  <div class="lcta-title">LIBRARY</div>
+  <div class="lcta-sub">Upload PDFs, images & notes · Flip through pages with<br>cinematic animated page turns — just like a real book.</div>
+  <a href="notes.html" class="lcta-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    Open Library
+  </a>
+  <div class="lcta-features">
+    <span class="lcta-feat">PDF Flip Viewer</span>
+    <span class="lcta-feat">Upload Any File</span>
+    <span class="lcta-feat">Study Notes</span>
+    <span class="lcta-feat">Image Gallery</span>
+  </div>
+</div>
+
 <section id="about" style="border-top:1px solid var(--wb-border);">
   <div style="max-width:620px;margin:0 auto;text-align:center;">
     <div class="sec-tag rv" style="display:inline-block;margin-bottom:20px;">The Educator</div>
@@ -781,39 +601,17 @@ const ctx=canvas.getContext('2d');
 let W,H;
 function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
 resize();window.addEventListener('resize',resize);
-
 const hexPts=[];
-(function(){
-  const gx=88,gy=76;
-  for(let r=0;r*gy<H+gy*2;r++){
-    for(let c=0;c*gx<W+gx*2;c++){
-      hexPts.push({ox:c*gx+(r%2)*gx*.5,oy:r*gy,pulse:Math.random()*Math.PI*2,sp:.003+Math.random()*.009,sz:.4+Math.random()*.85,al:.04+Math.random()*.09});
-    }
-  }
-})();
-
+(function(){const gx=88,gy=76;for(let r=0;r*gy<H+gy*2;r++){for(let c=0;c*gx<W+gx*2;c++){hexPts.push({ox:c*gx+(r%2)*gx*.5,oy:r*gy,pulse:Math.random()*Math.PI*2,sp:.003+Math.random()*.009,sz:.4+Math.random()*.85,al:.04+Math.random()*.09});}}})();
 class GeoShape{constructor(){this.x=Math.random()*W;this.y=Math.random()*H;this.sz=7+Math.random()*20;this.vx=(Math.random()-.5)*.13;this.vy=(Math.random()-.5)*.13;this.rot=Math.random()*Math.PI*2;this.rv=(Math.random()-.5)*.003;this.al=.018+Math.random()*.04;this.sides=Math.random()>.5?4:3;}update(){this.x+=this.vx;this.y+=this.vy;this.rot+=this.rv;if(this.x<-60)this.x=W+60;if(this.x>W+60)this.x=-60;if(this.y<-60)this.y=H+60;if(this.y>H+60)this.y=-60;}draw(){ctx.save();ctx.globalAlpha=this.al;ctx.strokeStyle='#000';ctx.lineWidth=.4;ctx.translate(this.x,this.y);ctx.rotate(this.rot);ctx.beginPath();if(this.sides===4){ctx.rect(-this.sz/2,-this.sz/2,this.sz,this.sz);}else{for(let i=0;i<3;i++){const a=i*Math.PI*2/3-Math.PI/2;i===0?ctx.moveTo(Math.cos(a)*this.sz,Math.sin(a)*this.sz):ctx.lineTo(Math.cos(a)*this.sz,Math.sin(a)*this.sz);}ctx.closePath();}ctx.stroke();ctx.restore();}}
 const shapes=[];for(let i=0;i<55;i++)shapes.push(new GeoShape());
-
 class Spark{constructor(){this.reset();}reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.sz=2.5+Math.random()*5;this.al=0;this.maxAl=.06+Math.random()*.13;this.life=0;this.maxLife=100+Math.random()*200;this.fi=30;}update(){this.life++;const t=this.life/this.maxLife;this.al=this.maxAl*(t<this.fi/this.maxLife?t/(this.fi/this.maxLife):1-t);if(this.life>=this.maxLife)this.reset();}draw(){ctx.save();ctx.globalAlpha=this.al;ctx.strokeStyle='#000';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(this.x-this.sz,this.y);ctx.lineTo(this.x+this.sz,this.y);ctx.moveTo(this.x,this.y-this.sz);ctx.lineTo(this.x,this.y+this.sz);ctx.stroke();ctx.restore();}}
 const sparks=[];for(let i=0;i<70;i++){const s=new Spark();s.life=Math.random()*s.maxLife;sparks.push(s);}
-
 class Ring{constructor(){this.reset();}reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=5;this.maxR=50+Math.random()*70;this.life=0;this.maxLife=130+Math.random()*100;}update(){this.life++;const t=this.life/this.maxLife;this.r=5+(this.maxR-5)*t;this.al=.08*(1-t);if(this.life>=this.maxLife)this.reset();}draw(){ctx.save();ctx.globalAlpha=this.al;ctx.strokeStyle='#000';ctx.lineWidth=.5;ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.stroke();ctx.restore();}}
 const rings=[];for(let i=0;i<18;i++){const r=new Ring();r.life=Math.random()*r.maxLife;rings.push(r);}
-
 let mpx=W/2,mpy=H/2;
 document.addEventListener('mousemove',e=>{mpx=e.clientX;mpy=e.clientY;});
-
-function animate(){
-  ctx.clearRect(0,0,W,H);
-  hexPts.forEach(p=>{p.pulse+=p.sp;const pulse=.5+.5*Math.sin(p.pulse);const dx=p.ox-mpx,dy=p.oy-mpy,d=Math.sqrt(dx*dx+dy*dy);const push=d<110?((110-d)/110)*8:0;const px=p.ox+(push>0?dx/d*push:0),py=p.oy+(push>0?dy/d*push:0);ctx.save();ctx.globalAlpha=p.al*pulse+push*.02;ctx.fillStyle='#000';ctx.beginPath();ctx.arc(px,py,p.sz*(1+push*.07),0,Math.PI*2);ctx.fill();ctx.restore();});
-  shapes.forEach(s=>{s.update();s.draw();});
-  sparks.forEach(s=>{s.update();s.draw();});
-  rings.forEach(r=>{r.update();r.draw();});
-  const near=hexPts.filter(p=>{const dx=p.ox-mpx,dy=p.oy-mpy;return dx*dx+dy*dy<9000;}).slice(0,10);
-  for(let i=0;i<near.length;i++)for(let j=i+1;j<near.length;j++){const dx=near[i].ox-near[j].ox,dy=near[i].oy-near[j].oy,d=Math.sqrt(dx*dx+dy*dy);if(d<110){ctx.save();ctx.globalAlpha=(1-d/110)*.07;ctx.strokeStyle='#000';ctx.lineWidth=.35;ctx.beginPath();ctx.moveTo(near[i].ox,near[i].oy);ctx.lineTo(near[j].ox,near[j].oy);ctx.stroke();ctx.restore();}}
-  requestAnimationFrame(animate);
-}
+function animate(){ctx.clearRect(0,0,W,H);hexPts.forEach(p=>{p.pulse+=p.sp;const pulse=.5+.5*Math.sin(p.pulse);const dx=p.ox-mpx,dy=p.oy-mpy,d=Math.sqrt(dx*dx+dy*dy);const push=d<110?((110-d)/110)*8:0;const px=p.ox+(push>0?dx/d*push:0),py=p.oy+(push>0?dy/d*push:0);ctx.save();ctx.globalAlpha=p.al*pulse+push*.02;ctx.fillStyle='#000';ctx.beginPath();ctx.arc(px,py,p.sz*(1+push*.07),0,Math.PI*2);ctx.fill();ctx.restore();});shapes.forEach(s=>{s.update();s.draw();});sparks.forEach(s=>{s.update();s.draw();});rings.forEach(r=>{r.update();r.draw();});const near=hexPts.filter(p=>{const dx=p.ox-mpx,dy=p.oy-mpy;return dx*dx+dy*dy<9000;}).slice(0,10);for(let i=0;i<near.length;i++)for(let j=i+1;j<near.length;j++){const dx=near[i].ox-near[j].ox,dy=near[i].oy-near[j].oy,d=Math.sqrt(dx*dx+dy*dy);if(d<110){ctx.save();ctx.globalAlpha=(1-d/110)*.07;ctx.strokeStyle='#000';ctx.lineWidth=.35;ctx.beginPath();ctx.moveTo(near[i].ox,near[i].oy);ctx.lineTo(near[j].ox,near[j].oy);ctx.stroke();ctx.restore();}}requestAnimationFrame(animate);}
 animate();
 
 /* ══ CURSOR ══ */
@@ -821,10 +619,7 @@ const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
 let cx=W/2,cy=H/2,rx=cx,ry=cy;
 document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px';});
 (function lag(){rx+=(cx-rx)*.1;ry+=(cy-ry)*.1;cur2.style.left=rx+'px';cur2.style.top=ry+'px';requestAnimationFrame(lag);})();
-document.querySelectorAll('a,button,.stab,.wtab,.nc,.rc').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.5)';cur2.style.width='46px';cur2.style.height='46px';});
-  el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';cur2.style.width='32px';cur2.style.height='32px';});
-});
+document.querySelectorAll('a,button,.stab,.wtab,.nc,.rc').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.5)';cur2.style.width='46px';cur2.style.height='46px';});el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';cur2.style.width='32px';cur2.style.height='32px';});});
 
 /* ══ NAV ══ */
 function toggleNav(){document.getElementById('navMob').classList.toggle('open');}
@@ -835,21 +630,12 @@ const rvObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.t
 document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
 
 /* ══ COUNTERS ══ */
-document.querySelectorAll('.sbi-n[data-target]').forEach(el=>{
-  const obs=new IntersectionObserver(es=>{
-    if(!es[0].isIntersecting)return;
-    const tgt=+el.dataset.target;let c=0;
-    const t=setInterval(()=>{c=Math.min(c+tgt/50,tgt);el.textContent=Math.floor(c);if(c>=tgt)clearInterval(t);},28);
-    obs.disconnect();
-  },{threshold:.3});
-  obs.observe(el);
-});
+document.querySelectorAll('.sbi-n[data-target]').forEach(el=>{const obs=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;const tgt=+el.dataset.target;let c=0;const t=setInterval(()=>{c=Math.min(c+tgt/50,tgt);el.textContent=Math.floor(c);if(c>=tgt)clearInterval(t);},28);obs.disconnect();},{threshold:.3});obs.observe(el);});
 
 /* ══ DATA ══ */
 const MAX=50;
 const SUBJECTS=['English','Hindi','Math','Science','Computer','Social Science'];
 const WEEKS=['Week 1','Week 2','Week 3','Week 4'];
-
 const students=[
   {id:'aarisha',name:'Aarisha',cls:'Class 8',init:'A',weeks:[{scores:[44,43,46,48,42,45]},{scores:[45,43,47,44,46,41]},{scores:[42,40,44,42,44,39]},{scores:[46,44,48,45,47,43]}]},
   {id:'aarifa',name:'Aarifa',cls:'Class 7',init:'Aa',weeks:[{scores:[42,44,42,42,41,46]},{scores:[41,42,43,41,42,40]},{scores:[39,37,41,38,40,42]},{scores:[43,40,44,41,43,44]}]},
@@ -857,7 +643,6 @@ const students=[
   {id:'ayan',name:'Ayan',cls:'Class 4',init:'Ay',weeks:[{scores:[35,32,37,34,36,31]},{scores:[36,34,38,36,37,33]},{scores:[34,31,36,33,35,31]},{scores:[38,35,40,37,39,34]}]},
   {id:'shanvi',name:'Shanvi',cls:'Class 1',init:'S',weeks:[{scores:[42,36,40,43,42,44]},{scores:[41,42,36,41,38,40]},{scores:[39,43,44,43,42,38]},{scores:[43,41,37,45,45,40]}]}
 ];
-
 function grade(score){const pct=score/MAX*100;if(pct>=90)return{g:'A+',c:'ga'};if(pct>=80)return{g:'A',c:'ga'};if(pct>=70)return{g:'B+',c:'gb2'};if(pct>=60)return{g:'B',c:'gb2'};return{g:'C',c:'gc'};}
 function avg(arr){return Math.round(arr.reduce((a,b)=>a+b,0)/arr.length);}
 function pct(score){return Math.round(score/MAX*100);}
@@ -865,311 +650,34 @@ function pct(score){return Math.round(score/MAX*100);}
 /* ══ BUILD TABS & PANELS ══ */
 const tabsEl=document.getElementById('studentTabs');
 const panelsEl=document.getElementById('studentPanels');
-
 students.forEach((st,si)=>{
-  const tab=document.createElement('button');
-  tab.className='stab'+(si===0?' active':'');
-  tab.innerHTML=`<span>${st.name}<span class="stab-sub">${st.cls}</span></span>`;
-  tab.onclick=()=>switchStudent(st.id);
-  tabsEl.appendChild(tab);
-
-  const panel=document.createElement('div');
-  panel.className='student-panel'+(si===0?' active':'');
-  panel.id='panel-'+st.id;
-  const allSc=st.weeks.flatMap(w=>w.scores);
-  const ovAvg=avg(allSc);
-  const{g:ovG}=grade(ovAvg);
-  const topI=SUBJECTS.map((_,i)=>({i,a:avg(st.weeks.map(w=>w.scores[i]))})).sort((a,b)=>b.a-a.a)[0];
-  panel.innerHTML=`
-    <div class="shcard">
-      <div class="shcard-av">${st.init}</div>
-      <div class="shcard-info">
-        <div class="shcard-name">${st.name}</div>
-        <div class="shcard-class">${st.cls} · SHIELDER Program</div>
-        <div class="shcard-badges">
-          <span class="badge">Overall Avg: ${ovAvg} / ${MAX}</span>
-          <span class="badge">Best: ${SUBJECTS[topI.i]}</span>
-          <span class="badge">Grade: ${ovG}</span>
-        </div>
-      </div>
-      <div class="dl-wrap">
-        <button class="dl-btn dl-btn-pdf" onclick="downloadMarksheet('${st.id}','pdf',this)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          Download PDF
-        </button>
-        <button class="dl-btn dl-btn-png" onclick="downloadMarksheet('${st.id}','png',this)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          Download PNG
-        </button>
-      </div>
-    </div>
-    <div class="week-tabs" id="wtabs-${st.id}">
-      ${WEEKS.map((w,wi)=>`<button class="wtab${wi===0?' active':''}" onclick="switchWeek('${st.id}',${wi},this)">${w}</button>`).join('')}
-      <button class="wtab" onclick="switchWeek('${st.id}',-1,this)">All Weeks</button>
-    </div>
-    <div id="wcontent-${st.id}"></div>`;
+  const tab=document.createElement('button');tab.className='stab'+(si===0?' active':'');tab.innerHTML=`<span>${st.name}<span class="stab-sub">${st.cls}</span></span>`;tab.onclick=()=>switchStudent(st.id);tabsEl.appendChild(tab);
+  const panel=document.createElement('div');panel.className='student-panel'+(si===0?' active':'');panel.id='panel-'+st.id;
+  const allSc=st.weeks.flatMap(w=>w.scores);const ovAvg=avg(allSc);const{g:ovG}=grade(ovAvg);const topI=SUBJECTS.map((_,i)=>({i,a:avg(st.weeks.map(w=>w.scores[i]))})).sort((a,b)=>b.a-a.a)[0];
+  panel.innerHTML=`<div class="shcard"><div class="shcard-av">${st.init}</div><div class="shcard-info"><div class="shcard-name">${st.name}</div><div class="shcard-class">${st.cls} · SHIELDER Program</div><div class="shcard-badges"><span class="badge">Overall Avg: ${ovAvg} / ${MAX}</span><span class="badge">Best: ${SUBJECTS[topI.i]}</span><span class="badge">Grade: ${ovG}</span></div></div><div class="dl-wrap"><button class="dl-btn dl-btn-pdf" onclick="downloadMarksheet('${st.id}','pdf',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Download PDF</button><button class="dl-btn dl-btn-png" onclick="downloadMarksheet('${st.id}','png',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Download PNG</button></div></div><div class="week-tabs" id="wtabs-${st.id}">${WEEKS.map((w,wi)=>`<button class="wtab${wi===0?' active':''}" onclick="switchWeek('${st.id}',${wi},this)">${w}</button>`).join('')}<button class="wtab" onclick="switchWeek('${st.id}',-1,this)">All Weeks</button></div><div id="wcontent-${st.id}"></div>`;
   panelsEl.appendChild(panel);
 });
-
 function buildContent(st,wIdx){
-  const el=document.getElementById('wcontent-'+st.id);
-  let html='';
-  if(wIdx===-1){
-    const sAvgs=SUBJECTS.map((_,i)=>({s:SUBJECTS[i],a:avg(st.weeks.map(w=>w.scores[i]))}));
-    const ovA=avg(sAvgs.map(s=>s.a));
-    const{g:ovG}=grade(ovA);
-    html+=`<div class="sum-row"><div class="sum-box"><div class="sum-n">${ovA}</div><div class="sum-l">Overall Avg</div></div><div class="sum-box"><div class="sum-n">${ovA*SUBJECTS.length}</div><div class="sum-l">Total (avg)</div></div><div class="sum-box"><div class="sum-n">${pct(ovA)}%</div><div class="sum-l">Percentage</div></div><div class="sum-box"><div class="sum-n">${ovG}</div><div class="sum-l">Grade</div></div></div><div class="res-grid">`;
-    sAvgs.forEach(s=>{const{g,c}=grade(s.a);html+=`<div class="rc"><span class="rc-subj-label">${s.s}</span><div class="rc-score">${s.a}<span class="rc-of">/ ${MAX}</span></div><div class="rc-bar"><div class="rc-fill" style="width:${pct(s.a)}%"></div></div><div class="rc-row"><span class="rc-grade ${c}">${g}</span><span class="rc-pct">${pct(s.a)}%</span></div></div>`;});
-    html+=`</div><div class="rtable-wrap"><div class="rtable-hd">Week-by-Week Scores (out of ${MAX} per subject)</div><table><thead><tr><th>Week</th>${SUBJECTS.map(s=>`<th>${s.split(' ')[0]}</th>`).join('')}<th>Total</th><th>Avg</th></tr></thead><tbody>${st.weeks.map((w,wi)=>{const tot=w.scores.reduce((a,b)=>a+b,0);const av2=Math.round(tot/SUBJECTS.length);const{g,c}=grade(av2);return`<tr><td class="td-r">${WEEKS[wi]}</td>${w.scores.map(sc=>`<td class="td-s">${sc}</td>`).join('')}<td class="td-s">${tot}</td><td><span class="td-g ${c}">${av2}</span></td></tr>`;}).join('')}</tbody></table></div>`;
-  } else {
-    const w=st.weeks[wIdx];const tot=w.scores.reduce((a,b)=>a+b,0);const av2=Math.round(tot/SUBJECTS.length);const{g:wG}=grade(av2);
-    html+=`<div class="sum-row"><div class="sum-box"><div class="sum-n">${tot}</div><div class="sum-l">Total Marks</div></div><div class="sum-box"><div class="sum-n">${av2} / ${MAX}</div><div class="sum-l">Average</div></div><div class="sum-box"><div class="sum-n">${pct(av2)}%</div><div class="sum-l">Percentage</div></div><div class="sum-box"><div class="sum-n">${wG}</div><div class="sum-l">Grade</div></div></div><div class="res-grid">`;
-    SUBJECTS.forEach((s,i)=>{const sc=w.scores[i];const{g,c}=grade(sc);html+=`<div class="rc"><span class="rc-subj-label">${s}</span><div class="rc-score">${sc}<span class="rc-of">/ ${MAX}</span></div><div class="rc-bar"><div class="rc-fill" style="width:${pct(sc)}%"></div></div><div class="rc-row"><span class="rc-grade ${c}">${g}</span><span class="rc-pct">${pct(sc)}%</span></div></div>`;});
-    html+=`</div>`;
-  }
-  el.innerHTML=html;
-  setTimeout(()=>{el.querySelectorAll('.rc-fill').forEach(b=>{const w=b.style.width;b.style.width='0';setTimeout(()=>{b.style.width=w;},60);});},60);
+  const el=document.getElementById('wcontent-'+st.id);let html='';
+  if(wIdx===-1){const sAvgs=SUBJECTS.map((_,i)=>({s:SUBJECTS[i],a:avg(st.weeks.map(w=>w.scores[i]))}));const ovA=avg(sAvgs.map(s=>s.a));const{g:ovG}=grade(ovA);html+=`<div class="sum-row"><div class="sum-box"><div class="sum-n">${ovA}</div><div class="sum-l">Overall Avg</div></div><div class="sum-box"><div class="sum-n">${ovA*SUBJECTS.length}</div><div class="sum-l">Total (avg)</div></div><div class="sum-box"><div class="sum-n">${pct(ovA)}%</div><div class="sum-l">Percentage</div></div><div class="sum-box"><div class="sum-n">${ovG}</div><div class="sum-l">Grade</div></div></div><div class="res-grid">`;sAvgs.forEach(s=>{const{g,c}=grade(s.a);html+=`<div class="rc"><span class="rc-subj-label">${s.s}</span><div class="rc-score">${s.a}<span class="rc-of">/ ${MAX}</span></div><div class="rc-bar"><div class="rc-fill" style="width:${pct(s.a)}%"></div></div><div class="rc-row"><span class="rc-grade ${c}">${g}</span><span class="rc-pct">${pct(s.a)}%</span></div></div>`;});html+=`</div><div class="rtable-wrap"><div class="rtable-hd">Week-by-Week Scores (out of ${MAX} per subject)</div><table><thead><tr><th>Week</th>${SUBJECTS.map(s=>`<th>${s.split(' ')[0]}</th>`).join('')}<th>Total</th><th>Avg</th></tr></thead><tbody>${st.weeks.map((w,wi)=>{const tot=w.scores.reduce((a,b)=>a+b,0);const av2=Math.round(tot/SUBJECTS.length);const{g,c}=grade(av2);return`<tr><td class="td-r">${WEEKS[wi]}</td>${w.scores.map(sc=>`<td class="td-s">${sc}</td>`).join('')}<td class="td-s">${tot}</td><td><span class="td-g ${c}">${av2}</span></td></tr>`;}).join('')}</tbody></table></div>`;}
+  else{const w=st.weeks[wIdx];const tot=w.scores.reduce((a,b)=>a+b,0);const av2=Math.round(tot/SUBJECTS.length);const{g:wG}=grade(av2);html+=`<div class="sum-row"><div class="sum-box"><div class="sum-n">${tot}</div><div class="sum-l">Total Marks</div></div><div class="sum-box"><div class="sum-n">${av2} / ${MAX}</div><div class="sum-l">Average</div></div><div class="sum-box"><div class="sum-n">${pct(av2)}%</div><div class="sum-l">Percentage</div></div><div class="sum-box"><div class="sum-n">${wG}</div><div class="sum-l">Grade</div></div></div><div class="res-grid">`;SUBJECTS.forEach((s,i)=>{const sc=w.scores[i];const{g,c}=grade(sc);html+=`<div class="rc"><span class="rc-subj-label">${s}</span><div class="rc-score">${sc}<span class="rc-of">/ ${MAX}</span></div><div class="rc-bar"><div class="rc-fill" style="width:${pct(sc)}%"></div></div><div class="rc-row"><span class="rc-grade ${c}">${g}</span><span class="rc-pct">${pct(sc)}%</span></div></div>`;});html+=`</div>`;}
+  el.innerHTML=html;setTimeout(()=>{el.querySelectorAll('.rc-fill').forEach(b=>{const w=b.style.width;b.style.width='0';setTimeout(()=>{b.style.width=w;},60);});},60);
 }
 students.forEach(st=>buildContent(st,0));
+function switchStudent(id){document.querySelectorAll('.stab').forEach((t,i)=>{t.classList.toggle('active',students[i].id===id);});document.querySelectorAll('.student-panel').forEach(p=>{p.classList.toggle('active',p.id==='panel-'+id);});}
+function switchWeek(stId,wIdx,btn){document.getElementById('wtabs-'+stId).querySelectorAll('.wtab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');buildContent(students.find(s=>s.id===stId),wIdx);}
 
-function switchStudent(id){
-  document.querySelectorAll('.stab').forEach((t,i)=>{t.classList.toggle('active',students[i].id===id);});
-  document.querySelectorAll('.student-panel').forEach(p=>{p.classList.toggle('active',p.id==='panel-'+id);});
-}
-function switchWeek(stId,wIdx,btn){
-  document.getElementById('wtabs-'+stId).querySelectorAll('.wtab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  buildContent(students.find(s=>s.id===stId),wIdx);
-}
+/* ══ MARKSHEET ══ */
+function gradeColor(g){if(g==='A+'||g==='A')return{bg:'#1a4731',border:'#2d6a4f',text:'#d4edda'};if(g==='B+'||g==='B')return{bg:'#1a2f4a',border:'#2c5282',text:'#d0e4f7'};return{bg:'#f0f0f0',border:'#bbb',text:'#555'};}
+function buildMarksheetHTML(st){const allSc=st.weeks.flatMap(w=>w.scores);const ovA=avg(allSc);const{g:ovG}=grade(ovA);const gc=gradeColor(ovG);const sAvgs=SUBJECTS.map((_,i)=>({s:SUBJECTS[i],a:avg(st.weeks.map(w=>w.scores[i]))}));const topI=[...sAvgs].sort((a,b)=>b.a-a.a)[0];const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});const subjCardsHTML=sAvgs.map(s=>{const{g,c}=grade(s.a);const gc2=gradeColor(g);const barW=pct(s.a);return`<div class="ms-subj-card"><div class="ms-subj-name">${s.s}</div><div><span class="ms-subj-score">${s.a}</span><span class="ms-subj-of"> / ${MAX}</span></div><div class="ms-subj-bar-bg"><div class="ms-subj-bar-fill" style="width:${barW}%"></div></div><div class="ms-subj-row"><span class="ms-subj-grade" style="color:${gc2.text};background:${gc2.bg};border-color:${gc2.border}">${g}</span><span class="ms-subj-pct">${barW}%</span></div></div>`;}).join('');const weekRowsHTML=st.weeks.map((w,wi)=>{const tot=w.scores.reduce((a,b)=>a+b,0);const av2=Math.round(tot/SUBJECTS.length);const{g}=grade(av2);const gc2=gradeColor(g);return`<tr><td class="ms-td-wk">${WEEKS[wi]}</td>${w.scores.map(sc=>`<td class="ms-td-sc">${sc}</td>`).join('')}<td class="ms-td-sc">${tot}</td><td><span class="ms-td-gr" style="color:${gc2.text};background:${gc2.bg};border-color:${gc2.border}">${av2}</span></td></tr>`;}).join('');return`<div class="ms-wrap" id="msWrap"><div class="ms-watermark">SHIELDER</div><div class="ms-header"><div class="ms-brand-block"><div class="ms-brand-name">SHIELDER</div><div class="ms-brand-sub">Weekly Academic Intelligence Platform · by Shahnewaz</div></div><div class="ms-doc-label"><div class="ms-doc-title">Official Marksheet</div><div class="ms-doc-year">ALL WEEKS</div></div></div><div class="ms-gold-bar"></div><div class="ms-student-band"><div class="ms-avatar">${st.init}</div><div class="ms-student-details"><div class="ms-student-name">${st.name}</div><div class="ms-student-meta">${st.cls} · SHIELDER Program · All 4 Weeks · All 6 Subjects</div></div><div class="ms-overall-badge"><div class="ms-overall-score">${ovA}<span style="font-size:18px;color:#aaa;"> / ${MAX}</span></div><div class="ms-overall-label">Overall Average</div><div class="ms-grade-pill" style="color:${gc.text};background:${gc.bg};border:1px solid ${gc.border}">${ovG}</div></div></div><div class="ms-body"><div class="ms-period-label">Performance Report · Weeks 1 – 4 · Subject-wise Average Scores</div><div class="ms-summary-row"><div class="ms-sum-box"><div class="ms-sum-n">${ovA}</div><div class="ms-sum-l">Avg Score</div></div><div class="ms-sum-box"><div class="ms-sum-n">${ovA*SUBJECTS.length}</div><div class="ms-sum-l">Total (avg)</div></div><div class="ms-sum-box"><div class="ms-sum-n">${pct(ovA)}%</div><div class="ms-sum-l">Percentage</div></div><div class="ms-sum-box"><div class="ms-sum-n">${topI.s.split(' ')[0]}</div><div class="ms-sum-l">Best Subject</div></div></div><div class="ms-subj-grid">${subjCardsHTML}</div><div class="ms-table-section"><div class="ms-table-label">Week-by-Week Breakdown</div><table class="ms-table"><thead><tr><th>Week</th>${SUBJECTS.map(s=>`<th>${s.split(' ')[0]}</th>`).join('')}<th>Total</th><th>Avg</th></tr></thead><tbody>${weekRowsHTML}</tbody></table></div></div><div class="ms-footer"><div class="ms-footer-brand">SHIELDER</div><div class="ms-footer-right"><div>Prepared by Shahnewaz · Official Record</div><div class="ms-footer-date">Generated: ${today}</div></div></div></div>`;}
+async function downloadMarksheet(stId,format,btn){const st=students.find(s=>s.id===stId);if(!st)return;const origText=btn.innerHTML;btn.classList.add('loading');btn.innerHTML=btn.innerHTML.replace(/Download (PDF|PNG)/,'Generating...');const tmpl=document.getElementById('marksheetTemplate');tmpl.innerHTML=buildMarksheetHTML(st);const msWrap=document.getElementById('msWrap');await new Promise(r=>setTimeout(r,120));try{const cvs=await html2canvas(msWrap,{scale:2,useCORS:true,backgroundColor:'#ffffff',logging:false,width:794,windowWidth:794});if(format==='png'){const link=document.createElement('a');link.download=`SHIELDER_${st.name}_Marksheet.png`;link.href=cvs.toDataURL('image/png');link.click();}else{const{jsPDF}=window.jspdf;const imgData=cvs.toDataURL('image/png');const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});const pageW=pdf.internal.pageSize.getWidth();const pageH=pdf.internal.pageSize.getHeight();pdf.addImage(imgData,'PNG',0,0,pageW,pageH);pdf.save(`SHIELDER_${st.name}_Marksheet.pdf`);}}catch(err){console.error('Export failed:',err);alert('Export failed. Please try again.');}finally{tmpl.innerHTML='';btn.classList.remove('loading');btn.innerHTML=origText;}}
 
-/* ══ MARKSHEET GENERATION ══ */
-function gradeColor(g){
-  if(g==='A+'||g==='A') return {bg:'#1a4731',border:'#2d6a4f',text:'#d4edda'};
-  if(g==='B+'||g==='B') return {bg:'#1a2f4a',border:'#2c5282',text:'#d0e4f7'};
-  return {bg:'#f0f0f0',border:'#bbb',text:'#555'};
-}
-
-function buildMarksheetHTML(st){
-  const allSc=st.weeks.flatMap(w=>w.scores);
-  const ovA=avg(allSc);
-  const{g:ovG}=grade(ovA);
-  const gc=gradeColor(ovG);
-  const sAvgs=SUBJECTS.map((_,i)=>({s:SUBJECTS[i],a:avg(st.weeks.map(w=>w.scores[i]))}));
-  const topI=[...sAvgs].sort((a,b)=>b.a-a.a)[0];
-  const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
-
-  const subjCardsHTML=sAvgs.map(s=>{
-    const{g,c}=grade(s.a);
-    const gc2=gradeColor(g);
-    const barW=pct(s.a);
-    return `<div class="ms-subj-card">
-      <div class="ms-subj-name">${s.s}</div>
-      <div><span class="ms-subj-score">${s.a}</span><span class="ms-subj-of"> / ${MAX}</span></div>
-      <div class="ms-subj-bar-bg"><div class="ms-subj-bar-fill" style="width:${barW}%"></div></div>
-      <div class="ms-subj-row">
-        <span class="ms-subj-grade" style="color:${gc2.text};background:${gc2.bg};border-color:${gc2.border}">${g}</span>
-        <span class="ms-subj-pct">${barW}%</span>
-      </div>
-    </div>`;
-  }).join('');
-
-  const weekRowsHTML=st.weeks.map((w,wi)=>{
-    const tot=w.scores.reduce((a,b)=>a+b,0);
-    const av2=Math.round(tot/SUBJECTS.length);
-    const{g}=grade(av2);
-    const gc2=gradeColor(g);
-    return `<tr>
-      <td class="ms-td-wk">${WEEKS[wi]}</td>
-      ${w.scores.map(sc=>`<td class="ms-td-sc">${sc}</td>`).join('')}
-      <td class="ms-td-sc">${tot}</td>
-      <td><span class="ms-td-gr" style="color:${gc2.text};background:${gc2.bg};border-color:${gc2.border}">${av2}</span></td>
-    </tr>`;
-  }).join('');
-
-  return `
-  <div class="ms-wrap" id="msWrap">
-    <div class="ms-watermark">SHIELDER</div>
-    <div class="ms-header">
-      <div class="ms-brand-block">
-        <div class="ms-brand-name">SHIELDER</div>
-        <div class="ms-brand-sub">Weekly Academic Intelligence Platform · by Shahnewaz</div>
-      </div>
-      <div class="ms-doc-label">
-        <div class="ms-doc-title">Official Marksheet</div>
-        <div class="ms-doc-year">ALL WEEKS</div>
-      </div>
-    </div>
-    <div class="ms-gold-bar"></div>
-    <div class="ms-student-band">
-      <div class="ms-avatar">${st.init}</div>
-      <div class="ms-student-details">
-        <div class="ms-student-name">${st.name}</div>
-        <div class="ms-student-meta">${st.cls} · SHIELDER Program · All 4 Weeks · All 6 Subjects</div>
-      </div>
-      <div class="ms-overall-badge">
-        <div class="ms-overall-score">${ovA}<span style="font-size:18px;color:#aaa;"> / ${MAX}</span></div>
-        <div class="ms-overall-label">Overall Average</div>
-        <div class="ms-grade-pill" style="color:${gc.text};background:${gc.bg};border:1px solid ${gc.border}">${ovG}</div>
-      </div>
-    </div>
-    <div class="ms-body">
-      <div class="ms-period-label">Performance Report · Weeks 1 – 4 · Subject-wise Average Scores</div>
-      <div class="ms-summary-row">
-        <div class="ms-sum-box"><div class="ms-sum-n">${ovA}</div><div class="ms-sum-l">Avg Score</div></div>
-        <div class="ms-sum-box"><div class="ms-sum-n">${ovA*SUBJECTS.length}</div><div class="ms-sum-l">Total (avg)</div></div>
-        <div class="ms-sum-box"><div class="ms-sum-n">${pct(ovA)}%</div><div class="ms-sum-l">Percentage</div></div>
-        <div class="ms-sum-box"><div class="ms-sum-n">${topI.s.split(' ')[0]}</div><div class="ms-sum-l">Best Subject</div></div>
-      </div>
-      <div class="ms-subj-grid">${subjCardsHTML}</div>
-      <div class="ms-table-section">
-        <div class="ms-table-label">Week-by-Week Breakdown</div>
-        <table class="ms-table">
-          <thead><tr><th>Week</th>${SUBJECTS.map(s=>`<th>${s.split(' ')[0]}</th>`).join('')}<th>Total</th><th>Avg</th></tr></thead>
-          <tbody>${weekRowsHTML}</tbody>
-        </table>
-      </div>
-    </div>
-    <div class="ms-footer">
-      <div class="ms-footer-brand">SHIELDER</div>
-      <div class="ms-footer-right">
-        <div>Prepared by Shahnewaz · Official Record</div>
-        <div class="ms-footer-date">Generated: ${today}</div>
-      </div>
-    </div>
-  </div>`;
-}
-
-async function downloadMarksheet(stId, format, btn){
-  const st = students.find(s=>s.id===stId);
-  if(!st) return;
-
-  // Set loading state
-  const origText = btn.innerHTML;
-  btn.classList.add('loading');
-  btn.innerHTML = btn.innerHTML.replace(/Download (PDF|PNG)/,'Generating...');
-
-  // Inject marksheet HTML into hidden container
-  const tmpl = document.getElementById('marksheetTemplate');
-  tmpl.innerHTML = buildMarksheetHTML(st);
-  const msWrap = document.getElementById('msWrap');
-
-  // Wait a frame for fonts/layout
-  await new Promise(r=>setTimeout(r,120));
-
-  try {
-    const cvs = await html2canvas(msWrap, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: '#ffffff',
-      logging: false,
-      width: 794,
-      windowWidth: 794
-    });
-
-    if(format==='png'){
-      // PNG download
-      const link = document.createElement('a');
-      link.download = `SHIELDER_${st.name}_Marksheet.png`;
-      link.href = cvs.toDataURL('image/png');
-      link.click();
-    } else {
-      // PDF download
-      const {jsPDF} = window.jspdf;
-      const imgData = cvs.toDataURL('image/png');
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4'
-      });
-      const pageW = pdf.internal.pageSize.getWidth();
-      const pageH = pdf.internal.pageSize.getHeight();
-      pdf.addImage(imgData, 'PNG', 0, 0, pageW, pageH);
-      pdf.save(`SHIELDER_${st.name}_Marksheet.pdf`);
-    }
-  } catch(err){
-    console.error('Export failed:', err);
-    alert('Export failed. Please try again.');
-  } finally {
-    tmpl.innerHTML='';
-    btn.classList.remove('loading');
-    btn.innerHTML = origText;
-  }
-}
-
-/* ══ RANKINGS + CHAMPION ANIMATION ══ */
-(function(){
-  const ranked=students.map(st=>{
-    const all=st.weeks.flatMap(w=>w.scores);
-    const ovA=avg(all);
-    const topI=SUBJECTS.map((_,i)=>({i,a:avg(st.weeks.map(w=>w.scores[i]))})).sort((a,b)=>b.a-a.a)[0];
-    return{...st,ovA,topS:SUBJECTS[topI.i]};
-  }).sort((a,b)=>b.ovA-a.ovA);
-
-  document.getElementById('rankTbody').innerHTML=ranked.map((st,i)=>{
-    const{g,c}=grade(st.ovA);
-    const isChamp=i===0;
-    const pos=['01','02','03','04','05'][i]||'#'+(i+1);
-    if(isChamp){
-      return `<tr class="rank-champion" id="championRow">
-        <td><span class="rank-num-badge">${pos}</span></td>
-        <td class="td-n" style="font-size:14px;letter-spacing:.03em;">${st.name}</td>
-        <td style="font-size:12px;">${st.cls}</td>
-        <td class="td-s" style="font-size:13px;">${st.ovA} / ${MAX}</td>
-        <td style="font-size:13px;">${st.topS}</td>
-        <td><span class="td-g ${c}">${g}</span></td>
-      </tr>`;
-    }
-    return `<tr>
-      <td class="td-r">${pos}</td>
-      <td class="td-n">${st.name}</td>
-      <td style="color:#666;font-size:12px;">${st.cls}</td>
-      <td class="td-s" style="font-size:13px;">${st.ovA} / ${MAX}</td>
-      <td style="color:#888;font-size:13px;">${st.topS}</td>
-      <td><span class="td-g ${c}">${g}</span></td>
-    </tr>`;
-  }).join('');
-
-  const champRow=document.getElementById('championRow');
-  if(champRow){
-    [{left:'4%',top:'50%',dur:'3.1s',delay:'0s',emoji:'⭐'},{left:'8%',top:'20%',dur:'2.7s',delay:'.5s',emoji:'🏆'},{left:'15%',top:'70%',dur:'3.5s',delay:'1.1s',emoji:'⭐'},{left:'85%',top:'30%',dur:'2.9s',delay:'.3s',emoji:'🏆'},{left:'90%',top:'65%',dur:'3.3s',delay:'.8s',emoji:'⭐'},{left:'95%',top:'15%',dur:'2.5s',delay:'1.4s',emoji:'🏆'}].forEach(sp=>{
-      const star=document.createElement('span');
-      star.className='star-burst';
-      star.textContent=sp.emoji;
-      star.style.cssText=`left:${sp.left};top:${sp.top};--dur:${sp.dur};--delay:${sp.delay};`;
-      champRow.appendChild(star);
-    });
-  }
-
-  const cc=document.getElementById('confettiCanvas');
-  const cctx=cc.getContext('2d');
-  function resizeCC(){const rect=document.getElementById('rankTable').getBoundingClientRect();cc.width=rect.width;cc.height=rect.height;}
-  const CONF_COLORS=['#ffd700','#ffb300','#fff8dc','#fffacd','#ffa500','#ffffff','#ffe066','#ffd966'];
-  const confPieces=[];
-  class ConfPiece{constructor(){this.reset(true);}reset(initial){this.x=Math.random()*(cc.width||900);this.y=initial?Math.random()*(cc.height||200):-12;this.w=4+Math.random()*6;this.h=5+Math.random()*8;this.vx=(Math.random()-.5)*.8;this.vy=.4+Math.random()*.7;this.rot=Math.random()*Math.PI*2;this.rv=(Math.random()-.5)*.08;this.color=CONF_COLORS[Math.floor(Math.random()*CONF_COLORS.length)];this.al=.55+Math.random()*.45;this.shape=Math.random()>.5?'rect':'circle';this.wobble=Math.random()*Math.PI*2;this.wobbleSpeed=.03+Math.random()*.04;}update(){this.wobble+=this.wobbleSpeed;this.x+=this.vx+Math.sin(this.wobble)*.4;this.y+=this.vy;this.rot+=this.rv;if(this.y>(cc.height||200)+14)this.reset(false);}draw(){cctx.save();cctx.globalAlpha=this.al;cctx.fillStyle=this.color;cctx.translate(this.x,this.y);cctx.rotate(this.rot);if(this.shape==='rect'){cctx.fillRect(-this.w/2,-this.h/2,this.w,this.h);}else{cctx.beginPath();cctx.arc(0,0,this.w/2,0,Math.PI*2);cctx.fill();}cctx.restore();}}
-  for(let i=0;i<55;i++)confPieces.push(new ConfPiece());
-  let confRunning=false;
-  function runConfetti(){confRunning=true;resizeCC();cctx.clearRect(0,0,cc.width,cc.height);confPieces.forEach(p=>{p.update();p.draw();});requestAnimationFrame(runConfetti);}
-  const confObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting&&!confRunning)runConfetti();});},{threshold:0.2});
-  confObs.observe(document.getElementById('ranks'));
-  window.addEventListener('resize',()=>resizeCC());
-})();
+/* ══ RANKINGS ══ */
+(function(){const ranked=students.map(st=>{const all=st.weeks.flatMap(w=>w.scores);const ovA=avg(all);const topI=SUBJECTS.map((_,i)=>({i,a:avg(st.weeks.map(w=>w.scores[i]))})).sort((a,b)=>b.a-a.a)[0];return{...st,ovA,topS:SUBJECTS[topI.i]};}).sort((a,b)=>b.ovA-a.ovA);document.getElementById('rankTbody').innerHTML=ranked.map((st,i)=>{const{g,c}=grade(st.ovA);const isChamp=i===0;const pos=['01','02','03','04','05'][i]||'#'+(i+1);if(isChamp){return`<tr class="rank-champion" id="championRow"><td><span class="rank-num-badge">${pos}</span></td><td class="td-n" style="font-size:14px;letter-spacing:.03em;">${st.name}</td><td style="font-size:12px;">${st.cls}</td><td class="td-s" style="font-size:13px;">${st.ovA} / ${MAX}</td><td style="font-size:13px;">${st.topS}</td><td><span class="td-g ${c}">${g}</span></td></tr>`;}return`<tr><td class="td-r">${pos}</td><td class="td-n">${st.name}</td><td style="color:#666;font-size:12px;">${st.cls}</td><td class="td-s" style="font-size:13px;">${st.ovA} / ${MAX}</td><td style="color:#888;font-size:13px;">${st.topS}</td><td><span class="td-g ${c}">${g}</span></td></tr>`;}).join('');const champRow=document.getElementById('championRow');if(champRow){[{left:'4%',top:'50%',dur:'3.1s',delay:'0s',emoji:'⭐'},{left:'8%',top:'20%',dur:'2.7s',delay:'.5s',emoji:'🏆'},{left:'15%',top:'70%',dur:'3.5s',delay:'1.1s',emoji:'⭐'},{left:'85%',top:'30%',dur:'2.9s',delay:'.3s',emoji:'🏆'},{left:'90%',top:'65%',dur:'3.3s',delay:'.8s',emoji:'⭐'},{left:'95%',top:'15%',dur:'2.5s',delay:'1.4s',emoji:'🏆'}].forEach(sp=>{const star=document.createElement('span');star.className='star-burst';star.textContent=sp.emoji;star.style.cssText=`left:${sp.left};top:${sp.top};--dur:${sp.dur};--delay:${sp.delay};`;champRow.appendChild(star);});}
+const cc=document.getElementById('confettiCanvas');const cctx=cc.getContext('2d');function resizeCC(){const rect=document.getElementById('rankTable').getBoundingClientRect();cc.width=rect.width;cc.height=rect.height;}const CONF_COLORS=['#ffd700','#ffb300','#fff8dc','#fffacd','#ffa500','#ffffff','#ffe066','#ffd966'];const confPieces=[];class ConfPiece{constructor(){this.reset(true);}reset(initial){this.x=Math.random()*(cc.width||900);this.y=initial?Math.random()*(cc.height||200):-12;this.w=4+Math.random()*6;this.h=5+Math.random()*8;this.vx=(Math.random()-.5)*.8;this.vy=.4+Math.random()*.7;this.rot=Math.random()*Math.PI*2;this.rv=(Math.random()-.5)*.08;this.color=CONF_COLORS[Math.floor(Math.random()*CONF_COLORS.length)];this.al=.55+Math.random()*.45;this.shape=Math.random()>.5?'rect':'circle';this.wobble=Math.random()*Math.PI*2;this.wobbleSpeed=.03+Math.random()*.04;}update(){this.wobble+=this.wobbleSpeed;this.x+=this.vx+Math.sin(this.wobble)*.4;this.y+=this.vy;this.rot+=this.rv;if(this.y>(cc.height||200)+14)this.reset(false);}draw(){cctx.save();cctx.globalAlpha=this.al;cctx.fillStyle=this.color;cctx.translate(this.x,this.y);cctx.rotate(this.rot);if(this.shape==='rect'){cctx.fillRect(-this.w/2,-this.h/2,this.w,this.h);}else{cctx.beginPath();cctx.arc(0,0,this.w/2,0,Math.PI*2);cctx.fill();}cctx.restore();}}for(let i=0;i<55;i++)confPieces.push(new ConfPiece());let confRunning=false;function runConfetti(){confRunning=true;resizeCC();cctx.clearRect(0,0,cc.width,cc.height);confPieces.forEach(p=>{p.update();p.draw();});requestAnimationFrame(runConfetti);}const confObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting&&!confRunning)runConfetti();});},{threshold:0.2});confObs.observe(document.getElementById('ranks'));window.addEventListener('resize',()=>resizeCC());})();
 
 /* ══ NOTES ══ */
-[
-  {subj:'English',title:'Tenses & Active / Passive',prev:'All 12 tenses with clear timelines, active-to-passive conversion rules, and common error patterns for Classes 6–8.',tag:'Grammar',date:'Mar 10'},
-  {subj:'Hindi',title:'Sandhi, Samas & Karak',prev:'Sandhi types with examples, all Samas categories, and the 8 Karak cases — each with fill-in-the-blank exercises.',tag:'व्याकरण',date:'Mar 8'},
-  {subj:'Math',title:'Fractions, Decimals & Algebra',prev:'Concept maps for fractions and decimals with step-by-step methods, plus introductory algebra for Classes 4–8.',tag:'Arithmetic',date:'Mar 5'},
-  {subj:'Science',title:'Living World & States of Matter',prev:'Labelled cell diagrams, states of matter, and plant/animal life systems with revision summaries.',tag:'Biology',date:'Mar 3'},
-  {subj:'Computer',title:'MS Office Basics',prev:'Word, Excel, and PowerPoint fundamentals — shortcuts, formatting tips, and practical exercises for school level.',tag:'Digital',date:'Mar 1'},
-  {subj:'Social Science',title:'India — Geography & History',prev:'Rivers, climate zones, state maps, and a key historical events timeline covering Classes 4–8 syllabi.',tag:'Geography',date:'Feb 28'},
-].forEach((n,i)=>{
-  const d=document.createElement('div');
-  d.className='nc rv';d.style.transitionDelay=(i%3)*.1+'s';
-  d.innerHTML=`<div class="nc-sub">${n.subj}</div><div class="nc-title">${n.title}</div><div class="nc-prev">${n.prev}</div><div class="nc-meta"><span class="nc-tag">${n.tag}</span><span>${n.date}</span></div>`;
-  d.onclick=()=>openModal(n.subj,n.title,`<p>${n.prev}</p><p><strong>Category:</strong> ${n.tag}</p><p><strong>Date:</strong> ${n.date}</p><p>Ask Shahnewaz for the full PDF and practice sheet.</p>`);
-  document.getElementById('notesGrid').appendChild(d);
-  rvObs.observe(d);
-});
+[{subj:'English',title:'Tenses & Active / Passive',prev:'All 12 tenses with clear timelines, active-to-passive conversion rules, and common error patterns for Classes 6–8.',tag:'Grammar',date:'Mar 10'},{subj:'Hindi',title:'Sandhi, Samas & Karak',prev:'Sandhi types with examples, all Samas categories, and the 8 Karak cases — each with fill-in-the-blank exercises.',tag:'व्याकरण',date:'Mar 8'},{subj:'Math',title:'Fractions, Decimals & Algebra',prev:'Concept maps for fractions and decimals with step-by-step methods, plus introductory algebra for Classes 4–8.',tag:'Arithmetic',date:'Mar 5'},{subj:'Science',title:'Living World & States of Matter',prev:'Labelled cell diagrams, states of matter, and plant/animal life systems with revision summaries.',tag:'Biology',date:'Mar 3'},{subj:'Computer',title:'MS Office Basics',prev:'Word, Excel, and PowerPoint fundamentals — shortcuts, formatting tips, and practical exercises for school level.',tag:'Digital',date:'Mar 1'},{subj:'Social Science',title:'India — Geography & History',prev:'Rivers, climate zones, state maps, and a key historical events timeline covering Classes 4–8 syllabi.',tag:'Geography',date:'Feb 28'},].forEach((n,i)=>{const d=document.createElement('div');d.className='nc rv';d.style.transitionDelay=(i%3)*.1+'s';d.innerHTML=`<div class="nc-sub">${n.subj}</div><div class="nc-title">${n.title}</div><div class="nc-prev">${n.prev}</div><div class="nc-meta"><span class="nc-tag">${n.tag}</span><span>${n.date}</span></div>`;d.onclick=()=>openModal(n.subj,n.title,`<p>${n.prev}</p><p><strong>Category:</strong> ${n.tag}</p><p><strong>Date:</strong> ${n.date}</p><p>Ask Shahnewaz for the full PDF and practice sheet.</p>`);document.getElementById('notesGrid').appendChild(d);rvObs.observe(d);});
 
 /* ══ MODAL ══ */
 function openModal(tag,title,cont){document.getElementById('mTag').textContent=tag;document.getElementById('mTitle').textContent=title;document.getElementById('mCont').innerHTML=cont;document.getElementById('modal').classList.add('open');}
@@ -1178,28 +686,11 @@ document.getElementById('modal').addEventListener('click',function(e){if(e.targe
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
 /* ══ SMOOTH SCROLL ══ */
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'});closeNav();});
-});
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'});closeNav();});});
 document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
 
-/* ══ SPLASH SCREEN ══ */
-(function(){
-  const splash=document.getElementById('splash');
-  const pctEl=document.getElementById('spPct');
-  const sc=document.getElementById('splashCanvas');
-  const sctx=sc.getContext('2d');
-  sc.width=window.innerWidth;sc.height=window.innerHeight;
-  const spts=[];
-  for(let i=0;i<120;i++){spts.push({x:Math.random()*sc.width,y:Math.random()*sc.height,r:.3+Math.random()*.9,al:.04+Math.random()*.12,pulse:Math.random()*Math.PI*2,sp:.008+Math.random()*.018});}
-  let splashAlive=true;
-  function drawSplash(){if(!splashAlive)return;sctx.clearRect(0,0,sc.width,sc.height);spts.forEach(p=>{p.pulse+=p.sp;const a=p.al*(.5+.5*Math.sin(p.pulse));sctx.globalAlpha=a;sctx.fillStyle='#fff';sctx.beginPath();sctx.arc(p.x,p.y,p.r,0,Math.PI*2);sctx.fill();});requestAnimationFrame(drawSplash);}
-  drawSplash();
-  let pct2=0;
-  const pctTimer=setInterval(()=>{pct2=Math.min(pct2+Math.ceil(Math.random()*6+2),100);pctEl.textContent=pct2+'%';if(pct2>=100)clearInterval(pctTimer);},26);
-  setTimeout(()=>{splashAlive=false;splash.classList.add('hide');document.body.style.overflow='';},2900);
-  document.body.style.overflow='hidden';
-})();
+/* ══ SPLASH ══ */
+(function(){const splash=document.getElementById('splash');const pctEl=document.getElementById('spPct');const sc=document.getElementById('splashCanvas');const sctx=sc.getContext('2d');sc.width=window.innerWidth;sc.height=window.innerHeight;const spts=[];for(let i=0;i<120;i++){spts.push({x:Math.random()*sc.width,y:Math.random()*sc.height,r:.3+Math.random()*.9,al:.04+Math.random()*.12,pulse:Math.random()*Math.PI*2,sp:.008+Math.random()*.018});}let splashAlive=true;function drawSplash(){if(!splashAlive)return;sctx.clearRect(0,0,sc.width,sc.height);spts.forEach(p=>{p.pulse+=p.sp;const a=p.al*(.5+.5*Math.sin(p.pulse));sctx.globalAlpha=a;sctx.fillStyle='#fff';sctx.beginPath();sctx.arc(p.x,p.y,p.r,0,Math.PI*2);sctx.fill();});requestAnimationFrame(drawSplash);}drawSplash();let pct2=0;const pctTimer=setInterval(()=>{pct2=Math.min(pct2+Math.ceil(Math.random()*6+2),100);pctEl.textContent=pct2+'%';if(pct2>=100)clearInterval(pctTimer);},26);setTimeout(()=>{splashAlive=false;splash.classList.add('hide');document.body.style.overflow='';},2900);document.body.style.overflow='hidden';})();
 </script>
 </body>
 </html>
