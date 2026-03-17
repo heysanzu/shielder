@@ -64,29 +64,12 @@ nav{position:fixed;top:0;width:100%;z-index:1000;padding:16px 48px;display:flex;
 .nav-links a:hover{color:#000;}
 .nav-links a:hover::after{width:100%;}
 
-/* ══ LIBRARY NAV LINK ══ */
-.nav-links .lib-link a{
-  color:#000;
-  font-weight:700;
-}
-.nav-links .lib-link a::before{
-  content:'';
-  position:absolute;
-  inset:-4px -8px;
-  border:1px solid rgba(0,0,0,.12);
-  background:rgba(0,0,0,.04);
-  transition:all .3s;
-}
-.nav-links .lib-link a:hover::before{background:rgba(0,0,0,.08);}
-.nav-links .lib-link a::after{display:none;}
-
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1001;}
 .hamburger span{width:22px;height:1.5px;background:#000;display:block;transition:.3s;}
 .nav-mobile{display:none;flex-direction:column;position:fixed;top:0;right:0;width:240px;height:100vh;background:#fff;border-left:1px solid var(--wb-border);padding:80px 28px;gap:22px;list-style:none;transform:translateX(100%);transition:transform .4s;z-index:999;}
 .nav-mobile.open{transform:translateX(0);display:flex;}
 .nav-mobile a{color:#666;text-decoration:none;font-size:13px;letter-spacing:.12em;text-transform:uppercase;transition:color .3s;}
 .nav-mobile a:hover{color:#000;}
-.nav-mobile .lib-mob{font-weight:700;color:#000 !important;}
 
 .hero{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 100px;overflow:hidden;background:var(--bk);}
 .orb-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:820px;height:820px;pointer-events:none;}
@@ -270,42 +253,6 @@ td{padding:14px 20px;font-size:13px;color:#444;}
 .nc-meta{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#aaa;}
 .nc-tag{padding:3px 10px;border:1px solid var(--wb-border);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#888;}
 
-/* ══ LIBRARY CTA SECTION ══ */
-.library-cta{
-  background:var(--bk);
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  padding:64px 40px;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-}
-.library-cta::before{
-  content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.012) 3px,rgba(255,255,255,.012) 6px);
-  pointer-events:none;
-}
-.lcta-tag{font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:#444;margin-bottom:14px;}
-.lcta-title{font-family:'Orbitron',monospace;font-size:clamp(22px,4vw,42px);font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:12px;}
-.lcta-sub{font-size:14px;color:#555;margin-bottom:32px;line-height:1.8;}
-.lcta-btn{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:16px 44px;font-size:12px;letter-spacing:.25em;text-transform:uppercase;
-  background:#fff;color:#000;font-weight:900;cursor:pointer;
-  border:none;font-family:inherit;text-decoration:none;
-  transition:all .3s;position:relative;overflow:hidden;
-}
-.lcta-btn::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(90deg,transparent,rgba(255,215,0,.15),transparent);
-  transform:translateX(-100%);transition:transform .5s;
-}
-.lcta-btn:hover{background:#f0f0f0;transform:translateY(-3px);box-shadow:0 14px 40px rgba(255,255,255,.15);}
-.lcta-btn:hover::before{transform:translateX(100%);}
-.lcta-features{display:flex;gap:32px;justify-content:center;margin-top:28px;flex-wrap:wrap;}
-.lcta-feat{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#444;display:flex;align-items:center;gap:7px;}
-.lcta-feat::before{content:'✓';color:#666;}
-
 .moverlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(12px);}
 .moverlay.open{opacity:1;pointer-events:all;}
 .modal{background:#fff;border:1px solid var(--wb-border);padding:44px;max-width:520px;width:100%;position:relative;transform:translateY(16px);transition:transform .3s;box-shadow:0 24px 80px rgba(0,0,0,.16);}
@@ -349,7 +296,6 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
   .rtable-wrap thead th,.rtable-wrap tbody td{padding:10px 10px;font-size:11px;white-space:nowrap;}
   .rtable-wrap .td-s{font-size:11px;}
   .dl-wrap{margin-left:0;margin-top:10px;width:100%;}
-  .lcta-features{gap:16px;}
 }
 @media(max-width:400px){.res-grid{grid-template-columns:1fr;}}
 
@@ -472,7 +418,6 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
     <li><a href="#ranks">Rankings</a></li>
     <li><a href="#notes">Notes</a></li>
     <li><a href="#about">About</a></li>
-    <li class="lib-link"><a href="notes.html">Library</a></li>
   </ul>
   <div class="hamburger" onclick="toggleNav()">
     <span></span><span></span><span></span>
@@ -483,7 +428,6 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
   <li><a href="#ranks" onclick="closeNav()">Rankings</a></li>
   <li><a href="#notes" onclick="closeNav()">Notes</a></li>
   <li><a href="#about" onclick="closeNav()">About</a></li>
-  <li><a href="notes.html" onclick="closeNav()" class="lib-mob">📚 Library</a></li>
 </ul>
 
 <section class="hero" id="home">
@@ -555,23 +499,6 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
   </div>
   <div class="notes-grid" id="notesGrid"></div>
 </section>
-
-<!-- ══ LIBRARY CTA ══ -->
-<div class="library-cta rv">
-  <div class="lcta-tag">New Feature</div>
-  <div class="lcta-title">LIBRARY</div>
-  <div class="lcta-sub">Upload PDFs, images & notes · Flip through pages with<br>cinematic animated page turns — just like a real book.</div>
-  <a href="notes.html" class="lcta-btn">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-    Open Library
-  </a>
-  <div class="lcta-features">
-    <span class="lcta-feat">PDF Flip Viewer</span>
-    <span class="lcta-feat">Upload Any File</span>
-    <span class="lcta-feat">Study Notes</span>
-    <span class="lcta-feat">Image Gallery</span>
-  </div>
-</div>
 
 <section id="about" style="border-top:1px solid var(--wb-border);">
   <div style="max-width:620px;margin:0 auto;text-align:center;">
