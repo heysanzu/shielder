@@ -843,8 +843,8 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
 
   <div class="ask-model-row">
     <span class="ask-model-label">Model</span>
-    <button class="ask-model-btn active" id="btnGemini" onclick="switchModel('gemini')">&#9733; Think</button>
-    <button class="ask-model-btn" id="btnGroq" onclick="switchModel('groq')">&#9889; Fast</button>
+    <button class="ask-model-btn active" id="btnGemini" onclick="switchModel('gemini')">Think</button>
+    <button class="ask-model-btn" id="btnGroq" onclick="switchModel('groq')">Fast</button>
   </div>
 
   <div class="ask-chips" id="askChips">
@@ -1035,7 +1035,7 @@ COMPLETE STUDENT DATA:
     chatHistory = [];
     const wrap = document.getElementById('askMessages');
     wrap.innerHTML = '';
-    const modelName = model === 'groq' ? '⚡ Fast (Groq)' : '✦ Think (Gemini)';
+    const modelName = model === 'groq' ? 'Fast' : 'Think';
     const div = document.createElement('div');
     div.className = 'ask-msg ai';
     div.innerHTML = '<div class="ask-msg-av">AI</div><div class="ask-bubble">Switched to <strong>' + modelName + '</strong>! Ask me anything about the students. 🎯</div>';
