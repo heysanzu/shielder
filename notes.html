@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHIELDER · Library</title>
+<title>SHIELDER · Study Notes</title>
 <link rel="icon" type="image/png" href="shielder.png">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 :root{
   --bk:#000;--g1:#0d0d0d;--g2:#141414;--border:#2a2a2a;
@@ -41,174 +40,49 @@ nav{position:fixed;top:0;width:100%;z-index:1000;padding:16px 48px;display:flex;
 .lib-hero-h1{font-family:'Orbitron',monospace;font-weight:900;font-size:clamp(36px,7vw,88px);letter-spacing:-.01em;text-transform:uppercase;background:linear-gradient(180deg,#fff 30%,#444 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:.9;position:relative;z-index:1;}
 .lib-hero-desc{font-size:14px;color:#555;margin-top:20px;letter-spacing:.05em;position:relative;z-index:1;}
 
-.lib-layout{display:grid;grid-template-columns:290px 1fr;min-height:calc(100vh - 73px);}
+.notes-section{max-width:1100px;margin:0 auto;padding:80px 40px;}
+.section-header{text-align:center;margin-bottom:56px;}
+.sh-tag{display:inline-block;font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:var(--wb-muted);border:1px solid var(--wb-border);padding:5px 16px;margin-bottom:16px;}
+.sh-title{font-family:'Orbitron',monospace;font-size:clamp(26px,5vw,52px);font-weight:900;text-transform:uppercase;letter-spacing:-.01em;color:var(--wb-text);}
 
-.lib-sidebar{background:#fff;border-right:1px solid var(--wb-border);padding:20px 0 20px;position:sticky;top:73px;height:calc(100vh - 73px);overflow-y:auto;display:flex;flex-direction:column;}
-.lib-sidebar::-webkit-scrollbar{width:3px;}
-.lib-sidebar::-webkit-scrollbar-thumb{background:#e0e0e0;border-radius:2px;}
-.sidebar-label{font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:#ccc;padding:0 20px;margin-bottom:8px;margin-top:14px;}
+.filter-tabs{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:44px;}
+.ftab{padding:11px 26px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;background:transparent;color:#666;border:1.5px solid var(--wb-border);cursor:pointer;transition:all .3s;font-family:inherit;position:relative;overflow:hidden;}
+.ftab::before{content:'';position:absolute;inset:0;background:#111;transform:translateX(-100%);transition:transform .3s;z-index:0;}
+.ftab span{position:relative;z-index:1;}
+.ftab.active,.ftab:hover{color:#fff;border-color:#111;}
+.ftab.active::before,.ftab:hover::before{transform:translateX(0);}
 
-.filter-row{display:flex;flex-wrap:wrap;gap:5px;padding:0 20px 14px;border-bottom:1px solid var(--wb-border);}
-.ftab{padding:4px 10px;font-size:9px;letter-spacing:.15em;text-transform:uppercase;background:transparent;color:#888;border:1px solid var(--wb-border);cursor:pointer;transition:all .2s;font-family:inherit;}
-.ftab.active{background:#111;color:#fff;border-color:#111;}
-.ftab:hover:not(.active){border-color:#888;color:#333;}
+.notes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;}
+.note-card{background:var(--wb);border:1.5px solid var(--wb-border);padding:32px;transition:all .35s;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative;overflow:hidden;}
+.note-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,0,0,.12),transparent);transform:translateX(-100%);transition:transform .5s;}
+.note-card:hover::before{transform:translateX(100%);}
+.note-card:hover{transform:translateY(-5px);border-color:#bbb;box-shadow:0 14px 36px rgba(0,0,0,.1);}
+.nc-subject{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:#999;margin-bottom:10px;font-weight:600;}
+.nc-title{font-size:18px;font-weight:700;margin-bottom:12px;color:#111;}
+.nc-preview{font-size:14px;color:#666;line-height:1.75;margin-bottom:20px;}
+.nc-meta{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#aaa;padding-top:14px;border-top:1px solid #f0f0f0;}
+.nc-tag{padding:4px 11px;border:1px solid var(--wb-border);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#888;background:#fafafa;}
+.nc-date{font-size:10px;}
 
-.file-item{display:flex;align-items:center;gap:10px;padding:11px 20px;cursor:pointer;transition:background .15s;border-left:2px solid transparent;}
-.file-item:hover{background:#f8f8f8;}
-.file-item.active{background:#f3f3f3;border-left-color:#111;}
-.file-item.active .fi-name{color:#111;font-weight:700;}
-.fi-icon{width:30px;height:36px;border:1.5px solid #e8e8e8;background:#fafafa;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;position:relative;}
-.fi-icon::after{content:'';position:absolute;top:0;right:0;border-style:solid;border-width:6px 6px 0 0;border-color:#fff #ddd transparent transparent;}
-.fi-icon.pdf-icon{border-color:#ffcdd2;background:#fff5f5;}
-.fi-icon.pdf-icon::after{border-color:#fff5f5 #ffcdd2 transparent transparent;}
-.fi-icon.img-icon{border-color:#c8e6c9;background:#f1f8e9;}
-.fi-icon.img-icon::after{border-color:#f1f8e9 #c8e6c9 transparent transparent;}
-.fi-icon.note-icon{border-color:#c5cae9;background:#f3f4ff;}
-.fi-icon.note-icon::after{border-color:#f3f4ff #c5cae9 transparent transparent;}
-.fi-meta{flex:1;min-width:0;}
-.fi-name{font-size:12px;font-weight:600;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.fi-info{font-size:10px;color:#bbb;margin-top:1px;}
-.fi-badge{font-size:8px;padding:2px 6px;letter-spacing:.1em;text-transform:uppercase;border:1px solid;border-radius:2px;flex-shrink:0;}
-.fi-badge.pdf{color:#e53935;border-color:#ffcdd2;background:#fff5f5;}
-.fi-badge.png{color:#43a047;border-color:#c8e6c9;background:#f1f8e9;}
-.fi-badge.note{color:#3949ab;border-color:#c5cae9;background:#f3f4ff;}
-.add-file-btn{margin:14px 20px 0;padding:10px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;background:transparent;color:#aaa;border:1.5px dashed #ddd;cursor:pointer;font-family:inherit;transition:all .22s;display:flex;align-items:center;justify-content:center;gap:7px;}
-.add-file-btn:hover{border-color:#999;color:#555;}
-
-.lib-main{background:var(--wb-bg);display:flex;flex-direction:column;}
-.viewer-toolbar{background:#fff;border-bottom:1px solid var(--wb-border);padding:11px 22px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:73px;z-index:100;}
-.vt-title{font-size:12px;font-weight:700;color:#111;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.vt-tag{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#aaa;background:#f4f4f4;padding:3px 8px;border:1px solid var(--wb-border);}
-.vt-sep{width:1px;height:16px;background:var(--wb-border);}
-.vt-btn{padding:6px 13px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border:1.5px solid var(--wb-border);background:#fff;color:#555;font-family:inherit;transition:all .2s;display:flex;align-items:center;gap:5px;}
-.vt-btn:hover{background:#111;color:#fff;border-color:#111;}
-.vt-btn svg{width:11px;height:11px;}
-.vt-btn.primary{background:#111;color:#fff;border-color:#111;}
-.vt-btn.primary:hover{background:#333;}
-.page-nav{display:flex;align-items:center;gap:5px;}
-.pn-btn{width:26px;height:26px;border:1.5px solid var(--wb-border);background:#fff;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;font-size:15px;color:#666;line-height:1;}
-.pn-btn:hover:not(:disabled){background:#111;color:#fff;border-color:#111;}
-.pn-btn:disabled{opacity:.28;cursor:default;}
-.page-num{font-family:'Orbitron',monospace;font-size:10px;color:#999;white-space:nowrap;min-width:52px;text-align:center;}
-
-.viewer-area{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:36px 20px;min-height:480px;}
-
-.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:360px;text-align:center;gap:12px;}
-.es-icon{font-size:52px;opacity:.2;}
-.es-title{font-family:'Orbitron',monospace;font-size:15px;font-weight:900;color:#ccc;letter-spacing:.05em;text-transform:uppercase;}
-.es-sub{font-size:12px;color:#ccc;line-height:1.8;}
-
-/* ═══════════════════════════════════
-   FLIPBOOK
-═══════════════════════════════════ */
-.flipbook-wrap{
-  display:flex;flex-direction:column;align-items:center;gap:18px;width:100%;
-  animation:fbIn .4s both;
-}
-@keyframes fbIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
-
-/* The page card */
-.page-card{
-  position:relative;
-  background:#fff;
-  border:1px solid #ccc;
-  box-shadow:
-    3px 4px 14px rgba(0,0,0,.13),
-    inset -2px 0 4px rgba(0,0,0,.04);
-  overflow:hidden;
-  /* width/height set by JS */
-}
-/* Spine shadow on left */
-.page-card::before{
-  content:'';position:absolute;top:0;left:0;bottom:0;width:8px;
-  background:linear-gradient(90deg,rgba(0,0,0,.07),transparent);
-  pointer-events:none;z-index:2;
-}
-/* Curl on bottom-right */
-.page-card::after{
-  content:'';position:absolute;bottom:0;right:0;width:20px;height:20px;
-  background:linear-gradient(225deg,#e0e0e0 44%,transparent 45%);
-  box-shadow:-1px -1px 3px rgba(0,0,0,.07);
-  pointer-events:none;z-index:2;
-}
-
-#pageCanvas{display:block;position:relative;z-index:1;}
-
-/* Page number stamp */
-.page-stamp{
-  position:absolute;bottom:8px;right:26px;
-  font-family:'Orbitron',monospace;font-size:9px;
-  color:#ccc;letter-spacing:.08em;
-  pointer-events:none;z-index:3;
-}
-
-/* Loading overlay on the card */
-.card-loading{
-  position:absolute;inset:0;background:rgba(255,255,255,.88);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;
-  z-index:20;
-}
-.cl-spin{width:26px;height:26px;border:2px solid #e8e8e8;border-top-color:#111;border-radius:50%;animation:spin .6s linear infinite;}
-.cl-txt{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#bbb;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-/* ── The flip animation canvas (sits on top, flies away) ── */
-#flipCanvas{
-  position:absolute;
-  top:0;left:0;
-  z-index:10;
-  display:none;
-  pointer-events:none;
-  will-change:transform,opacity;
-}
-
-/* Book nav controls */
-.book-nav{display:flex;align-items:center;gap:10px;}
-.bn-btn{
-  padding:8px 22px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;
-  cursor:pointer;border:1.5px solid var(--wb-border);background:#fff;color:#555;
-  font-family:inherit;transition:all .2s;display:flex;align-items:center;gap:6px;
-}
-.bn-btn:hover:not(:disabled){background:#111;color:#fff;border-color:#111;}
-.bn-btn:disabled{opacity:.28;cursor:default;}
-.bn-btn svg{width:12px;height:12px;}
-.bn-info{font-family:'Orbitron',monospace;font-size:11px;color:#999;padding:0 6px;}
-
-/* Note viewer */
-.note-viewer{max-width:640px;width:100%;background:#fff;border:1.5px solid var(--wb-border);box-shadow:0 4px 20px rgba(0,0,0,.07);animation:fbIn .4s both;}
-.nv-header{padding:22px 30px 18px;border-bottom:1px solid var(--wb-border);}
-.nv-subject{font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:#bbb;margin-bottom:6px;}
-.nv-title{font-family:'Orbitron',monospace;font-size:17px;font-weight:900;color:#111;}
-.nv-body{padding:22px 30px;font-size:13px;line-height:1.9;color:#555;}
-.nv-body p{margin-bottom:11px;}
-.nv-body strong{color:#111;}
-.nv-body h3{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:#bbb;margin:16px 0 7px;font-weight:600;}
-.nv-body ul{padding-left:16px;margin-bottom:10px;}
-.nv-body li{margin-bottom:4px;}
-
-/* Image viewer */
-.img-viewer{max-width:740px;width:100%;background:#fff;border:1.5px solid var(--wb-border);box-shadow:0 4px 20px rgba(0,0,0,.07);animation:fbIn .4s both;}
-.img-viewer img{width:100%;display:block;max-height:70vh;object-fit:contain;}
-.img-bar{padding:11px 18px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--wb-border);}
-.iv-title{font-size:12px;font-weight:700;color:#111;}
-.iv-meta{font-size:10px;color:#bbb;}
-
-/* Upload modal */
-.upload-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(12px);}
-.upload-modal.open{opacity:1;pointer-events:all;}
-.upload-box{background:#fff;border:1px solid var(--wb-border);padding:38px;max-width:440px;width:100%;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.2);transform:translateY(14px);transition:transform .3s;}
-.upload-modal.open .upload-box{transform:translateY(0);}
-.ub-close{position:absolute;top:13px;right:13px;background:none;border:none;font-size:21px;cursor:pointer;color:#333;opacity:.3;transition:opacity .2s;}
-.ub-close:hover{opacity:.8;}
-.ub-tag{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#bbb;margin-bottom:7px;}
-.ub-title{font-family:'Orbitron',monospace;font-size:16px;font-weight:900;margin-bottom:18px;color:#111;}
-.drop-zone{border:2px dashed #ddd;padding:30px;text-align:center;cursor:pointer;transition:all .22s;display:flex;flex-direction:column;align-items:center;gap:9px;}
-.drop-zone:hover,.drop-zone.dragging{border-color:#111;background:#f8f8f8;}
-.dz-icon{font-size:30px;opacity:.3;}
-.dz-text{font-size:13px;color:#888;line-height:1.7;}
-.dz-text strong{color:#111;font-weight:700;}
-.dz-formats{font-size:9px;color:#ccc;letter-spacing:.15em;text-transform:uppercase;}
-#fileInput{display:none;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(12px);}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:#fff;border:1px solid var(--wb-border);padding:0;max-width:780px;width:100%;position:relative;transform:translateY(16px);transition:transform .3s;box-shadow:0 24px 80px rgba(0,0,0,.16);max-height:90vh;overflow-y:auto;}
+.modal-overlay.open .modal{transform:translateY(0);}
+.modal::-webkit-scrollbar{width:5px;}
+.modal::-webkit-scrollbar-thumb{background:#ddd;border-radius:2px;}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:#333;font-size:22px;cursor:pointer;line-height:1;opacity:.4;transition:opacity .2s;z-index:10;}
+.modal-close:hover{opacity:.9;}
+.modal-header{padding:32px 40px 24px;border-bottom:1px solid var(--wb-border);background:#fafafa;}
+.mh-subject{font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:#bbb;margin-bottom:8px;}
+.mh-title{font-family:'Orbitron',monospace;font-size:24px;font-weight:900;color:#111;}
+.mh-meta{font-size:11px;color:#aaa;margin-top:8px;display:flex;gap:16px;align-items:center;}
+.modal-body{padding:32px 40px;font-size:14px;line-height:1.9;color:#555;}
+.modal-body h3{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#999;margin:24px 0 12px;font-weight:700;border-bottom:1px solid #f0f0f0;padding-bottom:8px;}
+.modal-body h3:first-child{margin-top:0;}
+.modal-body p{margin-bottom:14px;}
+.modal-body strong{color:#111;font-weight:700;}
+.modal-body ul{padding-left:20px;margin-bottom:14px;}
+.modal-body li{margin-bottom:6px;}
 
 footer{background:var(--g1);border-top:1px solid var(--border);padding:40px;text-align:center;}
 .ft-brand{font-family:'Orbitron',monospace;font-size:18px;font-weight:900;letter-spacing:.25em;color:#fff;margin-bottom:8px;}
@@ -216,15 +90,18 @@ footer{background:var(--g1);border-top:1px solid var(--border);padding:40px;text
 
 @media(max-width:900px){
   nav{padding:14px 20px;}
-  .lib-layout{grid-template-columns:1fr;}
-  .lib-sidebar{position:relative;top:0;height:auto;max-height:280px;border-right:none;border-bottom:1px solid var(--wb-border);}
   .hamburger{display:flex;}
   .nav-links{display:none;}
   .lib-hero{padding:120px 20px 56px;}
+  .notes-section{padding:60px 20px;}
+  .notes-grid{grid-template-columns:1fr;}
 }
 @media(max-width:600px){
-  .viewer-area{padding:18px 8px;}
-  .viewer-toolbar{padding:9px 12px;gap:7px;}
+  .filter-tabs{gap:8px;}
+  .ftab{padding:9px 20px;font-size:10px;}
+  .note-card{padding:24px;}
+  .modal-header{padding:24px 24px 18px;}
+  .modal-body{padding:24px;}
 }
 </style>
 </head>
@@ -233,27 +110,28 @@ footer{background:var(--g1);border-top:1px solid var(--border);padding:40px;text
 <div id="cur"></div>
 <div id="cur2"></div>
 
-<!-- UPLOAD MODAL -->
-<div class="upload-modal" id="uploadModal">
-  <div class="upload-box">
-    <button class="ub-close" onclick="closeUpload()">×</button>
-    <div class="ub-tag">Add to Library</div>
-    <div class="ub-title">Upload File</div>
-    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-      <div class="dz-icon" style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#bbb;font-weight:600;opacity:.6;">UPLOAD</div>
-      <div class="dz-text"><strong>Drop file here</strong><br>or click to browse</div>
-      <div class="dz-formats">PDF · PNG · JPG · JPEG · WEBP</div>
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-header">
+      <div class="mh-subject" id="modalSubject"></div>
+      <div class="mh-title" id="modalTitle"></div>
+      <div class="mh-meta">
+        <span id="modalTag"></span>
+        <span>·</span>
+        <span id="modalDate"></span>
+      </div>
     </div>
-    <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.webp" onchange="handleFileInput(event)">
+    <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
 
 <nav>
-  <a href="index.html" class="brand">SHIELDER<span class="brand-sub">Library</span></a>
+  <a href="index.html" class="brand">SHIELDER<span class="brand-sub">Study Notes</span></a>
   <ul class="nav-links">
     <li><a href="index.html#students">Results</a></li>
     <li><a href="index.html#ranks">Rankings</a></li>
-    <li><a href="#" style="color:#111;font-weight:700;">Library</a></li>
+    <li><a href="#" style="color:#111;font-weight:700;">Notes</a></li>
     <li><a href="index.html#about">About</a></li>
   </ul>
   <div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
@@ -261,59 +139,35 @@ footer{background:var(--g1);border-top:1px solid var(--border);padding:40px;text
 <ul class="nav-mobile" id="navMob">
   <li><a href="index.html#students" onclick="closeNav()">Results</a></li>
   <li><a href="index.html#ranks" onclick="closeNav()">Rankings</a></li>
-  <li><a href="#" onclick="closeNav()">Library</a></li>
+  <li><a href="#" onclick="closeNav()">Notes</a></li>
   <li><a href="index.html#about" onclick="closeNav()">About</a></li>
 </ul>
 
 <div class="lib-hero">
   <div class="hero-grid"></div>
-  <div class="lib-hero-tag">Study Materials · Notes · Resources</div>
-  <h1 class="lib-hero-h1">LIBRARY</h1>
-  <p class="lib-hero-desc">Upload PDFs, images & notes · Flip through with animated page turns</p>
+  <div class="lib-hero-tag">Curated by Shahnewaz</div>
+  <h1 class="lib-hero-h1">STUDY NOTES</h1>
+  <p class="lib-hero-desc">Comprehensive study materials across all 6 subjects for Classes 1–10</p>
 </div>
 
-<div class="lib-layout">
-  <aside class="lib-sidebar">
-    <div class="sidebar-label" style="margin-top:6px;">Filter</div>
-    <div class="filter-row">
-      <button class="ftab active" onclick="filterFiles('all',this)">All</button>
-      <button class="ftab" onclick="filterFiles('pdf',this)">PDF</button>
-      <button class="ftab" onclick="filterFiles('image',this)">Images</button>
-      <button class="ftab" onclick="filterFiles('note',this)">Notes</button>
-    </div>
-    <div class="sidebar-label">Files</div>
-    <div id="fileList" style="flex:1;overflow-y:auto;"></div>
-    <button class="add-file-btn" onclick="openUpload()">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      Add File
-    </button>
-  </aside>
+<section class="notes-section">
+  <div class="section-header">
+    <div class="sh-tag">Learning Resources</div>
+    <h2 class="sh-title">All Notes</h2>
+  </div>
 
-  <main class="lib-main">
-    <div class="viewer-toolbar">
-      <div class="vt-title" id="viewerTitle">Select a file to view</div>
-      <span class="vt-tag" id="viewerTag" style="display:none"></span>
-      <div class="vt-sep" id="sep1" style="display:none"></div>
-      <div class="page-nav" id="pageNav" style="display:none">
-        <button class="pn-btn" id="btnPrev" onclick="prevPage()">‹</button>
-        <div class="page-num" id="pageNum">1 / 1</div>
-        <button class="pn-btn" id="btnNext" onclick="nextPage()">›</button>
-      </div>
-      <div class="vt-sep" id="sep2" style="display:none"></div>
-      <button class="vt-btn primary" onclick="openUpload()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        Upload
-      </button>
-    </div>
-    <div class="viewer-area" id="viewerArea">
-      <div class="empty-state">
-        <div class="es-icon" style="font-size:40px;color:#ccc;font-family:'Orbitron',monospace;font-weight:900;letter-spacing:.1em;">LIB</div>
-        <div class="es-title">No File Selected</div>
-        <div class="es-sub">Upload a PDF, image, or choose a note<br>PDFs open with animated page turns</div>
-      </div>
-    </div>
-  </main>
-</div>
+  <div class="filter-tabs">
+    <button class="ftab active" onclick="filterNotes('all',this)"><span>All Subjects</span></button>
+    <button class="ftab" onclick="filterNotes('English',this)"><span>English</span></button>
+    <button class="ftab" onclick="filterNotes('Hindi',this)"><span>Hindi</span></button>
+    <button class="ftab" onclick="filterNotes('Math',this)"><span>Math</span></button>
+    <button class="ftab" onclick="filterNotes('Science',this)"><span>Science</span></button>
+    <button class="ftab" onclick="filterNotes('Computer',this)"><span>Computer</span></button>
+    <button class="ftab" onclick="filterNotes('Social Science',this)"><span>Social Science</span></button>
+  </div>
+
+  <div class="notes-grid" id="notesGrid"></div>
+</section>
 
 <footer>
   <div class="ft-brand">SHIELDER</div>
@@ -321,10 +175,6 @@ footer{background:var(--g1);border-top:1px solid var(--border);padding:40px;text
 </footer>
 
 <script>
-/* ── PDF.js worker ── */
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
 /* ── Cursor ── */
 const $cur = document.getElementById('cur');
 const $cur2 = document.getElementById('cur2');
@@ -339,9 +189,17 @@ document.addEventListener('mousemove', e => {
   requestAnimationFrame(lag);
 })();
 function hookCursor() {
-  document.querySelectorAll('a,button,.file-item,.ftab,.drop-zone,.bn-btn').forEach(el => {
-    el.addEventListener('mouseenter', () => { $cur.style.transform = 'translate(-50%,-50%) scale(2.2)'; $cur2.style.width = '44px'; $cur2.style.height = '44px'; });
-    el.addEventListener('mouseleave', () => { $cur.style.transform = 'translate(-50%,-50%) scale(1)'; $cur2.style.width = '32px'; $cur2.style.height = '32px'; });
+  document.querySelectorAll('a,button,.note-card,.ftab').forEach(el => {
+    el.addEventListener('mouseenter', () => { 
+      $cur.style.transform = 'translate(-50%,-50%) scale(2.2)'; 
+      $cur2.style.width = '44px'; 
+      $cur2.style.height = '44px'; 
+    });
+    el.addEventListener('mouseleave', () => { 
+      $cur.style.transform = 'translate(-50%,-50%) scale(1)'; 
+      $cur2.style.width = '32px'; 
+      $cur2.style.height = '32px'; 
+    });
   });
 }
 hookCursor();
@@ -350,454 +208,555 @@ function toggleNav() { document.getElementById('navMob').classList.toggle('open'
 function closeNav()  { document.getElementById('navMob').classList.remove('open'); }
 
 /* ════════════════════════════
-   DATA / STATE
+   NOTES DATA
 ════════════════════════════ */
-let files = [];
-let activeId = null;
+const NOTES = [
+  {
+    subject: 'English',
+    title: 'Tenses & Active / Passive',
+    preview: 'All 12 tenses with clear timelines, active-to-passive conversion rules, and common error patterns for Classes 6–8.',
+    tag: 'Grammar',
+    date: 'Mar 10, 2025',
+    content: `
+      <h3>Tenses Overview</h3>
+      <p>English has <strong>12 tenses</strong> divided across Past, Present, and Future. Each tense has 4 forms: Simple, Continuous, Perfect, and Perfect Continuous.</p>
+      
+      <h3>Present Tenses</h3>
+      <ul>
+        <li><strong>Simple Present:</strong> I write (habitual action)</li>
+        <li><strong>Present Continuous:</strong> I am writing (ongoing action)</li>
+        <li><strong>Present Perfect:</strong> I have written (completed action with present relevance)</li>
+        <li><strong>Present Perfect Continuous:</strong> I have been writing (action started in past, still continuing)</li>
+      </ul>
+
+      <h3>Past Tenses</h3>
+      <ul>
+        <li><strong>Simple Past:</strong> I wrote (completed action in the past)</li>
+        <li><strong>Past Continuous:</strong> I was writing (ongoing action in the past)</li>
+        <li><strong>Past Perfect:</strong> I had written (action completed before another past action)</li>
+        <li><strong>Past Perfect Continuous:</strong> I had been writing (ongoing action before another past action)</li>
+      </ul>
+
+      <h3>Future Tenses</h3>
+      <ul>
+        <li><strong>Simple Future:</strong> I will write (action in the future)</li>
+        <li><strong>Future Continuous:</strong> I will be writing (ongoing action in the future)</li>
+        <li><strong>Future Perfect:</strong> I will have written (action completed before a future point)</li>
+        <li><strong>Future Perfect Continuous:</strong> I will have been writing (ongoing action before a future point)</li>
+      </ul>
+
+      <h3>Active → Passive Voice</h3>
+      <p><strong>Rule:</strong> Subject + Verb + Object → Object + is/was/will be + V3 + by + Subject</p>
+      <p><strong>Example:</strong></p>
+      <ul>
+        <li><strong>Active:</strong> Aarisha writes the essay.</li>
+        <li><strong>Passive:</strong> The essay is written by Aarisha.</li>
+      </ul>
+
+      <h3>Key Rules for Passive Voice</h3>
+      <ul>
+        <li>Only transitive verbs (verbs with objects) can be made passive</li>
+        <li>Object of active sentence becomes subject of passive sentence</li>
+        <li>Tense of the helping verb changes according to the tense of the active sentence</li>
+        <li>The word "by" is optional — it shows who performed the action</li>
+        <li>Intransitive verbs (sleep, go, come) cannot be converted to passive</li>
+      </ul>
+
+      <h3>Common Mistakes</h3>
+      <ul>
+        <li>Confusing Simple Past with Present Perfect</li>
+        <li>Using wrong helping verb in passive voice</li>
+        <li>Forgetting to change verb form to past participle (V3) in passive</li>
+        <li>Mixing tenses within a sentence</li>
+      </ul>
+
+      <p><strong>Practice tip:</strong> Ask Shahnewaz for the complete exercise sheet with 50+ practice questions covering all tenses and voice conversions!</p>
+    `
+  },
+  {
+    subject: 'Hindi',
+    title: 'Sandhi, Samas & Karak',
+    preview: 'Sandhi types with examples, all Samas categories, and the 8 Karak cases — each with fill-in-the-blank exercises.',
+    tag: 'व्याकरण',
+    date: 'Mar 8, 2025',
+    content: `
+      <h3>संधि (Sandhi) — तीन प्रकार</h3>
+      <p><strong>1. स्वर संधि (Vowel Sandhi):</strong></p>
+      <ul>
+        <li>विद्या + आलय = विद्यालय</li>
+        <li>देव + इंद्र = देवेंद्र</li>
+        <li>महा + उत्सव = महोत्सव</li>
+      </ul>
+
+      <p><strong>2. व्यंजन संधि (Consonant Sandhi):</strong></p>
+      <ul>
+        <li>जगत + नाथ = जगन्नाथ</li>
+        <li>सत + जन = सज्जन</li>
+        <li>उत + चारण = उच्चारण</li>
+      </ul>
+
+      <p><strong>3. विसर्ग संधि (Visarga Sandhi):</strong></p>
+      <ul>
+        <li>मनः + बल = मनोबल</li>
+        <li>नमः + ते = नमस्ते</li>
+        <li>दुः + कर्म = दुष्कर्म</li>
+      </ul>
+
+      <h3>समास (Samas) — छह प्रकार</h3>
+      <p><strong>1. तत्पुरुष समास:</strong> दूसरा पद प्रधान — राजपुत्र = राज का पुत्र</p>
+      <p><strong>2. कर्मधारय समास:</strong> विशेषण-विशेष्य — नीलकमल = नीला है जो कमल</p>
+      <p><strong>3. द्विगु समास:</strong> संख्यावाची — त्रिलोक = तीन लोकों का समाहार</p>
+      <p><strong>4. द्वंद्व समास:</strong> दोनों पद प्रधान — माता-पिता = माता और पिता</p>
+      <p><strong>5. बहुव्रीहि समास:</strong> दोनों पद अप्रधान, अन्य पद प्रधान — चक्रपाणि = चक्र है पाणि में जिसके (विष्णु)</p>
+      <p><strong>6. अव्ययीभाव समास:</strong> पहला पद प्रधान — यथाशक्ति = शक्ति के अनुसार</p>
+
+      <h3>कारक (Karak) — आठ प्रकार</h3>
+      <ul>
+        <li><strong>कर्ता (Nominative):</strong> ने — राम ने रावण को मारा।</li>
+        <li><strong>कर्म (Accusative):</strong> को — मैंने पुस्तक को पढ़ा।</li>
+        <li><strong>करण (Instrumental):</strong> से, के द्वारा — बच्चा पेंसिल से लिखता है।</li>
+        <li><strong>संप्रदान (Dative):</strong> के लिए, को — मैं गरीबों को दान देता हूँ।</li>
+        <li><strong>अपादान (Ablative):</strong> से (अलग होना) — पेड़ से पत्ता गिरा।</li>
+        <li><strong>संबंध (Genitive):</strong> का, के, की — यह राम की किताब है।</li>
+        <li><strong>अधिकरण (Locative):</strong> में, पर — घर में बच्चे खेल रहे हैं।</li>
+        <li><strong>संबोधन (Vocative):</strong> हे, अरे — हे राम! यह क्या हुआ?</li>
+      </ul>
+
+      <h3>व्यावहारिक अभ्यास</h3>
+      <p>रिक्त स्थान भरें:</p>
+      <ul>
+        <li>सूर्य + उदय = _________ (संधि)</li>
+        <li>पंचवटी = पांच _____ का समूह (समास)</li>
+        <li>राम _____ सीता को बचाया। (कारक)</li>
+      </ul>
+
+      <p><strong>पूरी practice sheet के लिए Shahnewaz sir से संपर्क करें!</strong></p>
+    `
+  },
+  {
+    subject: 'Math',
+    title: 'Fractions, Decimals & Algebra',
+    preview: 'Concept maps for fractions and decimals with step-by-step methods, plus introductory algebra for Classes 4–8.',
+    tag: 'Arithmetic',
+    date: 'Mar 5, 2025',
+    content: `
+      <h3>Fractions — Basic Operations</h3>
+      <p><strong>Like Fractions (same denominator):</strong></p>
+      <ul>
+        <li>Add/Subtract directly: 2/7 + 3/7 = 5/7</li>
+        <li>Example: 5/9 - 2/9 = 3/9 = 1/3</li>
+      </ul>
+
+      <p><strong>Unlike Fractions (different denominators):</strong></p>
+      <ul>
+        <li>Find LCM first, then convert to like fractions</li>
+        <li>Example: 1/2 + 1/3 → LCM(2,3) = 6 → 3/6 + 2/6 = 5/6</li>
+      </ul>
+
+      <p><strong>Multiplication:</strong> Numerator × Numerator / Denominator × Denominator</p>
+      <ul>
+        <li>Example: 2/3 × 4/5 = (2×4)/(3×5) = 8/15</li>
+      </ul>
+
+      <p><strong>Division:</strong> Multiply by the reciprocal of the divisor</p>
+      <ul>
+        <li>Example: 3/4 ÷ 2/5 = 3/4 × 5/2 = 15/8</li>
+      </ul>
+
+      <h3>Decimals</h3>
+      <p><strong>Place Values:</strong></p>
+      <ul>
+        <li>Tenths (0.1) → First digit after decimal</li>
+        <li>Hundredths (0.01) → Second digit after decimal</li>
+        <li>Thousandths (0.001) → Third digit after decimal</li>
+      </ul>
+
+      <p><strong>Converting Fraction to Decimal:</strong> Divide numerator by denominator</p>
+      <ul>
+        <li>Example: 3/4 = 3 ÷ 4 = 0.75</li>
+        <li>Example: 1/8 = 1 ÷ 8 = 0.125</li>
+      </ul>
+
+      <p><strong>Addition/Subtraction:</strong> Line up the decimal points</p>
+      <ul>
+        <li>Example: 12.5 + 3.75 = 16.25</li>
+      </ul>
+
+      <h3>Algebra Basics</h3>
+      <p><strong>Solving Simple Equations:</strong></p>
+      <ul>
+        <li>2x + 5 = 13</li>
+        <li>Step 1: Subtract 5 from both sides → 2x = 8</li>
+        <li>Step 2: Divide both sides by 2 → x = 4</li>
+      </ul>
+
+      <p><strong>Like Terms:</strong> Terms with the same variable and power</p>
+      <ul>
+        <li>3x + 5x = 8x (collect like terms)</li>
+        <li>4a² + 2a² - a² = 5a²</li>
+      </ul>
+
+      <p><strong>Key Rules:</strong></p>
+      <ul>
+        <li>Always perform the same operation on both sides of the equation</li>
+        <li>Simplify expressions by collecting like terms first</li>
+        <li>Substitute the answer back to verify</li>
+        <li>BODMAS rule: Brackets, Orders, Division/Multiplication, Addition/Subtraction</li>
+      </ul>
+
+      <h3>Practice Problems</h3>
+      <ul>
+        <li>Solve: 3x - 7 = 14</li>
+        <li>Simplify: 5a + 3b - 2a + 4b</li>
+        <li>Convert to decimal: 7/20</li>
+      </ul>
+
+      <p><strong>Get the complete 30-problem worksheet from Shahnewaz!</strong></p>
+    `
+  },
+  {
+    subject: 'Science',
+    title: 'Living World & States of Matter',
+    preview: 'Labelled cell diagrams, states of matter, and plant/animal life systems with revision summaries.',
+    tag: 'Biology & Chemistry',
+    date: 'Mar 3, 2025',
+    content: `
+      <h3>Characteristics of Living Things — MRS GREN</h3>
+      <ul>
+        <li><strong>M</strong>ovement — Ability to move or change position</li>
+        <li><strong>R</strong>espiration — Breaking down food to release energy</li>
+        <li><strong>S</strong>ensitivity — Responding to changes in the environment</li>
+        <li><strong>G</strong>rowth — Increasing in size and mass</li>
+        <li><strong>R</strong>eproduction — Producing offspring</li>
+        <li><strong>E</strong>xcretion — Removing waste products</li>
+        <li><strong>N</strong>utrition — Taking in food and nutrients</li>
+      </ul>
+
+      <h3>Cell Structure</h3>
+      <p><strong>Plant Cell:</strong></p>
+      <ul>
+        <li><strong>Cell Wall:</strong> Rigid outer layer (only in plants) — provides structure and support</li>
+        <li><strong>Cell Membrane:</strong> Controls what enters and exits the cell</li>
+        <li><strong>Nucleus:</strong> Control center of the cell, contains DNA</li>
+        <li><strong>Cytoplasm:</strong> Jelly-like substance where chemical reactions occur</li>
+        <li><strong>Chloroplasts:</strong> Contain chlorophyll for photosynthesis (only in plants)</li>
+        <li><strong>Vacuole:</strong> Large storage space for water and nutrients (large in plants)</li>
+        <li><strong>Mitochondria:</strong> Powerhouse of the cell, produces energy (ATP)</li>
+      </ul>
+
+      <p><strong>Animal Cell:</strong></p>
+      <ul>
+        <li>No cell wall or chloroplasts</li>
+        <li>Smaller vacuoles (or none)</li>
+        <li>Contains all other parts: nucleus, mitochondria, cell membrane, cytoplasm</li>
+      </ul>
+
+      <h3>States of Matter</h3>
+      <p><strong>Solid:</strong></p>
+      <ul>
+        <li>Particles closely packed in fixed positions</li>
+        <li>Fixed shape and volume</li>
+        <li>Example: Ice, wood, iron</li>
+      </ul>
+
+      <p><strong>Liquid:</strong></p>
+      <ul>
+        <li>Particles close but can move around</li>
+        <li>Fixed volume but no fixed shape (takes shape of container)</li>
+        <li>Example: Water, milk, oil</li>
+      </ul>
+
+      <p><strong>Gas:</strong></p>
+      <ul>
+        <li>Particles far apart and move freely</li>
+        <li>No fixed shape or volume</li>
+        <li>Example: Air, oxygen, carbon dioxide</li>
+      </ul>
+
+      <h3>Changes of State</h3>
+      <ul>
+        <li><strong>Melting:</strong> Solid → Liquid (ice → water)</li>
+        <li><strong>Freezing:</strong> Liquid → Solid (water → ice)</li>
+        <li><strong>Evaporation:</strong> Liquid → Gas (water → water vapour)</li>
+        <li><strong>Condensation:</strong> Gas → Liquid (water vapour → water)</li>
+        <li><strong>Sublimation:</strong> Solid → Gas directly (dry ice → carbon dioxide gas)</li>
+      </ul>
+
+      <h3>Photosynthesis</h3>
+      <p><strong>Word Equation:</strong></p>
+      <p>Carbon dioxide + Water + Light energy → Glucose + Oxygen</p>
+      <p><strong>Where it happens:</strong> In chloroplasts (green parts of plants)</p>
+      <p><strong>Why it's important:</strong> Plants make their own food and produce oxygen for us to breathe</p>
+
+      <h3>Respiration</h3>
+      <p><strong>Word Equation:</strong></p>
+      <p>Glucose + Oxygen → Carbon dioxide + Water + Energy</p>
+      <p><strong>Where it happens:</strong> In mitochondria (all living cells)</p>
+      <p><strong>Why it's important:</strong> Releases energy from food for all life processes</p>
+
+      <p><strong>For detailed cell diagrams and practice questions, contact Shahnewaz sir!</strong></p>
+    `
+  },
+  {
+    subject: 'Computer',
+    title: 'MS Office Basics',
+    preview: 'Word, Excel, and PowerPoint fundamentals — shortcuts, formatting tips, and practical exercises for school level.',
+    tag: 'Digital Skills',
+    date: 'Mar 1, 2025',
+    content: `
+      <h3>Microsoft Word — Document Creation</h3>
+      <p><strong>Essential Features:</strong></p>
+      <ul>
+        <li><strong>Formatting Text:</strong> Font type, size, bold, italic, underline, color</li>
+        <li><strong>Alignment:</strong> Left, center, right, justify</li>
+        <li><strong>Bullet Points & Numbering:</strong> Organize lists clearly</li>
+        <li><strong>Insert:</strong> Images, tables, shapes, page numbers</li>
+        <li><strong>Page Layout:</strong> Margins, orientation (portrait/landscape), columns</li>
+      </ul>
+
+      <p><strong>Keyboard Shortcuts:</strong></p>
+      <ul>
+        <li><strong>Ctrl + B:</strong> Bold</li>
+        <li><strong>Ctrl + I:</strong> Italic</li>
+        <li><strong>Ctrl + U:</strong> Underline</li>
+        <li><strong>Ctrl + S:</strong> Save</li>
+        <li><strong>Ctrl + Z:</strong> Undo</li>
+        <li><strong>Ctrl + Y:</strong> Redo</li>
+        <li><strong>Ctrl + A:</strong> Select all</li>
+        <li><strong>Ctrl + C:</strong> Copy</li>
+        <li><strong>Ctrl + V:</strong> Paste</li>
+      </ul>
+
+      <h3>Microsoft Excel — Spreadsheets</h3>
+      <p><strong>Basic Concepts:</strong></p>
+      <ul>
+        <li><strong>Cell:</strong> Single box identified by column letter and row number (e.g., A1, B2)</li>
+        <li><strong>Row:</strong> Horizontal line of cells</li>
+        <li><strong>Column:</strong> Vertical line of cells</li>
+        <li><strong>Range:</strong> Group of cells (e.g., A1:A10)</li>
+      </ul>
+
+      <p><strong>Basic Formulas:</strong></p>
+      <ul>
+        <li><strong>SUM:</strong> =SUM(A1:A10) — adds all numbers in range</li>
+        <li><strong>AVERAGE:</strong> =AVERAGE(A1:A10) — finds average</li>
+        <li><strong>MAX:</strong> =MAX(A1:A10) — finds highest number</li>
+        <li><strong>MIN:</strong> =MIN(A1:A10) — finds lowest number</li>
+        <li><strong>COUNT:</strong> =COUNT(A1:A10) — counts numbers in range</li>
+      </ul>
+
+      <p><strong>Formatting:</strong></p>
+      <ul>
+        <li>Number formats: General, Number, Currency, Percentage</li>
+        <li>Cell borders and shading</li>
+        <li>Merge cells</li>
+        <li>Auto-fit column width</li>
+      </ul>
+
+      <h3>Microsoft PowerPoint — Presentations</h3>
+      <p><strong>Creating Slides:</strong></p>
+      <ul>
+        <li><strong>Title Slide:</strong> First slide with presentation title and author name</li>
+        <li><strong>Content Slides:</strong> Main information with bullet points, images, charts</li>
+        <li><strong>Slide Layouts:</strong> Title only, title & content, two content, blank</li>
+      </ul>
+
+      <p><strong>Design Elements:</strong></p>
+      <ul>
+        <li><strong>Themes:</strong> Pre-designed color schemes and fonts</li>
+        <li><strong>Transitions:</strong> Effects between slides (fade, push, wipe)</li>
+        <li><strong>Animations:</strong> Effects for text and objects appearing on slide</li>
+        <li><strong>Insert:</strong> Pictures, shapes, charts, tables, videos</li>
+      </ul>
+
+      <p><strong>Presentation Tips:</strong></p>
+      <ul>
+        <li>Keep text brief — use bullet points</li>
+        <li>Use large, readable fonts (minimum 24pt)</li>
+        <li>Choose contrasting colors (dark text on light background)</li>
+        <li>Include relevant images to support content</li>
+        <li>Don't overuse animations — keep it simple</li>
+        <li>Practice your presentation before delivering</li>
+      </ul>
+
+      <h3>Keyboard Shortcuts (All Office Apps)</h3>
+      <ul>
+        <li><strong>Ctrl + N:</strong> New file</li>
+        <li><strong>Ctrl + O:</strong> Open file</li>
+        <li><strong>Ctrl + S:</strong> Save</li>
+        <li><strong>Ctrl + P:</strong> Print</li>
+        <li><strong>F12:</strong> Save As</li>
+        <li><strong>Ctrl + W:</strong> Close file</li>
+      </ul>
+
+      <p><strong>Practice exercises and hands-on tasks available from Shahnewaz!</strong></p>
+    `
+  },
+  {
+    subject: 'Social Science',
+    title: 'India — Geography & History',
+    preview: 'Rivers, climate zones, state maps, and a key historical events timeline covering Classes 4–8 syllabi.',
+    tag: 'Geography & History',
+    date: 'Feb 28, 2025',
+    content: `
+      <h3>Geography of India</h3>
+      <p><strong>Location & Area:</strong></p>
+      <ul>
+        <li>Located in South Asia</li>
+        <li>7th largest country by area</li>
+        <li>Latitude: 8°4'N to 37°6'N</li>
+        <li>Longitude: 68°7'E to 97°25'E</li>
+        <li>Surrounded by Indian Ocean, Arabian Sea, Bay of Bengal</li>
+      </ul>
+
+      <p><strong>Major Rivers:</strong></p>
+      <ul>
+        <li><strong>Ganga:</strong> Originates from Gangotri Glacier, flows through north India</li>
+        <li><strong>Yamuna:</strong> Tributary of Ganga, flows through Delhi</li>
+        <li><strong>Brahmaputra:</strong> Flows through northeast India</li>
+        <li><strong>Godavari:</strong> Longest river in south India</li>
+        <li><strong>Krishna:</strong> Flows through Maharashtra, Karnataka, Andhra Pradesh</li>
+        <li><strong>Narmada:</strong> Flows westward into Arabian Sea</li>
+        <li><strong>Kaveri:</strong> Sacred river of south India</li>
+      </ul>
+
+      <p><strong>Mountain Ranges:</strong></p>
+      <ul>
+        <li><strong>Himalayas:</strong> Highest mountain range, northern border</li>
+        <li><strong>Western Ghats:</strong> Along west coast</li>
+        <li><strong>Eastern Ghats:</strong> Along east coast</li>
+        <li><strong>Aravalli:</strong> Oldest mountain range in Rajasthan</li>
+        <li><strong>Vindhya:</strong> Separates north and south India</li>
+      </ul>
+
+      <p><strong>Climate Zones:</strong></p>
+      <ul>
+        <li><strong>Tropical:</strong> Hot and humid (coastal areas)</li>
+        <li><strong>Arid/Desert:</strong> Hot and dry (Rajasthan)</li>
+        <li><strong>Temperate:</strong> Moderate (northern plains)</li>
+        <li><strong>Alpine:</strong> Cold (Himalayan region)</li>
+      </ul>
+
+      <p><strong>Seasons:</strong></p>
+      <ul>
+        <li><strong>Summer:</strong> March to June (hot and dry)</li>
+        <li><strong>Monsoon:</strong> July to September (heavy rainfall)</li>
+        <li><strong>Winter:</strong> October to February (cool and pleasant)</li>
+      </ul>
+
+      <h3>History of India — Key Events</h3>
+      <p><strong>Ancient India:</strong></p>
+      <ul>
+        <li><strong>Indus Valley Civilization (2500 BCE):</strong> Harappa, Mohenjo-daro</li>
+        <li><strong>Vedic Period (1500-500 BCE):</strong> Vedas composed</li>
+        <li><strong>Maurya Empire (322-185 BCE):</strong> Chandragupta Maurya, Ashoka the Great</li>
+        <li><strong>Gupta Period (320-550 CE):</strong> Golden Age of India</li>
+      </ul>
+
+      <p><strong>Medieval India:</strong></p>
+      <ul>
+        <li><strong>Delhi Sultanate (1206-1526):</strong> Muslim rule in north India</li>
+        <li><strong>Mughal Empire (1526-1857):</strong> Babur, Akbar, Shah Jahan (Taj Mahal), Aurangzeb</li>
+        <li><strong>Vijayanagara Empire (1336-1646):</strong> Hindu kingdom in south India</li>
+      </ul>
+
+      <p><strong>Modern India:</strong></p>
+      <ul>
+        <li><strong>British Rule (1757-1947):</strong> East India Company, British Raj</li>
+        <li><strong>First War of Independence (1857):</strong> Sepoy Mutiny</li>
+        <li><strong>Indian National Movement:</strong>
+          <ul>
+            <li>Formation of Indian National Congress (1885)</li>
+            <li>Partition of Bengal (1905)</li>
+            <li>Non-Cooperation Movement (1920) — Mahatma Gandhi</li>
+            <li>Civil Disobedience Movement (1930) — Salt March</li>
+            <li>Quit India Movement (1942)</li>
+          </ul>
+        </li>
+        <li><strong>Independence (15 August 1947):</strong> India became free</li>
+        <li><strong>Partition:</strong> India and Pakistan divided</li>
+        <li><strong>Republic Day (26 January 1950):</strong> Constitution came into effect</li>
+      </ul>
+
+      <h3>Important Freedom Fighters</h3>
+      <ul>
+        <li><strong>Mahatma Gandhi:</strong> Father of the Nation, Non-violence</li>
+        <li><strong>Jawaharlal Nehru:</strong> First Prime Minister</li>
+        <li><strong>Sardar Vallabhbhai Patel:</strong> Iron Man of India</li>
+        <li><strong>Subhash Chandra Bose:</strong> Azad Hind Fauj (INA)</li>
+        <li><strong>Bhagat Singh:</strong> Revolutionary freedom fighter</li>
+        <li><strong>Rani Lakshmibai:</strong> Queen of Jhansi, 1857 revolt</li>
+      </ul>
+
+      <p><strong>Get detailed state maps, timeline charts, and practice questions from Shahnewaz!</strong></p>
+    `
+  }
+];
+
 let currentFilter = 'all';
 
-/* PDF viewer state */
-let PDF = null;          // pdfjsLib document
-let pdfPage = 1;
-let pdfTotal = 0;
-let pdfBusy = false;
-let pdfCache = {};       // pageNum → offscreen canvas dataURL
-
-/* Page display size — recalculated when viewer opens */
-let PW = 460, PH = 620;
-
-/* ── Built-in notes ── */
-const NOTES = [
-  { id:'n-en', name:'Tenses & Active / Passive', subject:'English', type:'note', date:'Mar 10',
-    html:`<h3>Tenses Overview</h3><p>English has <strong>12 tenses</strong> in Past, Present and Future. Each has 4 forms: Simple, Continuous, Perfect, Perfect Continuous.</p><h3>Active → Passive</h3><p>Subject + Verb + Object → Object + is/was/will be + V3 + by + Subject</p><p>Example: <strong>Active:</strong> Aarisha writes the essay. | <strong>Passive:</strong> The essay is written by Aarisha.</p><h3>Key Rules</h3><ul><li>Only transitive verbs can be made passive</li><li>Object of active becomes subject of passive</li><li>Tense of the helping verb changes accordingly</li><li>"by" is optional — shows who did the action</li></ul><p><strong>Ask Shahnewaz for the full exercise sheet!</strong></p>`
-  },
-  { id:'n-hi', name:'Sandhi, Samas & Karak', subject:'Hindi', type:'note', date:'Mar 8',
-    html:`<h3>संधि</h3><p><strong>स्वर संधि:</strong> विद्या + आलय = विद्यालय &nbsp;|&nbsp; <strong>व्यंजन संधि:</strong> जगत + नाथ = जगन्नाथ &nbsp;|&nbsp; <strong>विसर्ग संधि:</strong> मनः + बल = मनोबल</p><h3>समास (6 Types)</h3><ul><li><strong>तत्पुरुष</strong> — दूसरा पद प्रधान</li><li><strong>कर्मधारय</strong> — विशेषण-विशेष्य</li><li><strong>द्विगु</strong> — संख्यावाची</li><li><strong>द्वंद्व</strong> — दोनों पद प्रधान</li><li><strong>बहुव्रीहि</strong> — दोनों पद अप्रधान</li><li><strong>अव्ययीभाव</strong> — पहला पद प्रधान</li></ul><h3>कारक (8 Cases)</h3><p>कर्ता · कर्म · करण · संप्रदान · अपादान · संबंध · अधिकरण · संबोधन</p><p><strong>पूरी practice sheet Shahnewaz sir से लें!</strong></p>`
-  },
-  { id:'n-ma', name:'Fractions, Decimals & Algebra', subject:'Math', type:'note', date:'Mar 5',
-    html:`<h3>Fractions</h3><ul><li><strong>Like fractions</strong> — same denominator, add/subtract directly</li><li><strong>Unlike fractions</strong> — find LCM first, then operate</li><li><strong>Multiply</strong> — numerator × numerator / denominator × denominator</li><li><strong>Divide</strong> — multiply by the reciprocal of the divisor</li></ul><h3>Decimals</h3><p>Place values: <strong>Tenths → Hundredths → Thousandths</strong>. Convert fraction to decimal: divide top ÷ bottom.</p><h3>Algebra Basics</h3><p>2x + 5 = 13 → 2x = 8 → <strong>x = 4</strong></p><ul><li>Collect like terms before simplifying</li><li>Substitute to verify your answer</li></ul><p><strong>Ask Shahnewaz for the 30-problem worksheet!</strong></p>`
-  },
-  { id:'n-sc', name:'Living World & States of Matter', subject:'Science', type:'note', date:'Mar 3',
-    html:`<h3>Living World — MRSGREN</h3><p><strong>M</strong>ovement · <strong>R</strong>espiration · <strong>S</strong>ensitivity · <strong>G</strong>rowth · <strong>R</strong>eproduction · <strong>E</strong>xcretion · <strong>N</strong>utrition</p><h3>Cell Parts</h3><ul><li><strong>Cell Wall</strong> (plants only) — rigid structure</li><li><strong>Cell Membrane</strong> — controls what enters/exits</li><li><strong>Nucleus</strong> — control center, holds DNA</li><li><strong>Mitochondria</strong> — makes energy (ATP)</li><li><strong>Chloroplasts</strong> (plants only) — photosynthesis</li></ul><h3>States of Matter</h3><p><strong>Solid</strong> — fixed shape & volume &nbsp;|&nbsp; <strong>Liquid</strong> — fixed volume only &nbsp;|&nbsp; <strong>Gas</strong> — neither fixed</p><p>Changes: Melting · Freezing · Evaporation · Condensation · Sublimation</p><p><strong>Full diagrams available from Shahnewaz sir!</strong></p>`
-  },
-];
-NOTES.forEach(n => files.push(n));
-renderFileList();
-
 /* ════════════════════════════
-   RENDER SIDEBAR
+   RENDER NOTES
 ════════════════════════════ */
-function renderFileList() {
-  const list = document.getElementById('fileList');
-  const shown = files.filter(f =>
-    currentFilter === 'all' ||
-    (currentFilter === 'pdf'   && f.type === 'pdf')   ||
-    (currentFilter === 'image' && f.type === 'image') ||
-    (currentFilter === 'note'  && f.type === 'note')
-  );
-  if (!shown.length) {
-    list.innerHTML = '<div style="padding:14px 20px;font-size:11px;color:#ccc;text-align:center;">No files here</div>';
-    return;
-  }
-  list.innerHTML = shown.map(f => {
-    const emoji = f.type === 'pdf' ? 'PDF' : f.type === 'image' ? 'IMG' : 'TXT';
-    const iCls  = f.type === 'pdf' ? 'pdf-icon' : f.type === 'image' ? 'img-icon' : 'note-icon';
-    const bCls  = f.type === 'pdf' ? 'pdf' : f.type === 'image' ? 'png' : 'note';
-    const bTxt  = f.type === 'pdf' ? 'PDF' : f.type === 'image' ? 'IMG' : 'NOTE';
-    return `<div class="file-item${f.id === activeId ? ' active' : ''}" onclick="openFile('${f.id}')">
-      <div class="fi-icon ${iCls}">${emoji}</div>
-      <div class="fi-meta">
-        <div class="fi-name">${f.name}</div>
-        <div class="fi-info">${f.subject}${f.date ? ' · ' + f.date : ''}</div>
+function renderNotes() {
+  const grid = document.getElementById('notesGrid');
+  const filtered = currentFilter === 'all' 
+    ? NOTES 
+    : NOTES.filter(n => n.subject === currentFilter);
+
+  grid.innerHTML = filtered.map(note => `
+    <div class="note-card" onclick="openNote('${note.subject}')">
+      <div class="nc-subject">${note.subject}</div>
+      <div class="nc-title">${note.title}</div>
+      <div class="nc-preview">${note.preview}</div>
+      <div class="nc-meta">
+        <span class="nc-tag">${note.tag}</span>
+        <span class="nc-date">${note.date}</span>
       </div>
-      <span class="fi-badge ${bCls}">${bTxt}</span>
-    </div>`;
-  }).join('');
+    </div>
+  `).join('');
+
   hookCursor();
 }
 
-function filterFiles(type, btn) {
-  currentFilter = type;
+function filterNotes(subject, btn) {
+  currentFilter = subject;
   document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
-  renderFileList();
+  renderNotes();
 }
 
 /* ════════════════════════════
-   OPEN FILE
+   MODAL
 ════════════════════════════ */
-function openFile(id) {
-  activeId = id;
-  const f = files.find(x => x.id === id);
-  if (!f) return;
-  renderFileList();
+function openNote(subject) {
+  const note = NOTES.find(n => n.subject === subject);
+  if (!note) return;
 
-  document.getElementById('viewerTitle').textContent = f.name;
-  const tagEl = document.getElementById('viewerTag');
-  tagEl.textContent = f.subject; tagEl.style.display = '';
-  document.getElementById('sep1').style.display = '';
-  document.getElementById('sep2').style.display = '';
-
-  const pnav = document.getElementById('pageNav');
-  if (f.type === 'pdf') {
-    pnav.style.display = 'flex';
-    initPDF(f);
-  } else {
-    pnav.style.display = 'none';
-    f.type === 'image' ? showImage(f) : showNote(f);
-  }
+  document.getElementById('modalSubject').textContent = note.subject;
+  document.getElementById('modalTitle').textContent = note.title;
+  document.getElementById('modalTag').textContent = note.tag;
+  document.getElementById('modalDate').textContent = note.date;
+  document.getElementById('modalBody').innerHTML = note.content;
+  document.getElementById('modalOverlay').classList.add('open');
 }
 
-/* ════════════════════════════
-   NOTE VIEWER
-════════════════════════════ */
-function showNote(f) {
-  document.getElementById('viewerArea').innerHTML = `
-    <div class="note-viewer">
-      <div class="nv-header">
-        <div class="nv-subject">${f.subject}</div>
-        <div class="nv-title">${f.name}</div>
-      </div>
-      <div class="nv-body">${f.html}</div>
-    </div>`;
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
 }
 
-/* ════════════════════════════
-   IMAGE VIEWER
-════════════════════════════ */
-function showImage(f) {
-  document.getElementById('viewerArea').innerHTML = `
-    <div class="img-viewer">
-      <img src="${f.data}" alt="${f.name}">
-      <div class="img-bar">
-        <div class="iv-title">${f.name}</div>
-        <div class="iv-meta">${f.subject}${f.size ? ' · ' + f.size : ''}</div>
-      </div>
-    </div>`;
-}
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
 
-/* ════════════════════════════
-   PDF VIEWER — single-page flip
-════════════════════════════ */
-async function initPDF(f) {
-  const area = document.getElementById('viewerArea');
-  area.innerHTML = `
-    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:320px;gap:12px;">
-      <div class="cl-spin" style="width:30px;height:30px;border:2px solid #eee;border-top-color:#111;border-radius:50%;animation:spin .6s linear infinite;"></div>
-      <div style="font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:#bbb;">Loading PDF…</div>
-    </div>`;
-
-  PDF = null; pdfPage = 1; pdfTotal = 0; pdfBusy = false; pdfCache = {};
-
-  try {
-    const src = f.rawBuf
-      ? { data: new Uint8Array(f.rawBuf) }
-      : (typeof f.data === 'string' && f.data.startsWith('data:'))
-        ? f.data
-        : { data: f.data };
-
-    PDF = await pdfjsLib.getDocument(src).promise;
-    pdfTotal = PDF.numPages;
-    calcDimensions();
-    buildFlipDOM();
-    await drawPage(pdfPage);
-    syncUI();
-    // prefetch next
-    if (pdfTotal > 1) renderOffscreen(2);
-  } catch(err) {
-    console.error('PDF error:', err);
-    area.innerHTML = `
-      <div class="empty-state">
-        <div class="es-icon" style="font-size:40px;color:#ccc;font-family:'Orbitron',monospace;font-weight:900;letter-spacing:.1em;">LIB</div>
-        <div class="es-title">Cannot Load PDF</div>
-        <div class="es-sub">File may be corrupted or password-protected.<br>Try re-uploading.</div>
-      </div>`;
-  }
-}
-
-function calcDimensions() {
-  const area = document.getElementById('viewerArea');
-  const maxW = Math.min(area.clientWidth - 32, 520);
-  const maxH = Math.floor(window.innerHeight * 0.7);
-  PW = maxW;
-  PH = Math.min(Math.floor(maxW * 1.41), maxH);
-}
-
-function buildFlipDOM() {
-  const area = document.getElementById('viewerArea');
-  area.innerHTML = `
-    <div class="flipbook-wrap">
-      <div class="page-card" id="pageCard" style="width:${PW}px;height:${PH}px;">
-        <canvas id="pageCanvas" width="${PW}" height="${PH}"></canvas>
-        <canvas id="flipCanvas" width="${PW}" height="${PH}"></canvas>
-        <div class="page-stamp" id="pageStamp"></div>
-        <div class="card-loading" id="cardLoading">
-          <div class="cl-spin"></div>
-          <div class="cl-txt">Loading…</div>
-        </div>
-      </div>
-      <div class="book-nav">
-        <button class="bn-btn" id="bnPrev" onclick="prevPage()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-          Prev
-        </button>
-        <div class="bn-info" id="bnInfo"></div>
-        <button class="bn-btn" id="bnNext" onclick="nextPage()">
-          Next
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
-      </div>
-    </div>`;
-  hookCursor();
-  syncUI();
-}
-
-/* Render a page onto the main pageCanvas */
-async function drawPage(num) {
-  const canvas = document.getElementById('pageCanvas');
-  if (!canvas || !PDF) return;
-
-  const loading = document.getElementById('cardLoading');
-  if (loading) loading.style.display = 'flex';
-
-  try {
-    const oc = await renderToCanvas(num);
-    if (oc) {
-      const ctx = canvas.getContext('2d');
-      ctx.clearRect(0, 0, PW, PH);
-      ctx.drawImage(oc, 0, 0, PW, PH);
-    }
-  } finally {
-    if (loading) loading.style.display = 'none';
-  }
-}
-
-/* Render a page to an offscreen canvas and cache it (returns HTMLCanvasElement) */
-async function renderToCanvas(num) {
-  if (pdfCache[num]) return pdfCache[num];
-  if (!PDF) return null;
-
-  const oc = document.createElement('canvas');
-  oc.width = PW; oc.height = PH;
-  const ctx = oc.getContext('2d');
-  ctx.fillStyle = '#fff';
-  ctx.fillRect(0, 0, PW, PH);
-
-  try {
-    const page = await PDF.getPage(num);
-    const vp0  = page.getViewport({ scale: 1 });
-    const scale = Math.min(PW / vp0.width, PH / vp0.height) * 0.95;
-    const vp    = page.getViewport({ scale });
-    const tx    = Math.floor((PW - vp.width) / 2);
-    const ty    = Math.floor((PH - vp.height) / 2);
-    await page.render({ canvasContext: ctx, viewport: vp, transform:[1,0,0,1,tx,ty] }).promise;
-  } catch(e) { console.warn('Render error p'+num, e); }
-
-  pdfCache[num] = oc;   // cache the canvas element, not ImageData
-  return oc;
-}
-
-/* Backward-compat alias */
-async function renderOffscreen(num) { return renderToCanvas(num); }
-
-/* ── Animate a page flip ──
-   Canvas-drawn squeeze animation: current page squeezes to spine,
-   then new page expands from spine. Works on all devices, no CSS 3D bugs.
-*/
-async function animateFlip(fromPage, toPage, dir) {
-  const flipCanvas = document.getElementById('flipCanvas');
-  const pageCanvas = document.getElementById('pageCanvas');
-  if (!flipCanvas || !pageCanvas) { pdfBusy = false; syncUI(); return; }
-
-  /* Render both pages to offscreen HTMLCanvasElements (drawImage respects transforms) */
-  const fromOC = await renderToCanvas(fromPage);
-  const toOC   = await renderToCanvas(toPage);
-  if (!fromOC || !toOC) { pdfBusy = false; syncUI(); return; }
-
-  const fCtx = flipCanvas.getContext('2d');
-  const pCtx = pageCanvas.getContext('2d');
-
-  /* Draw destination on main canvas immediately (sits behind flipCanvas) */
-  pCtx.clearRect(0, 0, PW, PH);
-  pCtx.drawImage(toOC, 0, 0, PW, PH);
-
-  /* flipCanvas starts showing the departing page fully */
-  fCtx.clearRect(0, 0, PW, PH);
-  fCtx.drawImage(fromOC, 0, 0, PW, PH);
-  flipCanvas.style.display = 'block';
-
-  const DURATION = 420;
-  const start = performance.now();
-
-  /*
-   * next: page flips left  — right edge sweeps to left  (originX = right = PW)
-   * prev: page flips right — left  edge sweeps to right (originX = left  = 0)
-   */
-  const originX = dir === 'next' ? PW : 0;
-
-  function step(now) {
-    const t    = Math.min((now - start) / DURATION, 1);
-    const ease = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
-
-    fCtx.clearRect(0, 0, PW, PH);
-
-    if (ease < 0.5) {
-      /* ── Phase 1: current page squeezes toward origin ── */
-      const sx = 1 - ease * 2;          // 1 → 0
-      const dx = dir === 'next'
-        ? PW * (1 - sx)                  // right-pinned: move left
-        : 0;                             // left-pinned: stay
-      fCtx.save();
-      fCtx.drawImage(fromOC, dx, 0, PW * sx, PH);
-      /* darkening gradient at the fold */
-      const dark = ease * 2 * 0.35;
-      const grd = fCtx.createLinearGradient(dx, 0, dx + PW * sx, 0);
-      if (dir === 'next') { grd.addColorStop(0,'rgba(0,0,0,0)'); grd.addColorStop(1,`rgba(0,0,0,${dark})`); }
-      else                { grd.addColorStop(0,`rgba(0,0,0,${dark})`); grd.addColorStop(1,'rgba(0,0,0,0)'); }
-      fCtx.fillStyle = grd;
-      fCtx.fillRect(dx, 0, PW * sx, PH);
-      fCtx.restore();
-    } else {
-      /* ── Phase 2: new page expands from origin ── */
-      const sx = (ease - 0.5) * 2;      // 0 → 1
-      const dx = dir === 'next'
-        ? PW * (1 - sx)                  // right-pinned: starts at right, grows left
-        : 0;                             // left-pinned: starts at left, grows right
-      fCtx.save();
-      fCtx.drawImage(toOC, 0, 0, PW, PH, dx, 0, PW * sx, PH);
-      /* lightening gradient at leading edge */
-      const light = (1 - (ease - 0.5) * 2) * 0.25;
-      const grd2 = fCtx.createLinearGradient(dx, 0, dx + PW * sx, 0);
-      if (dir === 'next') { grd2.addColorStop(0,'rgba(255,255,255,0)'); grd2.addColorStop(1,`rgba(255,255,255,${light})`); }
-      else                { grd2.addColorStop(0,`rgba(255,255,255,${light})`); grd2.addColorStop(1,'rgba(255,255,255,0)'); }
-      fCtx.fillStyle = grd2;
-      fCtx.fillRect(dx, 0, PW * sx, PH);
-      fCtx.restore();
-    }
-
-    if (t < 1) {
-      requestAnimationFrame(step);
-    } else {
-      flipCanvas.style.display = 'none';
-      fCtx.clearRect(0, 0, PW, PH);
-      pdfBusy = false;
-      syncUI();
-      if (dir === 'next' && toPage + 1 <= pdfTotal) renderToCanvas(toPage + 1);
-      if (dir === 'prev' && toPage - 1 >= 1)         renderToCanvas(toPage - 1);
-    }
-  }
-  requestAnimationFrame(step);
-}
-
-async function goToPage(target, dir) {
-  if (pdfBusy || !PDF) return;
-  if (target < 1 || target > pdfTotal) return;
-  pdfBusy = true;
-
-  const from = pdfPage;
-  pdfPage = target;
-
-  await animateFlip(from, target, dir);
-  syncUI();
-}
-
-function nextPage() { goToPage(pdfPage + 1, 'next'); }
-function prevPage() { goToPage(pdfPage - 1, 'prev'); }
-
-function syncUI() {
-  /* Toolbar */
-  const pn = document.getElementById('pageNum');
-  if (pn) pn.textContent = PDF ? `${pdfPage} / ${pdfTotal}` : '—';
-  const bp = document.getElementById('btnPrev');
-  const bn = document.getElementById('btnNext');
-  if (bp) bp.disabled = pdfPage <= 1;
-  if (bn) bn.disabled = pdfPage >= pdfTotal;
-  /* Book nav */
-  const sp = document.getElementById('bnPrev');
-  const sn = document.getElementById('bnNext');
-  const si = document.getElementById('bnInfo');
-  const ss = document.getElementById('pageStamp');
-  if (sp) sp.disabled = pdfPage <= 1;
-  if (sn) sn.disabled = pdfPage >= pdfTotal;
-  if (si) si.textContent = PDF ? `${pdfPage} / ${pdfTotal}` : '';
-  if (ss) ss.textContent = PDF ? `${pdfPage} / ${pdfTotal}` : '';
-}
-
-/* ── Keyboard ── */
 document.addEventListener('keydown', e => {
-  if (!PDF) return;
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextPage();
-  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   prevPage();
-});
-
-/* ── Touch swipe ── */
-let _tx = 0;
-document.addEventListener('touchstart', e => { _tx = e.touches[0].clientX; }, { passive:true });
-document.addEventListener('touchend',   e => {
-  if (!PDF) return;
-  const dx = e.changedTouches[0].clientX - _tx;
-  if (Math.abs(dx) > 48) dx < 0 ? nextPage() : prevPage();
-}, { passive:true });
-
-/* ── Resize: rebuild if open ── */
-window.addEventListener('resize', () => {
-  if (!PDF || !document.getElementById('pageCanvas')) return;
-  calcDimensions();
-  buildFlipDOM();
-  drawPage(pdfPage);
+  if (e.key === 'Escape') closeModal();
 });
 
 /* ════════════════════════════
-   UPLOAD
+   INIT
 ════════════════════════════ */
-function openUpload()  { document.getElementById('uploadModal').classList.add('open'); }
-function closeUpload() { document.getElementById('uploadModal').classList.remove('open'); }
-document.getElementById('uploadModal').addEventListener('click', function(e) { if (e.target===this) closeUpload(); });
-
-const $dz = document.getElementById('dropZone');
-$dz.addEventListener('dragover',  e => { e.preventDefault(); $dz.classList.add('dragging'); });
-$dz.addEventListener('dragleave', () => $dz.classList.remove('dragging'));
-$dz.addEventListener('drop',      e => { e.preventDefault(); $dz.classList.remove('dragging'); const f=e.dataTransfer.files[0]; if(f) processUpload(f); });
-
-function handleFileInput(e) { const f = e.target.files[0]; if (f) processUpload(f); }
-
-function processUpload(file) {
-  const name = file.name.replace(/\.[^/.]+$/, '');
-  const ext  = file.name.split('.').pop().toLowerCase();
-  const isPDF = ext === 'pdf';
-  const isImg = ['png','jpg','jpeg','webp'].includes(ext);
-  if (!isPDF && !isImg) { alert('Unsupported file type. Use PDF, PNG, JPG, JPEG, or WEBP.'); return; }
-
-  const reader = new FileReader();
-  reader.onload = ev => {
-    const id = 'u_' + Date.now();
-    const obj = {
-      id, name, subject:'Upload', type: isPDF ? 'pdf' : 'image',
-      date: new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short'}),
-      size: fmtBytes(file.size),
-    };
-    if (isPDF) obj.rawBuf = ev.target.result;   // ArrayBuffer
-    else       obj.data   = ev.target.result;   // dataURL
-
-    files.push(obj);
-    currentFilter = 'all';
-    document.querySelectorAll('.ftab').forEach((t,i) => t.classList.toggle('active', i===0));
-    renderFileList();
-    closeUpload();
-    document.getElementById('fileInput').value = '';
-    openFile(id);
-  };
-  if (isPDF) reader.readAsArrayBuffer(file);
-  else       reader.readAsDataURL(file);
-}
-
-function fmtBytes(b) {
-  if (b < 1024) return b + 'B';
-  if (b < 1048576) return (b/1024).toFixed(1) + 'KB';
-  return (b/1048576).toFixed(1) + 'MB';
-}
-
-document.addEventListener('keydown', e => { if (e.key==='Escape') closeUpload(); });
+renderNotes();
 </script>
 </body>
 </html>
