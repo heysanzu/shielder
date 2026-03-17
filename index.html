@@ -647,6 +647,13 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
 }
 .ask-powered span { color:#3a3a3a; }
 
+/* Model selector */
+.ask-model-row{padding:10px 20px 6px;display:flex;align-items:center;gap:8px;flex-shrink:0;border-bottom:1px solid #1a1a1a;}
+.ask-model-label{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:#333;margin-right:4px;}
+.ask-model-btn{padding:5px 14px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:#444;border:1px solid #2a2a2a;cursor:pointer;font-family:inherit;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.ask-model-btn:hover{background:#1c1c1c;color:#ccc;border-color:#444;}
+.ask-model-btn.active{background:#fff;color:#000;border-color:#fff;}
+
 @media(max-width:480px){
   #askMeBtn { bottom:20px; right:20px; }
   #askMePanel { bottom:90px; right:16px; width:calc(100vw - 32px); max-height:75vh; }
@@ -834,6 +841,12 @@ footer{position:relative;z-index:2;padding:52px 40px;background:var(--g1);border
     </div>
   </div>
 
+  <div class="ask-model-row">
+    <span class="ask-model-label">Model</span>
+    <button class="ask-model-btn active" id="btnGemini" onclick="switchModel('gemini')">&#9733; Think</button>
+    <button class="ask-model-btn" id="btnGroq" onclick="switchModel('groq')">&#9889; Fast</button>
+  </div>
+
   <div class="ask-chips" id="askChips">
     <button class="ask-chip" onclick="sendChip(this)">Who is #1?</button>
     <button class="ask-chip" onclick="sendChip(this)">Aarisha's best subject</button>
@@ -1012,6 +1025,22 @@ COMPLETE STUDENT DATA:
   }
 
   let chatHistory = [];
+  let currentModel = 'gemini';
+
+  window.switchModel = function(model){
+    currentModel = model;
+    document.getElementById('btnGemini').classList.toggle('active', model === 'gemini');
+    document.getElementById('btnGroq').classList.toggle('active', model === 'groq');
+    // Reset chat on model switch
+    chatHistory = [];
+    const wrap = document.getElementById('askMessages');
+    wrap.innerHTML = '';
+    const modelName = model === 'groq' ? '⚡ Fast (Groq)' : '✦ Think (Gemini)';
+    const div = document.createElement('div');
+    div.className = 'ask-msg ai';
+    div.innerHTML = '<div class="ask-msg-av">AI</div><div class="ask-bubble">Switched to <strong>' + modelName + '</strong>! Ask me anything about the students. 🎯</div>';
+    wrap.appendChild(div);
+  };
   let isLoading = false;
   const systemPrompt = buildContext();
 
@@ -1091,8 +1120,7 @@ COMPLETE STUDENT DATA:
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
+          model_provider: currentModel,
           system: systemPrompt,
           messages: chatHistory
         })
