@@ -364,3 +364,38 @@ STUDENT_01.attendance["2026-09-23"] = "absent";
 STUDENT_02.attendance["2026-09-23"] = "absent";
 STUDENT_06.attendance["2026-09-23"] = "absent";
 STUDENT_07.attendance["2026-09-23"] = "absent";
+
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-09-24"] = "present";
+});
+STUDENT_01.attendance["2026-09-24"] = "absent";
+STUDENT_02.attendance["2026-09-24"] = "absent";
+STUDENT_06.attendance["2026-09-24"] = "absent";
+STUDENT_07.attendance["2026-09-24"] = "absent";
+
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-09-26"] = "present";
+});
+STUDENT_01.attendance["2026-09-26"] = "absent";
+STUDENT_02.attendance["2026-09-26"] = "absent";
+STUDENT_06.attendance["2026-09-26"] = "absent";
+STUDENT_07.attendance["2026-09-26"] = "absent";
+
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-09-28"] = "present";
+});
+STUDENT_01.attendance["2026-09-28"] = "absent";
+STUDENT_02.attendance["2026-09-28"] = "absent";
+STUDENT_06.attendance["2026-09-28"] = "absent";
+
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-09-29"] = "present";
+});
+STUDENT_01.attendance["2026-09-29"] = "absent";
+STUDENT_02.attendance["2026-09-29"] = "absent";
+
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-09-29"] = "present";
+});
+STUDENT_01.attendance["2026-09-30"] = "absent";
+STUDENT_02.attendance["2026-09-30"] = "absent";
