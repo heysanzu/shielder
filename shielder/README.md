@@ -1,19 +1,27 @@
-## Attendance (data.js)
+## Data files
+
+| File | What it holds |
+| --- | --- |
+| `data.js` | Holidays, subjects, events, announcement media and helpers (`blankAttendance`, `makeResults`, `fee`) |
+| `students.js` | All students in one place: name, results, fees (`STUDENT_01` ... `STUDENT_23` and `STUDENTS`) |
+| `attendance.js` | All attendance in one place, month by month |
+
+Load order in `index.html`: `data.js`, `students.js`, `attendance.js`.
+
+## Attendance (attendance.js)
+
+Mark everyone present for the day, then list the absent students:
 
 ```js
-const STUDENTS = {
-  "01": STUDENT_01, "02": STUDENT_02, "03": STUDENT_03, "04": STUDENT_04,
-  "05": STUDENT_05, "06": STUDENT_06, "07": STUDENT_07, "08": STUDENT_08,
-  "09": STUDENT_09, "10": STUDENT_10, "11": STUDENT_11, "12": STUDENT_12,
-};
-
-attendance: {
-	...blankAttendance(),
-	"2026-09-03": "present",
-	"2026-09-04": "absent",
-	"2026-09-05": null,
-},
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-11-06"] = "present";
+});
+STUDENT_01.attendance["2026-11-06"] = "absent";
+STUDENT_02.attendance["2026-11-06"] = "absent";
 ```
+
+Use `= null` for a student who had not joined yet on that day.
+
 ---
 
 ## Notes (notes.js)
