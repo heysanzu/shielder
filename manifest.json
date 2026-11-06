@@ -1,10 +1,10 @@
 {
-  "id": "/sanzuShielder/",
+  "id": "/shielder/",
   "name": "SHIELDER",
   "short_name": "SHIELDER",
   "description": "A student dashboard for attendance, fees, and upcoming events. by Shahnwaz Alam",
-  "start_url": "/sanzuShielder/",
-  "scope": "/sanzuShielder/",
+  "start_url": "/shielder/",
+  "scope": "/shielder/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
