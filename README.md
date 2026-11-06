@@ -1,8 +1,4 @@
-<p align="center">
-  <img src="src/banner.svg" alt="SHIELDER by Shahnewaz" width="600">
-</p>
-
-# SHIELDER
+# SHIELDER by Shahnewaz
 A web-based student data management dashboard designed to track academic results, attendance, monthly fee statuses, upcoming events, and announcements.
 
 [![Visit Website](https://img.shields.io/badge/Website-Visit-blue?style=for-the-badge&logo=googlechrome&logoColor=white)](https://heysanzu.github.io/sanzuShielder/)
