@@ -1,7 +1,7 @@
 const HOLIDAYS = {
   "2026-01-26": "Republic Day", "2026-03-25": "Holi", "2026-04-14": "Dr. Ambedkar Jayanti",
   "2026-05-01": "Labour Day", "2026-06-17": "Eid ul-Adha", "2026-08-15": "Independence Day", "2026-09-24": "Tution Closed",
-  "2026-10-02": "Gandhi Jayanti", "2026-10-20": "Dussehra", "2026-11-04": "Diwali",
+  "2026-10-02": "Gandhi Jayanti", "2026-10-15": "Tution Closed", "2026-10-20": "Dussehra", "2026-11-04": "Diwali",
   "2026-11-05": "Diwali Holiday", "2026-12-25": "Christmas",
 };
 const SUBJECTS = ["Math", "English", "Science", "Social Studies", "Hindi", "Computer"];
@@ -482,4 +482,41 @@ const STUDENT_23 = {
 
 Object.assign(STUDENTS, {
   "13": STUDENT_13, "14": STUDENT_14, "15": STUDENT_15, "16": STUDENT_16, "17": STUDENT_17, "18": STUDENT_18, "19": STUDENT_19, "20": STUDENT_20, "21": STUDENT_21, "22": STUDENT_22, "23": STUDENT_23,
+});
+
+
+//Month: October 2026 (from the paper register)
+//P = present, X = absent, . = no entry (Sunday / tuition closed / not yet joined / crossed out)
+const OCTOBER_2026 = {
+  "01": "XXX.PPXXXXXXXX.PP.XXXPPP.PXPPPP",
+  "02": "XXP.PPXXXXXXXX.PP.XXXPPP.PXPPPP",
+  "03": "PPX.XPXXPPXXXP.PX.PPPPPP.PPPPPP",
+  "04": "PXX.XPXXPPXXXX.PX.PPXXXX.PPPPPP",
+  "05": "PPP.XPXXPPXXXP.PX.XXXXXX.PPPPPP",
+  "06": "PXP.PPXXPPXXXP.PP.PPXXPP.PPPPPP",
+  "07": "PPP.PXXXPPXXXP.PX.PPPPPP.PPPPPP",
+  "08": "PPP.PPXXPPPXXP.PP.PXXPPP.PXPPPP",
+  "09": "PPP.PPXXPPPXXP.PP.PXXPPP.PXPPPP",
+  "10": "PPP.PPXXPPPXXP..X.XXPPPP.PXPPPP",
+  "11": "PPP.PXXXPPPXXX.XX.XXPPPP.PPPPPP",
+  "12": "PPP.PPXXPPPXXP.PP.XXPPPP.XXPPPP",
+  "13": "XXP.PPXXXPXXXP.XP.PPXXPP.XXXPPP",
+  "14": "XXP.PPXXXPXXXP.XP.PPXXPP.XXXPPP",
+  "15": "XXP.PPXXXPXXXP.XP.PPXXPP.XXXPPP",
+  "16": "XXX.XXXXXXXXXX.XX.PXPXXX.XXX...",
+  "17": "XPP.PPXXPPPXXP.PX.PXPXXX.XXX...",
+  "18": "XPX.XXXXXPXXXP.XP.PPPXPP.XXXP..",
+  "19": "XXP.XPXXXXXPPP.PP.PXPXXX.XXX...",
+  "20": "XXP.XPXXXXXPPP.PP.PXXXXX.XXX...",
+  "21": "...........PPP.PP.PPXXPP.PPP...",
+  "22": "PPP.PP.....XPP.PX.XXPPPX.XXX...",
+  "23": ".............P.PP.PXXXXX.XXX...",
+};
+
+Object.entries(OCTOBER_2026).forEach(([id, marks]) => {
+  [...marks].forEach((mark, i) => {
+    if (mark === ".") return;
+    const date = "2026-10-" + String(i + 1).padStart(2, "0");
+    STUDENTS[id].attendance[date] = mark === "P" ? "present" : "absent";
+  });
 });
