@@ -399,3 +399,87 @@ Object.values(STUDENTS).forEach(student => {
 });
 STUDENT_01.attendance["2026-09-30"] = "absent";
 STUDENT_02.attendance["2026-09-30"] = "absent";
+
+
+//Students 13-23 (added from class list). Results/fees/attendance are blank placeholders.
+//Added after the attendance loops above so they are not auto-marked present on past dates.
+const STUDENT_13 = {
+  name: "Shivam",
+  attendance: blankAttendance(),
+  results: makeResults([0, 0, 0, 0, 0, 0]),
+  fees: [fee("January 2026", "unpaid", "2026-01-05"), fee("February 2026", "unpaid", "2026-02-05"), fee("March 2026", "unpaid", "2026-03-05"), fee("April 2026", "unpaid", "2026-04-05"), fee("May 2026", "unpaid", "2026-05-05"), fee("June 2026", "unpaid", "2026-06-05"), fee("July 2026", "unpaid", "2026-07-05"), fee("August 2026", "unpaid", "2026-08-05"), fee("September 2026", "unpaid", "2026-09-05"), fee("October 2026", "unpaid", "2026-10-05"), fee("November 2026", "unpaid", "2026-11-05"), fee("December 2026", "unpaid", "2026-12-05")],
+};
+
+const STUDENT_14 = {
+  name: "Simple",
+  attendance: blankAttendance(),
+  results: makeResults([0, 0, 0, 0, 0, 0]),
+  fees: [fee("January 2026", "unpaid", "2026-01-05"), fee("February 2026", "unpaid", "2026-02-05"), fee("March 2026", "unpaid", "2026-03-05"), fee("April 2026", "unpaid", "2026-04-05"), fee("May 2026", "unpaid", "2026-05-05"), fee("June 2026", "unpaid", "2026-06-05"), fee("July 2026", "unpaid", "2026-07-05"), fee("August 2026", "unpaid", "2026-08-05"), fee("September 2026", "unpaid", "2026-09-05"), fee("October 2026", "unpaid", "2026-10-05"), fee("November 2026", "unpaid", "2026-11-05"), fee("December 2026", "unpaid", "2026-12-05")],
+};
+
+const STUDENT_15 = {
+  name: "Sandhya",
+  attendance: blankAttendance(),
+  results: makeResults([0, 0, 0, 0, 0, 0]),
+  fees: [fee("January 2026", "unpaid", "2026-01-05"), fee("February 2026", "unpaid", "2026-02-05"), fee("March 2026", "unpaid", "2026-03-05"), fee("April 2026", "unpaid", "2026-04-05"), fee("May 2026", "unpaid", "2026-05-05"), fee("June 2026", "unpaid", "2026-06-05"), fee("July 2026", "unpaid", "2026-07-05"), fee("August 2026", "unpaid", "2026-08-05"), fee("September 2026", "unpaid", "2026-09-05"), fee("October 2026", "unpaid", "2026-10-05"), fee("November 2026", "unpaid", "2026-11-05"), fee("December 2026", "unpaid", "2026-12-05")],
+};
+
+const STUDENT_16 = {
+  name: "Muskan",
+  attendance: blankAttendance(),
+  results: makeResults([0, 0, 0, 0, 0, 0]),
+  fees: [fee("January 2026", "unpaid", "2026-01-05"), fee("February 2026", "unpaid", "2026-02-05"), fee("March 2026", "unpaid", "2026-03-05"), fee("April 2026", "unpaid", "2026-04-05"), fee("May 2026", "unpaid", "2026-05-05"), fee("June 2026", "unpaid", "2026-06-05"), fee("July 2026", "unpaid", "2026-07-05"), fee("August 2026", "unpaid", "2026-08-05"), fee("September 2026", "unpaid", "2026-09-05"), fee("October 2026", "unpaid", "2026-10-05"), fee("November 2026", "unpaid", "2026-11-05"), fee("December 2026", "unpaid", "2026-12-05")],
+};
+
+const STUDENT_17 = {
+  name: "Ashrafi",
+  attendance: blankAttendance(),
+  results: makeResults([0, 0, 0, 0, 0, 0]),
+  fees: [fee("January 2026", "unpaid", "2026-01-05"), fee("February 2026", "unpaid", "2026-02-05"), fee("March 2026", "unpaid", "2026-03-05"), fee("April 2026", "unpaid", "2026-04-05"), fee("May 2026", "unpaid", "2026-05-05"), fee("June 2026", "unpaid", "2026-06-05"), fee("July 2026", "unpaid", "2026-07-05"), fee("August 2026", "unpaid", "2026-08-05"), fee("September 2026", "unpaid", "2026-09-05"), fee("October 2026", "unpaid", "2026-10-05"), fee("November 2026", "unpaid", "2026-11-05"), fee("December 2026", "unpaid", "2026-12-05")],
+};
+
+const STUDENT_18 = {
+  name: "Nishad",
+  attendance: blankAttendance(),
+  results: makeResults([0, 0, 0, 0, 0, 0]),
+  fees: [fee("January 2026", "unpaid", "2026-01-05"), fee("February 2026", "unpaid", "2026-02-05"), fee("March 2026", "unpaid", "2026-03-05"), fee("April 2026", "unpaid", "2026-04-05"), fee("May 2026", "unpaid", "2026-05-05"), fee("June 2026", "unpaid", "2026-06-05"), fee("July 2026", "unpaid", "2026-07-05"), fee("August 2026", "unpaid", "2026-08-05"), fee("September 2026", "unpaid", "2026-09-05"), fee("October 2026", "unpaid", "2026-10-05"), fee("November 2026", "unpaid", "2026-11-05"), fee("December 2026", "unpaid", "2026-12-05")],
+};
+
+const STUDENT_19 = {
+  name: "Owais",
+  attendance: blankAttendance(),
+  results: makeResults([0, 0, 0, 0, 0, 0]),
+  fees: [fee("January 2026", "unpaid", "2026-01-05"), fee("February 2026", "unpaid", "2026-02-05"), fee("March 2026", "unpaid", "2026-03-05"), fee("April 2026", "unpaid", "2026-04-05"), fee("May 2026", "unpaid", "2026-05-05"), fee("June 2026", "unpaid", "2026-06-05"), fee("July 2026", "unpaid", "2026-07-05"), fee("August 2026", "unpaid", "2026-08-05"), fee("September 2026", "unpaid", "2026-09-05"), fee("October 2026", "unpaid", "2026-10-05"), fee("November 2026", "unpaid", "2026-11-05"), fee("December 2026", "unpaid", "2026-12-05")],
+};
+
+const STUDENT_20 = {
+  name: "Altamash",
+  attendance: blankAttendance(),
+  results: makeResults([0, 0, 0, 0, 0, 0]),
+  fees: [fee("January 2026", "unpaid", "2026-01-05"), fee("February 2026", "unpaid", "2026-02-05"), fee("March 2026", "unpaid", "2026-03-05"), fee("April 2026", "unpaid", "2026-04-05"), fee("May 2026", "unpaid", "2026-05-05"), fee("June 2026", "unpaid", "2026-06-05"), fee("July 2026", "unpaid", "2026-07-05"), fee("August 2026", "unpaid", "2026-08-05"), fee("September 2026", "unpaid", "2026-09-05"), fee("October 2026", "unpaid", "2026-10-05"), fee("November 2026", "unpaid", "2026-11-05"), fee("December 2026", "unpaid", "2026-12-05")],
+};
+
+const STUDENT_21 = {
+  name: "Iqbal",
+  attendance: blankAttendance(),
+  results: makeResults([0, 0, 0, 0, 0, 0]),
+  fees: [fee("January 2026", "unpaid", "2026-01-05"), fee("February 2026", "unpaid", "2026-02-05"), fee("March 2026", "unpaid", "2026-03-05"), fee("April 2026", "unpaid", "2026-04-05"), fee("May 2026", "unpaid", "2026-05-05"), fee("June 2026", "unpaid", "2026-06-05"), fee("July 2026", "unpaid", "2026-07-05"), fee("August 2026", "unpaid", "2026-08-05"), fee("September 2026", "unpaid", "2026-09-05"), fee("October 2026", "unpaid", "2026-10-05"), fee("November 2026", "unpaid", "2026-11-05"), fee("December 2026", "unpaid", "2026-12-05")],
+};
+
+const STUDENT_22 = {
+  name: "Murshid",
+  attendance: blankAttendance(),
+  results: makeResults([0, 0, 0, 0, 0, 0]),
+  fees: [fee("January 2026", "unpaid", "2026-01-05"), fee("February 2026", "unpaid", "2026-02-05"), fee("March 2026", "unpaid", "2026-03-05"), fee("April 2026", "unpaid", "2026-04-05"), fee("May 2026", "unpaid", "2026-05-05"), fee("June 2026", "unpaid", "2026-06-05"), fee("July 2026", "unpaid", "2026-07-05"), fee("August 2026", "unpaid", "2026-08-05"), fee("September 2026", "unpaid", "2026-09-05"), fee("October 2026", "unpaid", "2026-10-05"), fee("November 2026", "unpaid", "2026-11-05"), fee("December 2026", "unpaid", "2026-12-05")],
+};
+
+const STUDENT_23 = {
+  name: "Zainab",
+  attendance: blankAttendance(),
+  results: makeResults([0, 0, 0, 0, 0, 0]),
+  fees: [fee("January 2026", "unpaid", "2026-01-05"), fee("February 2026", "unpaid", "2026-02-05"), fee("March 2026", "unpaid", "2026-03-05"), fee("April 2026", "unpaid", "2026-04-05"), fee("May 2026", "unpaid", "2026-05-05"), fee("June 2026", "unpaid", "2026-06-05"), fee("July 2026", "unpaid", "2026-07-05"), fee("August 2026", "unpaid", "2026-08-05"), fee("September 2026", "unpaid", "2026-09-05"), fee("October 2026", "unpaid", "2026-10-05"), fee("November 2026", "unpaid", "2026-11-05"), fee("December 2026", "unpaid", "2026-12-05")],
+};
+
+Object.assign(STUDENTS, {
+  "13": STUDENT_13, "14": STUDENT_14, "15": STUDENT_15, "16": STUDENT_16, "17": STUDENT_17, "18": STUDENT_18, "19": STUDENT_19, "20": STUDENT_20, "21": STUDENT_21, "22": STUDENT_22, "23": STUDENT_23,
+});

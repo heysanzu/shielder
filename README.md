@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="src/banner.svg" alt="SHIELDER by Shahnewaz" width="600">
+</p>
+
 # SHIELDER
 A web-based student data management dashboard designed to track academic results, attendance, monthly fee statuses, upcoming events, and announcements.
 
