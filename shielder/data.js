@@ -905,38 +905,49 @@ STUDENT_21.attendance["2026-10-31"] = null;
 STUDENT_22.attendance["2026-10-31"] = null;
 STUDENT_23.attendance["2026-10-31"] = null;
 
-//Month: November 2026 (from the paper register, entered up to Nov 5)
-//P = present, X = absent, . = no entry yet / Sunday
-const NOVEMBER_2026 = {
-  "01": ".PPXP.........................",
-  "02": ".PPPP.........................",
-  "03": ".XPPP.........................",
-  "04": ".XPPP.........................",
-  "05": ".PPPP.........................",
-  "06": ".PPXP.........................",
-  "07": ".PPPP.........................",
-  "08": ".PPPP.........................",
-  "09": ".PPPP.........................",
-  "10": ".PPPP.........................",
-  "11": ".PPPP.........................",
-  "12": ".PPPP.........................",
-  "13": ".PPPP.........................",
-  "14": ".PPPP.........................",
-  "15": ".PPPP.........................",
-  "16": ".XXXX.........................",
-  "17": ".XXXX.........................",
-  "18": ".PPPP.........................",
-  "19": ".XXXX.........................",
-  "20": ".XXXX.........................",
-  "21": ".PPXX.........................",
-  "22": ".XXXX.........................",
-  "23": ".XXXX.........................",
-};
-
-Object.entries(NOVEMBER_2026).forEach(([id, marks]) => {
-  [...marks].forEach((mark, i) => {
-    if (mark === ".") return;
-    const date = "2026-11-" + String(i + 1).padStart(2, "0");
-    STUDENTS[id].attendance[date] = mark === "P" ? "present" : "absent";
-  });
+//Month: November 2026 (entered up to Nov 5)
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-11-02"] = "present";
 });
+STUDENT_03.attendance["2026-11-02"] = "absent";
+STUDENT_04.attendance["2026-11-02"] = "absent";
+STUDENT_16.attendance["2026-11-02"] = "absent";
+STUDENT_17.attendance["2026-11-02"] = "absent";
+STUDENT_19.attendance["2026-11-02"] = "absent";
+STUDENT_20.attendance["2026-11-02"] = "absent";
+STUDENT_22.attendance["2026-11-02"] = "absent";
+STUDENT_23.attendance["2026-11-02"] = "absent";
+
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-11-03"] = "present";
+});
+STUDENT_16.attendance["2026-11-03"] = "absent";
+STUDENT_17.attendance["2026-11-03"] = "absent";
+STUDENT_19.attendance["2026-11-03"] = "absent";
+STUDENT_20.attendance["2026-11-03"] = "absent";
+STUDENT_22.attendance["2026-11-03"] = "absent";
+STUDENT_23.attendance["2026-11-03"] = "absent";
+
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-11-04"] = "present";
+});
+STUDENT_01.attendance["2026-11-04"] = "absent";
+STUDENT_06.attendance["2026-11-04"] = "absent";
+STUDENT_16.attendance["2026-11-04"] = "absent";
+STUDENT_17.attendance["2026-11-04"] = "absent";
+STUDENT_19.attendance["2026-11-04"] = "absent";
+STUDENT_20.attendance["2026-11-04"] = "absent";
+STUDENT_21.attendance["2026-11-04"] = "absent";
+STUDENT_22.attendance["2026-11-04"] = "absent";
+STUDENT_23.attendance["2026-11-04"] = "absent";
+
+Object.values(STUDENTS).forEach(student => {
+  student.attendance["2026-11-05"] = "present";
+});
+STUDENT_16.attendance["2026-11-05"] = "absent";
+STUDENT_17.attendance["2026-11-05"] = "absent";
+STUDENT_19.attendance["2026-11-05"] = "absent";
+STUDENT_20.attendance["2026-11-05"] = "absent";
+STUDENT_21.attendance["2026-11-05"] = "absent";
+STUDENT_22.attendance["2026-11-05"] = "absent";
+STUDENT_23.attendance["2026-11-05"] = "absent";
