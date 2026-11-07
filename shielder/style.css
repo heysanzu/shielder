@@ -578,8 +578,8 @@ html, body { height: 100%; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius: 10px; }
 
-/* SHIELDER wordmark: a little bolder (Product Sans only ships regular, so add a thin stroke) */
+/* SHIELDER wordmark: bold (Product Sans only ships regular, so add a stroke that scales with font size) */
 .login-logo h1, .sidebar-title, .topbar-logo {
-  font-weight: 800;
-  -webkit-text-stroke: 0.6px currentColor;
+  font-weight: 900;
+  -webkit-text-stroke: 0.06em currentColor;
 }
