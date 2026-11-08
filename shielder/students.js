@@ -1,7 +1,3 @@
-//All student data in one place: name, results and fees.
-//Attendance starts blank here and is filled in attendance.js.
-//Needs data.js loaded first (blankAttendance, makeResults, fee).
-
 const STUDENT_01 = {
   name: "Aayu",
   attendance: blankAttendance(),

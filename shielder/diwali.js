@@ -1,7 +1,6 @@
-// Diwali celebration: fireworks + greeting. Runs ONLY on 8 Nov 2026 (India time), then does nothing.
 (function () {
   var DIWALI = "2026-11-08";
-  var today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" }); // YYYY-MM-DD
+  var today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
   if (today !== DIWALI) return;
 
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -21,7 +20,6 @@
     "@keyframes diwaliOut{to{opacity:0;transform:translate(-50%,-14px)}}";
   document.head.appendChild(css);
 
-  // Greeting
   var toast = document.createElement("div");
   toast.className = "diwali-toast";
   toast.innerHTML = '<span>\uD83E\uDE94 <b>Happy Diwali!</b> May your year be bright.</span>';
@@ -37,9 +35,8 @@
   close.addEventListener("click", hideToast);
   setTimeout(hideToast, 9000);
 
-  if (reduceMotion) return; // greeting only for people who prefer less motion
+  if (reduceMotion) return;
 
-  // Fireworks
   var canvas = document.createElement("canvas");
   canvas.className = "diwali-fx";
   document.body.appendChild(canvas);

@@ -1,12 +1,5 @@
-//All attendance in one place, month by month.
-//Needs data.js and students.js loaded first.
-//Pattern for each day: mark everyone present, then list the absent students
-//(use = null for students who had not joined yet).
-
-//Students 1-12 were on the roll in September. Students 13-23 joined later.
 const SEPTEMBER_ROLL = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"].map(id => STUDENTS[id]);
 
-//Month: September 2026
 SEPTEMBER_ROLL.forEach(student => {
   student.attendance["2026-09-01"] = "present";
 });
@@ -186,7 +179,6 @@ SEPTEMBER_ROLL.forEach(student => {
 STUDENT_01.attendance["2026-09-30"] = "absent";
 STUDENT_02.attendance["2026-09-30"] = "absent";
 
-//Month: October 2026
 Object.values(STUDENTS).forEach(student => {
   student.attendance["2026-10-01"] = "present";
 });
@@ -606,7 +598,6 @@ STUDENT_21.attendance["2026-10-31"] = null;
 STUDENT_22.attendance["2026-10-31"] = null;
 STUDENT_23.attendance["2026-10-31"] = null;
 
-//Month: November 2026 (entered up to Nov 7)
 Object.values(STUDENTS).forEach(student => {
   student.attendance["2026-11-02"] = "present";
 });

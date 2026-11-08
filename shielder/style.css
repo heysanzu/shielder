@@ -546,7 +546,6 @@ html, body { height: 100%; }
   .dashboard-grid { grid-template-columns: 1fr; }
   .stats-grid     { grid-template-columns: repeat(2,1fr); gap: 10px; }
 
-
   .lb-bar-mini { display: none; }
 }
 
@@ -577,8 +576,6 @@ html, body { height: 100%; }
 ::-webkit-scrollbar       { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius: 10px; }
-
-/* SHIELDER wordmark: bold (Product Sans only ships regular, so add a stroke that scales with font size) */
 .login-logo h1, .sidebar-title, .topbar-logo {
   font-weight: 900;
   -webkit-text-stroke: 0.06em currentColor;
