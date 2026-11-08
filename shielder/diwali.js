@@ -4,38 +4,11 @@
   if (today !== DIWALI) return;
 
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) return;
 
   var css = document.createElement("style");
-  css.textContent =
-    ".diwali-fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999}" +
-    ".diwali-toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 12px);transform:translateX(-50%);" +
-    "z-index:10000;display:flex;align-items:center;gap:10px;max-width:calc(100% - 24px);padding:10px 12px 10px 16px;" +
-    "background:#111;color:#fff;border-radius:16px;font-size:.92rem;line-height:1.3;box-shadow:0 8px 28px rgba(0,0,0,.25);" +
-    "animation:diwaliIn .5s ease both}" +
-    ".diwali-toast b{font-weight:800;color:#ffbf00}" +
-    ".diwali-toast button{border:0;background:rgba(255,255,255,.14);color:#fff;width:26px;height:26px;border-radius:50%;" +
-    "cursor:pointer;font:inherit;line-height:1;flex:none}" +
-    ".diwali-toast.out{animation:diwaliOut .4s ease both}" +
-    "@keyframes diwaliIn{from{opacity:0;transform:translate(-50%,-14px)}to{opacity:1;transform:translate(-50%,0)}}" +
-    "@keyframes diwaliOut{to{opacity:0;transform:translate(-50%,-14px)}}";
+  css.textContent = ".diwali-fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999}";
   document.head.appendChild(css);
-
-  var toast = document.createElement("div");
-  toast.className = "diwali-toast";
-  toast.innerHTML = '<span>\uD83E\uDE94 <b>Happy Diwali!</b> May your year be bright.</span>';
-  var close = document.createElement("button");
-  close.setAttribute("aria-label", "Close");
-  close.textContent = "\u00D7";
-  toast.appendChild(close);
-  document.body.appendChild(toast);
-  function hideToast() {
-    toast.classList.add("out");
-    setTimeout(function () { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 450);
-  }
-  close.addEventListener("click", hideToast);
-  setTimeout(hideToast, 9000);
-
-  if (reduceMotion) return;
 
   var canvas = document.createElement("canvas");
   canvas.className = "diwali-fx";
